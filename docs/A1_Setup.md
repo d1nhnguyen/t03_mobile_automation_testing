@@ -17,6 +17,8 @@ adb devices
 Nếu chưa có SDK Platform 36 và Build-Tools 36.0.0, cài bằng Android Studio hoặc `sdkmanager` trước khi build.
 Đặt các biến môi trường này trong mọi terminal chạy Expo hoặc Appium (hoặc lưu vào cấu hình shell của máy).
 
+**Phạm vi đã kiểm chứng:** Ubuntu/Linux với Android Emulator; chưa chạy A1/A2 trên Windows. Appium và Expo hỗ trợ quy trình Android trên Windows, nhưng các lệnh `export`, đường dẫn SDK/JDK và `free -h` trong hướng dẫn này dành cho Linux. Trên Windows PowerShell, đặt `ANDROID_HOME`, `JAVA_HOME`, `APPIUM_HOME` bằng `$env:...` theo đường dẫn máy đó, thêm `platform-tools` và `emulator` vào `Path`, rồi tạo AVD/build APK tại máy. Mã test A2 dùng Node.js/WebdriverIO và `npm test` không phụ thuộc Bash. Xem [yêu cầu Appium](https://appium.io/docs/en/2.11/quickstart/requirements/) và [build Android bằng Expo](https://docs.expo.dev/guides/local-app-development/).
+
 ## 2. Backend và dữ liệu demo
 
 ```bash
