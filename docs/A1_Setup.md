@@ -37,7 +37,7 @@ Dữ liệu mẫu cần cho demo:
 
 ## 3. Emulator và app mobile
 
-Mở AVD, ví dụ `emulator -avd eshop_api34`, và đợi `adb devices` hiển thị trạng thái `device`. Mở terminal khác:
+Mở AVD, ví dụ `emulator -avd eshop_api34`, và đợi `adb devices` hiển thị trạng thái `device`. Sau mỗi lần mở lại AVD, nối cổng Metro bằng `adb reverse tcp:8081 tcp:8081`. Mở terminal khác:
 
 ```bash
 cd eshop-sut-main/frontend-mobile
@@ -65,7 +65,7 @@ npm run server
 
 Appium 2 và WebdriverIO được khóa phiên bản trong `package-lock.json`; `driver:install` cài UiAutomator2 4.2.9 tương thích Appium 2. `config/session.js` tạo Appium session và mặc định dùng APK ở đường dẫn trên. Có thể đặt `ESHOP_APK_PATH`, `ANDROID_UDID`, `APPIUM_HOST`, `APPIUM_PORT` nếu môi trường khác.
 
-Các `testID` đã thêm cho A2:
+Các `testID` đã thêm cho A2. Trên bản Android React Native hiện tại, chúng xuất hiện dưới dạng `resource-id`; mã test dùng `UiSelector().resourceId(...)`.
 
 | Màn hình | `testID` |
 |---|---|
@@ -78,7 +78,7 @@ Các `testID` đã thêm cho A2:
 
 - TV2 dùng APK, tài khoản demo, cấu hình Appium và ba màn hình baseline cần chọn cho Eyes.
 - TV3 dùng các lệnh đã chạy được ở đây để biên soạn User Guide; không sao chép các bước chưa được kiểm chứng.
-- A2 sẽ thêm Page Objects và test login + search vào `src/appium/`.
+- A2 nằm trong `src/appium/pages/` và `src/appium/tests/`; chạy bằng `npm test` từ `src/appium/`.
 
 ## 6. Kết quả đã kiểm chứng trên máy TV1
 
