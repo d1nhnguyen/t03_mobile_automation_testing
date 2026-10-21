@@ -8,7 +8,7 @@ Nhóm trình bày cách kết hợp kiểm thử chức năng truyền thống v
 
 - **Truyền thống:** Appium 2 + UiAutomator2.
 - **AI-augmented:** Applitools Eyes.
-- **Dự phòng:** Maestro CLI với AI assertions nếu trial Applitools không khả dụng.
+- **Đối sánh theo yêu cầu T03:** chạy cùng luồng login + search bằng Detox và Appium, ghi nhận khác biệt DX; phần này không cần đưa vào live demo.
 - **SUT:** `eshop-sut/frontend-mobile`, chạy bằng Android development APK trên emulator.
 - **Kịch bản:** đăng nhập → tìm sản phẩm → xác minh kết quả → visual checkpoint.
 
@@ -27,6 +27,8 @@ Nhóm chạy Appium test để đăng nhập, tìm kiếm và xác minh dữ li�
 
 - Thay đổi ảnh động nhưng giữ nguyên bố cục để minh họa false positive và ignore region hợp lý.
 - Thay đổi màu hoặc bố cục ngoài yêu cầu để minh họa regression dù functional test vẫn pass.
+
+Nhóm cũng ghi nhận kết quả chạy cùng luồng login + search bằng Detox để so sánh DX với Appium.
 
 Thông điệp chính: **Appium xác minh hành vi của người dùng; Applitools kiểm tra thứ người dùng nhìn thấy. Hai lớp kiểm thử bổ sung cho nhau.**
 
@@ -49,4 +51,4 @@ Mỗi nhóm nhận 10 visual diff cards và phân loại thành `lỗi thật`, 
 
 Nhóm chuẩn bị sẵn APK, dữ liệu seed, tài khoản demo, baseline và hai phiên bản giao diện; toàn bộ demo được chạy thử ít nhất ba lần. Kết quả seminar gồm một Appium functional test, một visual AI checkpoint, bộ 10 diff cards có đáp án và ba failure mode thực tế.
 
-Nếu demo gặp sự cố, nhóm sử dụng emulator dự phòng và report/ảnh từ lần chạy thật gần nhất. Nếu Applitools trial hết hạn, nhóm chuyển sang Maestro AI sau khi được giảng viên chấp thuận.
+Nếu demo gặp sự cố, nhóm sử dụng emulator dự phòng và ảnh/log từ lần chạy thật gần nhất.
