@@ -5,3 +5,4 @@ __pycache__/
 **/database.sqlite
 **/.env.local
 **/.env.*.local
+**/.appium/

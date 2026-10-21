@@ -3,8 +3,10 @@ import {
   Alert,
   FlatList,
   Image,
+  Platform,
   SafeAreaView,
   ScrollView,
+  StatusBar as NativeStatusBar,
   StyleSheet,
   Text,
   TextInput,
@@ -13,7 +15,9 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-const API_URL = "http://192.168.10.13:3000/api"; // IP LAN để chạy được trên iOS/Android và thiết bị thật
+// Android Emulator reaches the host backend through 10.0.2.2. Set
+// EXPO_PUBLIC_API_URL to a LAN address when running on a physical device.
+const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.0.2.2:3000/api";
 
 const formatMoney = (value) => `${Number(value).toLocaleString()} ₫`;
 
@@ -421,11 +425,12 @@ export default function App() {
 
   const renderHeader = () => (
     <View style={styles.navBar}>
-      <TouchableOpacity onPress={goHome}>
+      <TouchableOpacity onPress={goHome} testID="nav-home">
         <Text style={styles.brand}>EShop Mobile</Text>
       </TouchableOpacity>
       <View style={styles.navLinks}>
         <TouchableOpacity
+          testID={user ? "nav-profile" : "nav-login"}
           onPress={() => (user ? setView("profile") : setView("login"))}
         >
           <Text style={styles.navText}>
@@ -453,13 +458,17 @@ export default function App() {
   );
 
   const renderProduct = ({ item }) => (
-    <View style={styles.productCard}>
+    <View style={styles.productCard} testID={`product-card-${item.id}`}>
       <Image
         source={{ uri: item.imageUrl }}
         style={styles.productImage}
         resizeMode="stretch"
       />
-      <Text style={styles.productName} numberOfLines={1}>
+      <Text
+        style={styles.productName}
+        numberOfLines={1}
+        testID={`product-name-${item.id}`}
+      >
         {item.name}
       </Text>
       <Text style={styles.productPrice}>{formatMoney(item.price)}</Text>
@@ -488,19 +497,21 @@ export default function App() {
           <View style={styles.searchRow}>
             <TextInput
               style={styles.searchInput}
+              testID="search-input"
               placeholder="Tìm kiếm..."
               value={search}
               onChangeText={setSearch}
             />
             <TouchableOpacity
               style={styles.searchButton}
+              testID="search-submit"
               onPress={handleSearch}
             >
               <Text style={styles.buttonText}>Tìm</Text>
             </TouchableOpacity>
           </View>
           {!!search && !errorHtml && (
-            <Text style={styles.searchResultText}>
+            <Text style={styles.searchResultText} testID="search-query">
               Kết quả tìm kiếm cho: {search}
             </Text>
           )}
@@ -524,7 +535,7 @@ export default function App() {
               contentContainerStyle={styles.productList}
             />
             {products.length > 0 && (
-              <Text style={styles.resultCount}>
+              <Text style={styles.resultCount} testID="search-result-count">
                 Hiển thị {products.length} sản phẩm
               </Text>
             )}
@@ -758,11 +769,12 @@ export default function App() {
 
   const renderLogin = () =>
     renderScreen(
-      <ScrollView contentContainerStyle={styles.formContainer}>
+      <ScrollView contentContainerStyle={styles.formContainer} testID="login-screen">
         <Text style={styles.headerCenter}>Đăng Nhập</Text>
         <Text style={styles.label}>Username</Text>
         <TextInput
           style={styles.textInput}
+          testID="login-email"
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
@@ -771,6 +783,7 @@ export default function App() {
         <Text style={styles.label}>Mật khẩu</Text>
         <TextInput
           style={styles.textInput}
+          testID="login-password"
           placeholder="Mật khẩu"
           value={password}
           onChangeText={setPassword}
@@ -779,7 +792,11 @@ export default function App() {
         <TouchableOpacity onPress={() => setView("forgotPassword")}>
           <Text style={styles.forgotLink}>Quên mật khẩu?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity
+          style={styles.button}
+          testID="login-submit"
+          onPress={handleLogin}
+        >
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setView("register")}>
@@ -787,7 +804,11 @@ export default function App() {
             Chưa có tài khoản? <Text style={styles.linkText}>Đăng ký ngay</Text>
           </Text>
         </TouchableOpacity>
-        {!!loginError && <Text style={styles.errorBoxText}>{loginError}</Text>}
+        {!!loginError && (
+          <Text style={styles.errorBoxText} testID="login-error">
+            {loginError}
+          </Text>
+        )}
         <TouchableOpacity style={styles.grayButtonFull} onPress={goHome}>
           <Text style={styles.buttonText}>Quay Lại</Text>
         </TouchableOpacity>
@@ -986,7 +1007,11 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#f5f5f5" },
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+    paddingTop: Platform.OS === "android" ? NativeStatusBar.currentHeight : 0,
+  },
   container: { flex: 1, backgroundColor: "#f5f5f5" },
   padded: { flex: 1, padding: 20 },
   paddedFlex: { flex: 1, padding: 20 },

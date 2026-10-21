@@ -1,0 +1,14 @@
+{
+  "name": "eshop-appium",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "server": "appium --address 127.0.0.1 --port 4723",
+    "driver:install": "appium driver install uiautomator2@4.2.9",
+    "driver:doctor": "appium driver doctor uiautomator2"
+  },
+  "devDependencies": {
+    "appium": "2.19.0",
+    "webdriverio": "9.32.0"
+  }
+}
