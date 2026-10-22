@@ -43,30 +43,53 @@ Mỗi công cụ ở Phần C theo cùng khung:
 
 ## A1. Kiểm thử tự động trên mobile (Mobile Test Automation)
 
-### A1.1 Vì sao mobile khó hơn web?
+### A1.1 Kiểm thử tự động trên mobile là gì?
+
+Kiểm thử tự động trên mobile dùng một chương trình điều khiển ứng dụng trên thiết bị hoặc emulator, lặp lại thao tác của người dùng và kiểm tra kết quả. Appium nằm ở lớp end-to-end, black-box: nó chỉ thấy cây giao diện mà hệ điều hành công bố, không gọi hàm bên trong JavaScript của React Native. Jest phủ đơn vị và component; lớp đó không thay một phiên chạy trên APK.
+
+Môi trường là một phần của bài test. Script đúng locator vẫn fail khi máy chưa cấp quyền, bàn phím che nút, mạng chậm, hoặc dữ liệu phiên trước còn trong app. Độ ổn định vì vậy thuộc thiết kế test (A4), không phải việc dọn sau khi script đã xanh một lần.
 
 | Yếu tố | Hệ quả với kiểm thử |
 |--------|---------------------|
-| Phân mảnh OS / thiết bị | Cùng kịch bản có thể pass trên AVD này, fail trên thiết bị khác |
-| Cảm biến, quyền, trạng thái máy | GPS, camera, pin, thông báo xen ngang làm test không ổn định |
-| Mạng và độ trễ | Timeout, spinner kéo dài, race condition |
-| Vùng chạm nhỏ, gesture | Tap lệch, swipe, long-press khó tái lập hơn click trên web |
+| Phân mảnh OS / thiết bị | Cùng kịch bản có thể pass trên AVD này, fail trên thiết bị khác. Baseline và timeout gắn với một cấu hình (EShop: AVD `eshop_api34`) |
+| Cảm biến, quyền, trạng thái máy | GPS, camera, pin, thông báo xen ngang, bàn phím ảo làm cây UI đổi giữa hai lệnh |
+| Mạng và độ trễ | Spinner còn quay, danh sách chưa có dữ liệu, race giữa lệnh tiếp theo và phản hồi API |
+| Vùng chạm nhỏ, gesture | Tap, swipe, long-press phụ thuộc toạ độ và thời điểm; khó tái lập hơn click trên web |
+| App vẽ UI bất đồng bộ | React Native commit layout sau khi JS và bridge xong. Công cụ đứng ngoài không biết lúc đó |
 
-EShop có client React Native Expo (Android + iOS) nên phù hợp để học automation đa nền tảng và so sánh công cụ.
+EShop là client React Native Expo (Android + iOS) nên cùng một màn hình có thể đặt câu hỏi cho Appium, Espresso và Detox (A1.4). Seminar chạy lớp functional trên APK Android.
 
-### A1.2 Kiến trúc Appium 2
+### A1.2 Kiến trúc Appium 2: W3C WebDriver và UiAutomator2
 
-Appium là lớp điều khiển theo giao thức **WebDriver**:
+Appium 2 tách **server** và **driver**. Cài server chỉ có tiến trình HTTP nói giao thức W3C WebDriver. Driver không đi kèm: Android phải cài riêng (`appium driver install uiautomator2`). Appium 2 không chọn driver mặc định. Session bắt buộc khai `appium:automationName`. Giao thức cũ JSON Wire Protocol đã bỏ; đường gốc mặc định là `/`, không còn `/wd/hub`.
 
-1. **Test client** (script Node.js / Java / Python…) gửi lệnh WebDriver.  
-2. **Appium Server** nhận lệnh, chọn driver phù hợp.  
-3. **UiAutomator2** (Android) thao tác trên emulator hoặc thiết bị thật.  
-4. **Ứng dụng SUT** (APK EShop) phản hồi; kết quả trả về client để assert.
+Capability chuẩn của W3C, như `platformName`, viết trần. Capability do Appium thêm phải có tiền tố nhà cung cấp `appium:` — ví dụ `appium:automationName`, `appium:app`, `appium:noReset`. Client tạo phiên bằng `POST /session`. Capability không sửa được giữa phiên.
+
+Một lệnh trên Android đi qua năm tầng:
+
+```
+[Test client — WebdriverIO]
+        |  HTTP W3C, cổng 4723, path /
+        v
+[Appium Server]  chọn driver theo appium:automationName
+        v
+[UiAutomator2 driver trên máy host]
+        |  adb: cài server APK + instrumentation APK, am instrument, adb forward
+        v
+[UiAutomator2 server trên thiết bị]
+        |  HTTP trong tiến trình instrumentation; gọi UiAutomator
+        v
+[Cây accessibility của Android] --> [EShop APK]
+```
+
+Server trên thiết bị là hai gói `io.appium.uiautomator2.server` và `io.appium.uiautomator2.server.test`. Driver cài và khởi động chúng bằng instrumentation; `adb forward` nối cổng máy host tới HTTP server đó. `findElement` và `click` hỏi cây accessibility tại đúng thời điểm lệnh tới. Chúng không thấy JS thread hay bridge của Expo còn bận — đó là lý do phải explicit wait (A4.1) và là điểm khác Detox (A1.4).
+
+Trên APK EShop của nhóm, `testID` của React Native xuất hiện thành `resource-id`. Locator vì vậy dùng `UiSelector().resourceId` (`src/appium/config/locators.js`). Session trong `src/appium/config/session.js` khai đúng hợp đồng Appium 2: `platformName` trần, các khoá còn lại có tiền tố `appium:`, `automationName` là `UiAutomator2`, `app` trỏ APK debug, `appPackage` là `com.eshop.sut`, `noReset` là `false`.
 
 | | |
 |--|--|
-| **Điểm mạnh** | Đa nền tảng, cộng đồng lớn, chạy được trên emulator, thiết bị thật và device farm |
-| **Điểm yếu** | Đường đi dài hơn in-process framework → cần hiểu session, capability, locator và đồng bộ chờ |
+| **Điểm mạnh** | Một client WebDriver cho nhiều nền; chạy emulator, máy thật và device farm; chỉ cần APK |
+| **Điểm yếu** | Đường đi dài, mỗi lệnh là một ảnh của cây UI. Session, capability, locator và chờ có điều kiện là phần bắt buộc của script |
 
 ### A1.3 Locator: yếu tố quyết định độ bền script
 
@@ -76,28 +99,35 @@ Appium là lớp điều khiển theo giao thức **WebDriver**:
 | XPath dài theo hierarchy | Dễ hỏng khi UI đổi cấu trúc |
 | Text hiển thị | Phụ thuộc ngôn ngữ / copy; dễ false fail |
 
-**Quy tắc thực hành:** ưu tiên `testID` và accessibility; coi XPath dài là tín hiệu nợ kỹ thuật.
+**Quy tắc thực hành:** ưu tiên `testID` (trên APK EShop là `resource-id`) và accessibility; coi XPath dài là tín hiệu nợ kỹ thuật. Locator yếu là một nguồn flaky riêng, vì cây UI đổi nhẹ làm cùng một XPath lúc thấy lúc không (A4.1).
 
-### A1.4 So sánh hướng truyền thống & khi nào chọn Detox
+### A1.4 Ma trận chọn Appium / Espresso / Detox
 
-| Công cụ | Đặc điểm | Phù hợp khi… |
-|---------|----------|--------------|
-| **Appium 2** | Cross-platform, WebDriver, device farm | Cần đa nền / thiết bị thật / cùng stack với Selenium |
-| **Espresso** | In-process Android, nhanh, deterministic | Chỉ Android, team native, ưu tiên tốc độ |
-| **Detox** | Gắn RN/Expo, đồng bộ tốt trong CI | DX React Native trong CI, ít phụ thuộc device thật |
+Ba công cụ cùng điều khiển giao diện mobile, nhưng khác nhau ở chỗ bài test đứng *ngoài* hay *trong* ứng dụng, và ở cách chúng biết giao diện đã ổn định. Brief T03 nêu cả ba; learning objective bắt nhóm quyết định khi nào Detox hợp hơn Appium trên React Native.
 
-#### Ma trận quyết định Detox vs Appium (learning objective T03)
+| Tiêu chí | **Appium 2** | **Espresso** | **Detox** |
+|----------|--------------|--------------|-----------|
+| Mô hình | Black-box, ngoài tiến trình | White-box, cùng tiến trình (instrumentation) | Gray-box: runner ở ngoài, theo dõi trạng thái từ trong app |
+| Cách điều khiển | W3C WebDriver → driver (UiAutomator2 / XCUITest) | `onView` → `perform` → `check` | API JavaScript riêng; không dùng WebDriver |
+| Đồng bộ | Không biết app đang bận; team tự viết explicit wait | Tự chờ đến khi hàng đợi UI không còn việc cần xử lý ngay, không còn `AsyncTask`, và mọi `IdlingResource` đã idle | Tự chờ app idle: network, main thread, layout (kể cả Yoga), timer, animation, JS thread, native module, bridge RN |
+| Nền tảng | Android, iOS và nền khác, một client | Chỉ Android | Android + iOS, hướng React Native |
+| Ngôn ngữ test | Bất kỳ client WebDriver | Kotlin / Java, trong `androidTest` | JavaScript (Jest), cùng repo RN |
+| Bản app | APK/IPA cài được | App đã instrument, cần mã nguồn Android | Bản debug đã gắn instrumentation; Expo cần config plugin và prebuild |
+| Thiết bị | Emulator, máy thật, device farm | Emulator hoặc thiết bị trong Android test | Emulator/simulator trên CI là trường hợp chính |
+| Tốc độ và độ ổn định | Chậm hơn; dễ flaky nếu wait hoặc locator yếu | Nhanh và ổn định trên Android native | Nhanh trên RN vì ít phải tự viết wait; nhạy khi nâng cấp RN |
+| Điểm mù | Không thấy JS bridge đang bận | Không theo dõi JS thread, bridge hay network của RN nếu team không tự đăng ký idling | Không dành cho app không phải RN; không test black-box bản store chưa gắn instrumentation |
 
-| Tiêu chí | Nghiêng **Appium** | Nghiêng **Detox** |
-|----------|--------------------|-------------------|
-| Nền tảng | Android + iOS + device farm thống nhất | Chủ yếu RN/Expo trong CI |
-| Ngôn ngữ / stack | Độc lập ngôn ngữ app (black-box APK) | JS/TS cùng codebase RN |
-| Đồng bộ UI | Explicit wait do team tự thiết kế | Built-in sync với bridge RN |
-| Thiết bị thật | Điểm mạnh | Không bắt buộc trong CI |
-| Chi phí học | Cao hơn (server, driver, capability) | Thấp hơn với team RN |
-| Scope T03 | **Công cụ chính** cho demo live | **PoC so sánh DX** (TV1), không thay Eyes |
+#### Khi nào chọn công cụ nào
 
-**Kết luận cho nhóm T03:** chọn Appium làm lớp functional chính vì khớp device farm và gắn Eyes; Detox dùng để *báo cáo khác biệt DX*, không thay thế cặp Appium + Applitools.
+| Chọn | Khi nào |
+|------|---------|
+| **Appium** | Cần một stack cho Android và iOS, máy thật hoặc device farm; test đúng bản APK người dùng cài; team không viết Kotlin; muốn gắn checkpoint thị giác (Eyes) vào cùng phiên WebDriver. |
+| **Espresso** | App Android native, team Kotlin/Java, ưu tiên tốc độ và độ ổn định trong cùng process. Không chọn làm công cụ chính cho EShop: EShop là React Native, Espresso không đồng bộ với JS bridge. |
+| **Detox** | Team RN/Expo viết test bằng JS trong CI, chấp nhận bản build đã instrument, và muốn framework tự chờ network, animation và bridge. |
+
+**Quan hệ Espresso và Detox.** Trên Android, Detox dùng Espresso để thao tác view, rồi thêm lớp đồng bộ React Native mà Espresso thuần không có. Trên iOS, từ Detox 18 hệ đồng bộ là của Detox, không còn phụ thuộc EarlGrey. “Detox nhanh vì nó là Espresso” chỉ đúng một nửa: đường chạm view trên Android đi qua Espresso; lý do ít flaky trên RN là lớp gray-box.
+
+**Kết luận cho nhóm T03:** Appium là lớp functional chính vì black-box trên APK, chạy được device farm và gắn được Eyes. Espresso bị loại vì chỉ phủ Android native. Detox dùng để *báo cáo khác biệt DX* trên cùng luồng đăng nhập và tìm kiếm (TV1), không thay cặp Appium + Applitools.
 
 ---
 
@@ -120,12 +150,12 @@ Assertion chức năng trả lời: *“Người dùng có hoàn thành được
 
 | Tiêu chí | Functional assertion | Visual checkpoint |
 |----------|----------------------|-------------------|
-| Đối tượng | Hành vi + dữ liệu | Bố cục, màu, khoảng cách, ảnh |
-| Oracle | Giá trị / trạng thái mong đợi trong code | Baseline ảnh + mô hình Visual AI |
-| Pass khi UI đổi màu nhẹ | Thường vẫn pass | Có thể fail |
-| Pass khi giá sai nhưng UI “đẹp” | Fail | Có thể pass nếu layout không đổi rõ |
+| Đối tượng | Hành vi + dữ liệu | Bố cục, màu, khoảng cách, ảnh, chữ đang hiển thị |
+| Oracle | Giá trị / trạng thái mong đợi trong code | Baseline ảnh + cách so khớp đã chọn |
+| UI đổi màu hoặc khoảng cách, dữ liệu giữ nguyên | Thường vẫn pass | Thường fail ở match level Strict |
+| Giá hiển thị sai | Fail nếu assertion đọc đúng text | Fail ở Strict hoặc Content vì chữ đổi. Có thể pass nếu vùng giá bị ignore, match level là Layout (bỏ qua nội dung), hoặc lỗi không được vẽ lên màn hình |
 
-**Kết luận:** Visual AI **không** thay assertion nghiệp vụ về giá, tổng tiền, quyền truy cập hay thông báo lỗi.
+**Kết luận:** Visual testing bắt thay đổi *nhìn thấy được*. Nó không biết một thay đổi là lỗi nghiệp vụ hay bản thiết kế đã duyệt, và không bắt lỗi không xuất hiện trên ảnh (sai quyền, sai tổng tiền chưa render, tác dụng phụ phía server). Vì vậy nó không thay assertion về giá, tổng tiền, quyền truy cập hay thông báo lỗi.
 
 ### A2.4 Lớp an toàn (safety net)
 
@@ -139,13 +169,32 @@ Locator ổn định + assertion chức năng = lớp an toàn khi visual tool b
 
 ---
 
-## A3. Visual AI và kiểm thử hồi quy giao diện (Visual Regression Testing)
+## A3. Visual Testing và kiểm thử hồi quy giao diện
 
-### A3.1 Vì sao cần Visual AI?
+### A3.1 Visual testing là gì?
 
-Functional test có thể **pass** trong khi UI đã regress (màu sai, chồng chữ, banner lệch, nút biến mất nhưng vẫn “tap được” vùng cũ). So sánh pixel thuần túy lại tạo quá nhiều false positive (font anti-alias, animation, ảnh động).
+Visual testing (kiểm thử giao diện / visual regression testing) kiểm tra **thứ người dùng nhìn thấy** sau khi app đã ở một trạng thái xác định: bố cục, màu, khoảng cách, ảnh và chữ. Functional testing hỏi “việc có làm được và dữ liệu có đúng không?”. Visual testing hỏi “màn hình còn giống bản đã duyệt không?”.
 
-**Visual AI** (ví dụ Applitools Eyes) so sánh theo bố cục và nội dung có ngữ cảnh, giảm nhiễu kết xuất, hỗ trợ **ignore region** theo layout.
+Functional test có thể **pass** trong khi UI đã regress: màu sai, chữ chồng, banner lệch, nút biến mất nhưng script vẫn chạm được một vùng cũ. Ngược lại, một ảnh “trông ổn” không chứng minh giá, quyền hay thông báo lỗi đúng.
+
+Quy trình một checkpoint:
+
+1. Đưa app tới trạng thái đã biết (sau đăng nhập, sau tìm kiếm).
+2. Chụp màn hình hoặc một vùng (checkpoint).
+3. So với **baseline** — ảnh đã được người có thẩm quyền chấp nhận.
+4. Sinh **visual diff** những vùng không khớp.
+5. Người triage phân loại: lỗi thật, nhiễu, hoặc thay đổi có chủ đích.
+6. Chỉ cập nhật baseline khi thay đổi đã được duyệt. Cập nhật baseline là quyết định chấp nhận UI mới, không phải bước kỹ thuật tự động.
+
+Ba cách so sánh, từ cứng đến có ngữ cảnh:
+
+| Cách so | Oracle | Điểm yếu |
+|---------|--------|----------|
+| **Pixel (Exact)** | Từng pixel phải trùng | Anti-alias, làm mịn font, status bar, một khung animation cũng thành fail. Không khuyến nghị cho kiểm thử thường ngày. |
+| **Ngưỡng pixel** | Cho phép một tỉ lệ pixel lệch | Ngưỡng là số tùy ý: thấp thì nhiễu, cao thì nuốt lỗi thật (nút lệch vài pixel, chữ bị cắt). |
+| **Visual AI (layout-aware)** | So theo vùng, bố cục và nội dung; bỏ khác biệt kết xuất mà mắt người không thấy | Vẫn cần người triage và chính sách ignore. Không tự biết một diff là bug hay redesign. |
+
+Nhiễu đặc thù trên mobile: mật độ màn hình, font, thanh trạng thái (giờ, pin), animation chưa kết thúc, ảnh banner xoay, và khác biệt render giữa máy thật với emulator. Vì vậy baseline nên gắn với một cấu hình thiết bị cố định; EShop dùng AVD `eshop_api34`, 1080×2400.
 
 ### A3.2 Thuật ngữ then chốt
 
@@ -177,24 +226,75 @@ Ignore quá rộng → che regression. Ignore quá hẹp → triage mệt, mất
 
 ### A3.5 Minh họa trên EShop
 
-- **Đổi ảnh động, giữ bố cục** → dễ false positive; ignore region hợp lý có thể chấp nhận.  
-- **Đổi màu / bố cục ngoài yêu cầu** → regression visual dù functional test vẫn pass.
+- **Đổi ảnh động, giữ bố cục** → dễ false positive; ignore region hoặc match level Layout trên đúng vùng banner có thể chấp nhận.  
+- **Đổi màu / bố cục ngoài yêu cầu** → regression visual ở match level Strict dù functional test vẫn pass.
+
+### A3.6 Hai hướng AI trong kiểm thử GUI: Applitools và Maestro
+
+“AI trong kiểm thử GUI” ở T03 là **hai cơ chế khác nhau**. Gộp chúng thành một oracle sẽ giải thích sai kết quả demo.
+
+| | **Applitools Eyes — Visual AI** | **Maestro — LLM assertion** |
+|--|----------------------------------|-----------------------------|
+| Câu hỏi | Ảnh lần này có lệch baseline đã duyệt theo mức so khớp đã chọn không? | Mô hình có cho rằng ảnh hiện tại thỏa câu mô tả, hoặc có defect nhìn thấy, không? |
+| Đầu vào | Ảnh checkpoint + baseline + match level / vùng | Ảnh màn hình + câu tiếng tự nhiên (`assertWithAI`), hoặc chỉ ảnh (`assertNoDefectsWithAI`) |
+| Oracle | Baseline có phiên bản, có người phê duyệt | Phán đoán của LLM; không có baseline |
+| Tính lặp | Cùng ảnh, cùng baseline, cùng match level cho cùng một kết quả so khớp | Xác suất. Tài liệu Maestro đặt `optional: true` mặc định để một câu trả lời không ổn định không làm gãy CI |
+| Chỗ chạy | Eyes Cloud (cần API key, trial) | Lệnh AI đi qua Maestro Cloud dù flow chạy local (`maestro login` hoặc `MAESTRO_CLOUD_API_KEY`) |
+| Việc AI làm | Tách vùng giao diện, so bố cục / nội dung / màu, lọc nhiễu kết xuất | Đọc ảnh và trả lời có/không, hoặc chỉ defect kiểu chữ bị cắt, phần tử chồng, căn lệch |
+| Việc AI không làm | Không kết luận đúng/sai nghiệp vụ | Không lưu chuẩn đã duyệt, không có ignore region hay lịch sử baseline |
+
+**Match level của Eyes** (áp cho cả checkpoint hoặc từng vùng):
+
+| Mức | Bắt được | Bỏ qua |
+|-----|----------|--------|
+| **Strict** | Chữ, font, màu, ảnh, vị trí — những lệch mắt người thấy | Nhiễu pixel do phần cứng/phần mềm render. Mặc định phù hợp hồi quy trên một OS/thiết bị, nội dung tĩnh |
+| **Layout** | Phần tử xuất hiện, biến mất hoặc đổi vị trí tương đối | Nội dung chữ, đồ họa, màu, style. Hợp trang có dữ liệu động hoặc nhiều ngôn ngữ |
+| **Ignore colors** | Như Strict, trừ màu | Đổi màu. Hợp khi theme đổi nhưng nội dung phải giữ |
+| **Content** | Nội dung chữ | Style và bố cục |
+| **Dynamic** | Sai *dạng* dữ liệu (ngày, email, số không còn đúng pattern) | Đúng pattern nhưng đổi giá trị |
+| **Exact** | Từng pixel | Không bỏ nhiễu render. Không dùng cho kiểm thử thường ngày |
+
+Trên EShop: banner xoay ảnh nên là **vùng** Layout hoặc ignore, không phải cả màn hình. Giá, nút Đăng nhập và thông báo lỗi giữ Strict. Đổi colour token ngoài yêu cầu là true positive ở Strict; đổi ảnh banner mà giữ khung là nhiễu nếu cả màn hình để Strict và không có chính sách vùng.
+
+**Maestro có hai lớp, đừng trộn:**
+
+- `assertVisible` / `assertNotVisible`: oracle xác định, đọc cây UI.
+- `assertScreenshot`: so ảnh với file cục bộ — visual testing cổ điển, không phải AI.
+- `assertWithAI` và `assertNoDefectsWithAI`: LLM, đang thí nghiệm. `assertNoDefectsWithAI` là smoke test defect nhìn thấy (cắt chữ, chồng, lệch khung), không thay checkpoint có baseline.
+- `maestro test --analyze`: báo cáo sau lượt chạy (hồi quy UI, chính tả, vỡ layout), không phải assertion trong flow.
+
+Maestro là lớp dự phòng khi trial Eyes không phủ S3–S6, và chỉ sau khi giảng viên chấp thuận. Khi dùng, demo phải nói rõ: AI flag được lệch *nhìn thấy*, không có dashboard baseline, ignore region hay pha duyệt chuẩn như Eyes. Assertion giá và quyền vẫn là lệnh xác định.
 
 ---
 
 ## A4. Độ tin cậy và bảo trì kiểm thử (Test Reliability & Maintenance)
 
-### A4.1 Flaky test trên mobile
+### A4.1 Flaky test và cách xử lý
 
-Test *flaky*: lúc pass lúc fail dù mã SUT không đổi. Nguyên nhân thường gặp:
+Một test **flaky** khi cùng mã SUT, cùng mã test và cùng môi trường chủ định, lần chạy này pass và lần khác fail. Lỗi tái lập mọi lần là defect. Phiên không tạo được vì emulator tắt hoặc Appium chưa sẵn sàng là môi trường hỏng. Hai trường hợp đó cần sửa khác với flake.
 
-- Animation / chuyển scene chưa xong đã assert.  
-- Mạng chậm hoặc API chưa sẵn sàng.  
-- Trạng thái thiết bị (permission, bàn phím, thông báo).  
-- Dữ liệu chưa reset / seed không đồng nhất.  
-- Locator yếu (XPath) + hierarchy thay đổi nhẹ.
+Appium dễ flaky vì mỗi lệnh là một ảnh của cây accessibility (A1.2). Giữa hai HTTP request, app có thể còn animation, còn chờ API, hoặc chưa commit layout. Espresso và Detox chờ đến khi app idle; Appium không tự biết điều đó.
 
-**Hướng xử lý:** explicit wait, reset dữ liệu, ổn định emulator, locator bền, tách test phụ thuộc trạng thái dùng chung.
+| Nguồn | Biểu hiện | Cách xử lý |
+|-------|-----------|------------|
+| Thời điểm | `element not found`, lần chạy sau thì pass | Explicit wait trên một điều kiện: phần tử của màn đích đã hiện (`waitForDisplayed` với timeout). Sleep cố định hoặc quá ngắn nên vẫn flake, hoặc kéo dài cả những lần đã pass |
+| Implicit wait toàn cục | Mọi `findElement` đều chờ hết hạn | Che triệu chứng. Script không nêu điều kiện nào cho phép đi tiếp |
+| Chuyển màn / animation | Assert dính màn cũ | Chờ phần tử chỉ có trên màn mới, không chờ một khoảng thời gian |
+| Mạng và API | Spinner, danh sách lúc rỗng lúc có | Chờ dữ liệu xuất hiện; seed backend ổn định trước phiên |
+| Trạng thái máy | Bàn phím, quyền, thông báo | Đưa máy về trạng thái đã biết trước khi thao tác |
+| Vòng đời app | App không ở foreground sau cold start | Mở lại app, rồi chờ màn hình mốc |
+| Dữ liệu dính phiên trước | Kết quả phụ thuộc thứ tự test | Reset khi mở và đóng session; mỗi test một session |
+| Locator yếu | Cùng XPath lúc khớp lúc không | `testID` / `resource-id` (A1.3) |
+| Retry | Báo cáo xanh hơn | Nguyên nhân còn nguyên. Chỉ thêm retry sau khi wait và reset đã có, và phải ghi số lần retry |
+
+`noReset: false` (mặc định, và là giá trị session EShop) bảo driver chạy reset thông thường lúc mở và đóng phiên, nên dữ liệu app của phiên trước không còn. `fullReset: true` gỡ rồi cài lại APK — nặng hơn, dùng khi chính bản cài đặt phải sạch.
+
+Hai flake đã gặp trên EShop, và cách bộ test đang xử lý:
+
+- Bàn phím ảo còn mở che phần dưới màn hình. UiAutomator2 không trả về phần tử bị che, nên click báo không tìm thấy dù nút vẫn trong app. Helper đóng bàn phím nếu nó đang hiện, rồi mới tìm ô tìm kiếm.
+- APK debug có thể không lên foreground sau cold start. Bộ test gọi `terminateApp` rồi `activateApp`, sau đó chờ liên kết đăng nhập tối đa 30 giây. Điều kiện chờ là phần tử màn Home, không phải một `sleep`.
+
+Khi một fail không tái lập, tăng timeout không phải bước đầu. Chạy lại cùng test nhiều lần và lấy page source tại lần `findElement` thất bại (`appium:printPageSourceOnFindFailure`) để phân biệt locator sai, màn hình sai, và chờ chưa đủ.
 
 ### A4.2 Chi phí bảo trì khi UI thay đổi
 
@@ -272,9 +372,11 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 
 | Thuật ngữ | Ý nghĩa |
 |-----------|---------|
-| **WebDriver / W3C WebDriver** | Giao thức client ↔ server điều khiển app |
-| **Appium Server** | Nhận lệnh WebDriver, điều phối driver |
-| **Driver (UiAutomator2)** | Driver Android của Appium |
+| **WebDriver / W3C WebDriver** | Giao thức HTTP client ↔ server. Appium 2 chỉ nhận W3C |
+| **Tiền tố `appium:`** | Capability ngoài chuẩn W3C phải mang tiền tố này |
+| **Appium Server** | Tiến trình HTTP; không kèm driver |
+| **Driver (UiAutomator2)** | Driver trên máy host; dịch lệnh W3C sang Android |
+| **Instrumentation server** | Hai APK `io.appium.uiautomator2.server` (+ `.test`) chạy trên thiết bị |
 | **Session** | Phiên gắn thiết bị/app; tạo bằng capabilities |
 | **Capabilities** | `platformName`, `app`/`appPackage`, `deviceName`, `automationName`, … |
 | **Locator / Selector** | `id`, `accessibility id`, `xpath`, … |
@@ -299,26 +401,15 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 
 ### C1.4 Nguyên lý hoạt động
 
-```
-[Test script] --WebDriver commands--> [Appium Server]
-                                            |
-                                            v
-                                    [UiAutomator2 Driver]
-                                            |
-                                            v
-                              [Android UiAutomator2 / ADB]
-                                            |
-                                            v
-                               [EShop APK trên Emulator]
-```
+Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắt vòng đời:
 
-1. Script tạo session (Android + UiAutomator2 + đường dẫn APK).  
-2. Server chọn UiAutomator2 driver, cài instrumentation nếu cần.  
-3. Lệnh `findElement` / `click` / `setValue` đi qua accessibility layer.  
-4. Kết quả trả về script → assertion pass/fail.  
-5. Kết thúc: xóa session, giải phóng thiết bị.
+1. Script tạo session (`platformName=Android`, `appium:automationName=UiAutomator2`, đường dẫn APK).  
+2. Server chọn driver UiAutomator2. Driver cài hai APK server lên thiết bị, chạy instrumentation, `adb forward`.  
+3. `findElement` / `click` / `setValue` đọc và ghi cây accessibility tại thời điểm lệnh tới.  
+4. Kết quả trả về script để assertion.  
+5. Đóng session: driver reset theo `noReset`, rồi giải phóng thiết bị.
 
-**Hệ quả:** chậm hơn Espresso/Detox một chút nhưng độc lập ngôn ngữ app và chạy được trên thiết bị thật/farm.
+**Hệ quả:** chậm hơn Espresso/Detox một chút, nhưng độc lập ngôn ngữ app và chạy được trên thiết bị thật hoặc farm. Vì không thấy app đang idle, script phải chờ có điều kiện (A4.1).
 
 ### C1.5 Ba kịch bản demo
 
@@ -357,7 +448,7 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 | Kiểm tra “nhìn giống thiết kế” | Không có Visual AI; screenshot thô dễ nhiễu |
 | Locator phụ thuộc XPath/text | Script dễ gãy khi UI/copy đổi |
 | Môi trường phức tạp | Cài SDK + driver + capability tốn thời gian; sai cấu hình → session fail |
-| Flaky do timing/mạng | Out-of-process → cần kỷ luật wait/reset; không “tự hết flaky” |
+| Flaky do timing/mạng | Ngoài tiến trình, mỗi lệnh là một ảnh cây UI. Wait và reset theo A4.1; Appium không tự hết flaky |
 
 ---
 
@@ -384,7 +475,7 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 | **Baseline** | Tập ảnh chuẩn đã phê duyệt |
 | **Batch / Test result** | Nhóm kết quả một lần chạy trên dashboard |
 | **Visual diff** | Vùng khác biệt so với baseline |
-| **Match level** | Độ nhạy (strict / layout / content…) |
+| **Match level** | Cách Eyes so checkpoint với baseline: Strict, Layout, Ignore colors, Content, Dynamic, Exact. Chi tiết ở A3.6 |
 | **Ignore region** | Vùng loại khỏi so sánh |
 | **Floating region** | Cho phép dịch chuyển trong biên độ |
 | **True / false positive** | Lỗi thật vs nhiễu |
@@ -492,8 +583,9 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 | **Selector** | text, id, thuộc tính UI |
 | **Built-in waiting** | Chờ element/visible mặc định |
 | **assertVisible / assertNotVisible** | Assertion xác định |
-| **assertWithAI** | Assertion bằng mô tả ngôn ngữ tự nhiên |
-| **assertNoDefectsWithAI** | AI rà defect giao diện rõ (thử nghiệm) |
+| **assertWithAI** | LLM chấm ảnh theo một câu mô tả. Thí nghiệm; `optional: true` mặc định |
+| **assertNoDefectsWithAI** | LLM tìm defect nhìn thấy (chữ cắt, chồng, lệch khung). Không có baseline |
+| **assertScreenshot** | So ảnh với file cục bộ — visual testing cổ điển, không phải AI |
 | **Cloud / local** | Local miễn phí; cloud có gói/trial |
 | **RN / Expo support** | Lý do phù hợp EShop |
 
@@ -526,8 +618,8 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 1. Mô tả kịch bản bằng YAML.  
 2. Parse flow, mở app, tự chờ điều kiện UI.  
 3. Assert thường: text/visibility.  
-4. Assert AI: gửi ngữ cảnh màn hình + prompt → pass/fail.  
-5. Báo cáo CLI (và cloud nếu dùng).
+4. Assert AI: chụp màn hình, gửi ảnh kèm câu mô tả lên LLM qua Maestro Cloud, nhận có/không. Kết quả xác suất; mặc định `optional: true` nên fail AI không dừng flow trừ khi ghi `optional: false`.  
+5. Báo cáo CLI. `maestro test --analyze` thêm báo cáo insight sau lượt chạy; đó không phải assertion trong YAML.
 
 ### C3.5 Ba kịch bản demo
 
@@ -561,9 +653,9 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 
 | Trường hợp | Vì sao Maestro AI không thay Eyes tốt |
 |------------|----------------------------------------|
-| Cần quy trình baseline / ignore region / triage chuẩn | AI assert không có dashboard baseline như Applitools |
-| Assertion nghiệp vụ chính xác (giá, quyền) | AI có thể ảo giác hoặc bỏ sót → vẫn cần assert xác định |
-| Ổn định lâu dài / audit | Kết quả AI ít tái lập và khó chứng minh hơn visual diff có baseline |
+| Cần quy trình baseline / ignore region / triage chuẩn | `assertWithAI` không có dashboard baseline như Applitools (A3.6) |
+| Assertion nghiệp vụ chính xác (giá, quyền) | LLM có thể ảo giác hoặc bỏ sót → vẫn cần `assertVisible` |
+| Ổn định lâu dài / audit | Cùng một ảnh có thể cho kết quả khác; Maestro đặt AI command là optional mặc định vì lý do này |
 | Phạm vi T03 chính thức | Chỉ **dự phòng** sau khi GV chấp thuận; không phải pick mặc định |
 | Device farm phức tạp | Appium + farm thường linh hoạt hơn cho mở rộng sau demo |
 
@@ -588,9 +680,9 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 
 | # | Mảng lý thuyết | Câu hỏi trung tâm | Công cụ minh họa |
 |---|----------------|-------------------|------------------|
-| 1 | Mobile Test Automation | Điều khiển app thế nào, locator nào bền? | Appium 2 (+ so sánh Detox) |
+| 1 | Mobile Test Automation | Appium 2 điều khiển APK qua tầng nào, và vì sao lệnh dễ flake? | Appium 2 + UiAutomator2 |
 | 2 | Functional Testing | Hành vi và dữ liệu nghiệp vụ có đúng không? | Assertion Appium / Maestro |
-| 3 | Visual AI / Visual Regression | UI người dùng nhìn thấy có regress không? | Applitools Eyes (Maestro AI dự phòng) |
+| 3 | Visual Testing / hai hướng AI trên GUI | UI có regress so với baseline, hay LLM chỉ “thấy” defect? | Applitools Eyes (Maestro AI dự phòng) |
 | 4 | Reliability & Maintenance | Giảm flaky, triage diff, bảo trì lâu dài? | Ignore/baseline policy + failure modes |
 
 | Công cụ | Vai trò | Lý thuyết gắn trực tiếp |
@@ -603,9 +695,10 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 ## D2. Gợi ý đọc thêm (brief T03)
 
 1. Hans-Joachim Görg — *Practical Appium* (Chs. 1–4).  
-2. React Native testing docs — ma trận quyết định Detox vs Appium.  
-3. Applitools — *Visual AI 101* whitepaper.  
-4. Tài liệu chính thức: [Appium](https://appium.io/) · [UiAutomator2](https://appium.io/docs/en/2.5/quickstart/uiauto2-driver/) · [Applitools Mobile](https://applitools.com/solutions/mobile-testing/) · [Maestro React Native](https://docs.maestro.dev/get-started/supported-platform/react-native) · [Maestro AI](https://docs.maestro.dev/reference/commands-available/assertwithai).
+2. Ma trận A1.4 đối chiếu [Espresso](https://developer.android.com/training/testing/espresso), [Detox — design principles](https://wix.github.io/Detox/docs/next/articles/design-principles/) và [Detox — how it works](https://github.com/wix/Detox/blob/master/docs/articles/how-detox-works.md).  
+3. Applitools — *Visual AI 101* whitepaper; match level: [Match Levels and Regions](https://applitools.com/docs/eyes/concepts/best-practices/match-levels).  
+4. Appium 2: [kiến trúc UiAutomator2](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/architecture.md) · [capability và tiền tố `appium:`](https://appium.io/docs/en/2.19/guides/caps/) · [Appium](https://appium.io/) · [UiAutomator2](https://appium.io/docs/en/2.5/quickstart/uiauto2-driver/).  
+5. [Applitools Mobile](https://applitools.com/solutions/mobile-testing/) · [Maestro React Native](https://docs.maestro.dev/get-started/supported-platform/react-native) · [assertWithAI](https://docs.maestro.dev/reference/commands-available/assertwithai) · [assertNoDefectsWithAI](https://docs.maestro.dev/reference/commands-available/assertnodefectswithai).
 
 ## D3. Map sang buổi seminar 45 phút
 
