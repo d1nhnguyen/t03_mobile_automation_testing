@@ -1,6 +1,6 @@
 # Lý thuyết T03 — Mobile Automation Testing
 
-Tài liệu lý thuyết cho seminar **T03 Mobile Automation Testing** (CS423 / CSC15003), dựa trên brief T03, Seminar Guide, yêu cầu seminar FIT@HCMUS, Tool Survey Proposal và Seminar Scenario Draft.
+Tài liệu lý thuyết cho seminar **T03 Mobile Automation Testing** (CS423 / CSC15003), dựa trên brief T03, Seminar Guide, yêu cầu seminar FIT@HCMUS, Tool Survey Proposal và Seminar Scenario Draft. Ba mức demo ở C1.5, C2.5 và cách chia video với phần live ở D3 bám [Demo_Scenario.md](Demo_Scenario.md).
 
 **Thông điệp xuyên suốt:** Appium xác minh *hành vi* của người dùng; Applitools kiểm tra *thứ người dùng nhìn thấy*. Hai lớp kiểm thử bổ sung cho nhau, không thay thế nhau.
 
@@ -309,7 +309,7 @@ Learning objective T03: **đo và giải thích** chi phí bảo trì khi home b
 ### A4.3 Ghép cặp hai lớp kiểm thử
 
 ```
-[Functional layer]  Appium: login → search → assert data
+[Functional layer]  Appium: đăng nhập (L1→L2) → tìm kiếm (1/2/0) → tổng giỏ hàng
         +
 [Visual layer]      Eyes: checkpoint màn hình quan trọng
         +
@@ -342,11 +342,11 @@ Theo yêu cầu seminar FIT@HCMUS, mỗi công cụ thường thể hiện ba kh
 
 | Khối | Ý nghĩa | Appium | Applitools Eyes | Maestro |
 |------|---------|--------|-----------------|---------|
-| **Record & Playback** | Ghi thao tác rồi chạy lại | Appium Inspector ghi bước → chuyển thành script | Không ghi gesture; “playback” là chạy lại checkpoint trên baseline | Maestro Studio ghi flow YAML |
-| **Data-driven** | Cùng kịch bản, nhiều bộ dữ liệu | Parametrize user/password, từ khóa search, giá kỳ vọng | Baseline theo môi trường/viewport; batch nhiều màn | Biến env / parameters trong flow |
-| **Checkpoints** | Điểm xác minh kết quả | Assert text, visibility, trạng thái element | Visual checkpoint (Eyes.check) so baseline | `assertVisible` / `assertWithAI` |
+| **Record & Playback** | Ghi thao tác rồi chạy lại | Inspector (plugin web) ghi bước để khám phá locator. Code Recorder là bản nháp; test chính thức là Page Object trong `src/appium/` | Không ghi gesture; “playback” là chạy lại checkpoint trên baseline | Maestro Studio ghi flow YAML |
+| **Data-driven** | Cùng kịch bản, nhiều bộ dữ liệu | Ba bảng trong `src/appium/data/cases.js`: đăng nhập (sai rồi đúng), tìm kiếm (1, 2, 0 kết quả), giỏ hàng (đơn giá × số lần thêm) | Baseline theo môi trường/viewport; batch nhiều màn | Biến env / parameters trong flow |
+| **Checkpoints** | Điểm xác minh kết quả | Assert thông báo lỗi, tên người dùng, số kết quả, tên sản phẩm, thành tiền và tổng giỏ | Visual checkpoint (`Eyes.check`) so baseline | `assertVisible` / `assertWithAI` |
 
-**Nguyên tắc T03:** demo phải thể hiện đủ ba khối ở mức tối thiểu — Inspector/Studio (record), dữ liệu login–search (data-driven), assert chức năng + visual/AI (checkpoints).
+**Nguyên tắc T03:** video demo Appium thể hiện đủ ba khối — Inspector và Recorder (record), ba bảng A2 (data-driven), assertion nghiệp vụ trong kết quả TAP (checkpoint). Eyes thêm visual checkpoint. Maestro không nằm trong video hay phần live.
 
 ---
 
@@ -364,7 +364,7 @@ Theo yêu cầu seminar FIT@HCMUS, mỗi công cụ thường thể hiện ba kh
 | **Functional Testing** | Tap, type, swipe + assertion dữ liệu/trạng thái |
 | **Black-box UI automation** | Nhìn app qua accessibility tree; chỉ cần APK + locator |
 | **Test Reliability** | Flaky từ chờ, locator yếu, session/capability, trạng thái thiết bị |
-| **Record / Data / Checkpoint** | Inspector; data login–search; assert element |
+| **Record / Data / Checkpoint** | Inspector (bản nháp); ba bảng đăng nhập, tìm kiếm, giỏ hàng; assert nghiệp vụ |
 
 Appium **không** làm Visual AI; cung cấp hành động xác định và kết quả từ UI hierarchy.
 
@@ -393,11 +393,11 @@ Appium **không** làm Visual AI; cung cấp hành động xác định và kế
 2. Cài / mở APK EShop theo capability.  
 3. Tìm và thao tác element: tap, nhập text, swipe, back…  
 4. Đọc trạng thái UI: text, attribute, hiển thị/ẩn.  
-5. Assertion chức năng: đăng nhập, kết quả tìm kiếm, giá/tên.  
+5. Assertion chức năng: đăng nhập theo bảng, số kết quả và tên sản phẩm, thành tiền và tổng giỏ hàng.  
 6. Debug: Inspector, page source, screenshot cơ bản.  
 7. Tích hợp CI / device farm qua WebDriver.
 
-**Vai trò demo T03:** luồng **đăng nhập → tìm sản phẩm → xác minh dữ liệu**.
+**Vai trò demo T03:** bộ data-driven **đăng nhập (sai rồi đúng) → tìm kiếm (1, 2, 0 kết quả) → thêm giỏ và kiểm tra tổng tiền**.
 
 ### C1.4 Nguyên lý hoạt động
 
@@ -413,32 +413,38 @@ Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắ
 
 ### C1.5 Ba kịch bản demo
 
+Ba mức này nằm trong video 5–8 phút. Phần live không chạy lại Inspector; chi tiết ở D3. Phạm vi đã kiểm chứng là Linux, AVD `eshop_api34`.
+
 #### Demo 1 — Cài đặt & kiểm chứng môi trường
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Chứng minh Appium 2 + UiAutomator2 chạy được trên AVD |
-| Việc làm | Cài Node/JDK/Android SDK; `appium driver install uiautomator2`; khởi động AVD; tạo session mở APK EShop |
-| Kết quả kỳ vọng | Session tạo thành công; app hiện trên emulator; log không lỗi driver |
-| Liên hệ TV3 | **Kiểm chứng cài đặt** — ghi screenshot/command vào log nhóm |
+| Mục tiêu | Chứng minh Appium 2 + UiAutomator2 đã sẵn sàng |
+| Việc làm | Trình bày các bước cài trong [A1](docs/A1_Setup.md) và gọi Appium `/status` |
+| Kết quả kỳ vọng | `/status` báo `ready: true`. Nói rõ log A1 đã kiểm chứng trên Linux |
+| Bằng chứng | Log cài đặt A1. Không diễn lại toàn bộ bước cài trong video |
 
-#### Demo 2 — Chức năng cơ bản (Record & Playback + Checkpoint)
-
-| Bước | Nội dung |
-|------|----------|
-| Mục tiêu | Record nhẹ bằng Inspector rồi playback bằng script |
-| Việc làm | Dùng Inspector lấy locator `testID`; script: mở app → nhập user/password → tap Đăng nhập → assert màn hình sau login |
-| Kết quả kỳ vọng | Đăng nhập hợp lệ pass; sai credential fail đúng kỳ vọng |
-| Khối FIT | Record (Inspector) + Checkpoint (assert visibility/text) |
-
-#### Demo 3 — Luồng phức tạp / case study EShop (Data-driven + Checkpoint)
+#### Demo 2 — Chức năng cơ bản (Inspector + Recorder)
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Kịch bản nghiệp vụ đầy đủ trên SUT |
-| Việc làm | Data-driven: nhiều cặp (user, keyword, expected product/price); luồng login → search → assert tên/giá; giữ assertion chức năng làm safety net trước khi gắn Eyes |
-| Kết quả kỳ vọng | Bộ dữ liệu hợp lệ pass; dữ liệu sai/không tìm thấy fail rõ ràng |
-| Case study | Đúng scope T03: functional layer của seminar |
+| Mục tiêu | Khám phá cây giao diện và locator ổn định |
+| Việc làm | Plugin Inspector trong trình duyệt: tạo phiên UiAutomator2, mở màn Login, chọn `login-email`, bật Recorder và xem code WebdriverIO sinh ra. Giải thích `testID` ánh xạ sang `resource-id` |
+| Kết quả kỳ vọng | Thấy `resource-id` = `login-email`. Code Recorder là bản nháp; test chính thức giữ Page Object và assertion trong `src/appium/` |
+| Ràng buộc phiên | UiAutomator2 chỉ một instrumentation trên một thiết bị. **Quit Session trước khi `npm test`**. Phần live không mở Inspector; nếu cần, chiếu đoạn video này |
+| Bằng chứng | Phiên 23/10/2026: 4 ảnh `docs/evidence/A2_inspector_0{1..4}_*.png` và `A2_inspector_recorder_2026-10-23.js` ([A2](docs/A2_Test_Design.md) mục 7). Tìm phần tử bằng chiến lược UIAutomator; chiến lược Id tự thêm tiền tố package nên không khớp `testID` |
+| Khối FIT | Record (Inspector). Checkpoint chức năng nằm ở Demo 3 |
+
+#### Demo 3 — Luồng phức tạp (bộ data-driven A2)
+
+| Bước | Nội dung |
+|------|----------|
+| Mục tiêu | Chạy nghiệp vụ đã kiểm chứng và chỉ ra assertion cùng kết quả TAP thật |
+| Việc làm | Từ `src/appium/`, chạy `npm test`. Ba test, mỗi test một phiên (`noReset: false`): đăng nhập theo bảng, tìm kiếm theo bảng, thêm giỏ và kiểm tra tổng tiền |
+| Dữ liệu | **L1** `test@eshop.com` / `SaiMatKhau-1` rồi **L2** / `Test1234!`. Tìm `iPhone` → 1, `Pro M` → 2, `Nokia 3310` → 0. Giỏ: iPhone 15 Pro Max, đơn giá 30.000.000, thêm 2 lần |
+| Kết quả kỳ vọng | L1 còn màn Login, `login-error` chứa "Đăng nhập thất bại". L2 hiện "Chào, Test User". Tìm kiếm đúng số kết quả và tên; 0 kết quả là ca pass khi không còn dòng đếm. Giỏ: thành tiền và tổng = 60.000.000, rồi giỏ trống. TAP: 3 test / 8 kiểm tra, pass 10/10 lượt ([A3](docs/A3_Metrics.md)) |
+| Ràng buộc dữ liệu | Backend cộng 2 vào `login_attempts` mỗi lần sai và khoá 3 phút khi ≥ 3, nên hai lần sai liên tiếp sẽ khoá tài khoản. Mỗi lượt chỉ sai một lần (L1) rồi đăng nhập đúng (L2). Video nêu failure mode này khi có bằng chứng, và chỉ trích số liệu A3 của đúng phiên bản đã đo |
+| Case study | Lớp functional của seminar, là safety net trước checkpoint Eyes |
 
 ### C1.6 Điểm yếu / giới hạn
 
@@ -519,32 +525,36 @@ Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắ
 
 ### C2.5 Ba kịch bản demo
 
-#### Demo 1 — Cài đặt & baseline lần đầu
+Hai công cụ trong video và phần live là Appium và Eyes. Cả ba mức Eyes chỉ được trình bày khi TV2 đã chạy thật (B1/B2). Chưa có lệnh, kết quả hoặc ảnh thì để trống đoạn đó; không dựng ảnh thay cho lần chạy.
+
+#### Demo 1 — Cài đặt SDK và cấu hình
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Eyes SDK gắn Appium; tạo baseline hợp lệ |
-| Việc làm | Cài SDK + API key (trial); `Eyes.open` → mở home EShop → `check` → `close`; duyệt baseline trên dashboard |
-| Kết quả kỳ vọng | Batch hiện trên cloud; baseline được chấp nhận lần đầu |
-| Liên hệ | Kiểm chứng trial còn hạn trước S3–S6 |
+| Mục tiêu | Cho thấy Eyes gắn được vào stack Appium của nhóm |
+| Việc làm | Trình bày lệnh cài SDK, API key (biến môi trường, không commit) và cấu hình thật của TV2, kèm kết quả lệnh đã chạy |
+| Kết quả kỳ vọng | Cấu hình và output trùng với những gì TV2 đã ghi |
+| Trạng thái | Chờ TV2 làm B1/B2 |
 
-#### Demo 2 — Chức năng cơ bản (Checkpoint visual)
+#### Demo 2 — Chức năng cơ bản (một checkpoint)
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Checkpoint trên màn hình ổn định |
-| Việc làm | Sau login (Appium), Eyes check trang chủ / danh sách; không đổi UI |
-| Kết quả kỳ vọng | Lần chạy sau khớp baseline → pass |
+| Mục tiêu | Một visual checkpoint so với baseline đã duyệt |
+| Việc làm | Chạy checkpoint đó và giải thích kết quả trên dashboard: khớp baseline, hoặc diff cần triage |
+| Kết quả kỳ vọng | Baseline đã có người duyệt. Lần chạy này được giải thích từ kết quả thật, không từ ảnh dựng |
 | Khối FIT | Checkpoint (visual) |
+| Trạng thái | Chờ TV2 làm B1/B2 |
 
-#### Demo 3 — Luồng phức tạp / case study (hai thay đổi có kiểm soát)
+#### Demo 3 — Luồng phức tạp (hai bản UI có kiểm soát)
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Phân biệt false positive vs regression thật |
-| Việc làm | (1) Đổi ảnh banner, giữ layout → có thể ignore region; (2) Đổi màu/token ngoài yêu cầu → true positive dù Appium vẫn pass |
-| Kết quả kỳ vọng | Ma trận: functional pass/fail × visual pass/fail; tài liệu hóa triage |
-| Case study | Đúng learning objective “banner images vs colour tokens” + hoạt động lớp |
+| Mục tiêu | Phân biệt khác biệt ảnh có chủ đích với regression giao diện thật |
+| Việc làm | Chạy cùng luồng trên bản đổi ảnh banner (giữ layout) và bản đổi màu hoặc bố cục. Video chiếu cả hai bản. Phần live chỉ chiếu một bản biến thể đã kiểm chứng, cạnh kết quả Appium |
+| Kết quả kỳ vọng | Đổi ảnh banner, layout giữ nguyên: ứng viên ignore region. Đổi màu hoặc bố cục ngoài yêu cầu: true positive dù assertion Appium vẫn pass. Ghi quyết định triage |
+| Case study | Learning objective “banner images vs colour tokens”. Hai bản này cũng là đầu vào cho hoạt động phân loại diff của lớp |
+| Trạng thái | Chờ TV2 làm B1/B2. Live chưa đủ điều kiện trình bày là hoàn chỉnh khi tích hợp Eyes hoặc bản UI biến thể chưa sẵn sàng |
 
 ### C2.6 Điểm yếu / giới hạn
 
@@ -561,7 +571,7 @@ Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắ
 
 ## C3. Maestro CLI + AI assertions *(công cụ dự phòng)*
 
-> Dùng khi trial Applitools không khả dụng cho S3–S6 (**sau khi giảng viên chấp thuận**).
+> Dùng khi trial Applitools không khả dụng cho S3–S6 (**sau khi giảng viên chấp thuận**). [Demo_Scenario.md](Demo_Scenario.md) không đưa Maestro vào video hay phần live.
 
 ### C3.1 Lý thuyết liên quan
 
@@ -622,6 +632,8 @@ Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắ
 5. Báo cáo CLI. `maestro test --analyze` thêm báo cáo insight sau lượt chạy; đó không phải assertion trong YAML.
 
 ### C3.5 Ba kịch bản demo
+
+Ba mức dưới đây là phương án thay Eyes, không phải mức thứ ba của video. Khi dùng, nói rõ AI chỉ flag lệch nhìn thấy và không có baseline, ignore region hay dashboard duyệt như Eyes.
 
 #### Demo 1 — Cài đặt & chạy flow mẫu
 
@@ -702,13 +714,17 @@ Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắ
 
 ## D3. Map sang buổi seminar 45 phút
 
+Ba mức của từng công cụ nằm trong một video 5–8 phút (`Demo_Screencast.mp4`) đã chia sẻ trước, không phải sáu lần chạy live. Đề cương video: cài đặt A1 và `/status` (0:35–1:15), Inspector trên màn Login rồi Quit Session (1:15–2:05), `npm test` bộ A2 (2:05–3:25), một failure mode đã quan sát và số liệu A3 đúng phiên bản (3:25–4:00), cài Eyes và một checkpoint (4:00–4:40), cả hai bản UI biến thể (4:40–6:30). Đoạn Eyes để trống cho tới khi B1/B2 có kết quả thật.
+
+Phần live 10 phút không dùng slide. Backend, Metro, emulator và Appium được bật trước. Không mở Inspector trong lúc này.
+
 | Thời gian | Nội dung | Mục lý thuyết |
 |-----------|----------|---------------|
 | 0–10 phút | Pitch: khó khăn mobile, kiến trúc Appium, Visual AI, lý do chọn tool | A1–A3, C1–C2, A1.4 |
-| 10–20 phút | Live demo Appium + Eyes; hai thay đổi UI có kiểm soát | C1.5, C2.5, A3.5 |
+| 10–20 phút | Live: chạy bộ Appium đã kiểm chứng, rồi một checkpoint Eyes trên một bản UI biến thể. Cả hai bản biến thể nằm ở video | C1.5 Demo 3, C2.5 Demo 2–3, A4.3 |
 | 20–40 phút | Hoạt động phân loại 10 diff; quy tắc ignore/baseline | A3.3–A3.4, A4 |
 | 40–45 phút | Tổng kết, Q&A | A2.3, A4.3 |
-| Dự phòng | Maestro AI nếu hết trial Applitools | C3 |
+| Ngoài kịch bản demo | Maestro AI chỉ khi hết trial Applitools và giảng viên chấp thuận | C3 |
 
 ## D4. Ranh giới phân công (tham chiếu)
 
@@ -716,8 +732,8 @@ Sơ đồ năm tầng và hợp đồng capability nằm ở **A1.2**. Tóm tắ
 |------------|----------------------------------|
 | **TV3** | Sở hữu Phần A–D; kiểm chứng cài đặt (log theo Demo 1); báo cáo / User Guide / slide mở đầu |
 | **TV1** | Thực thi demo Appium (+ Detox PoC); lấy khung C1.5 làm checklist |
-| **TV2** | Thực thi Eyes/Maestro, 10 diff cards, worksheet, Failure Modes chi tiết; khung A4.4 + C2.5 |
+| **TV2** | Thực thi Eyes (B1/B2); 10 diff cards, worksheet, Failure Modes chi tiết; khung A4.4 + C2.5. Chưa có lần chạy thì không đưa kết quả Eyes vào video hay live |
 
 ---
 
-*Tài liệu lý thuyết nội bộ nhóm T03 — biên soạn từ Seminar Guide, T03 brief, yêu cầu seminar FIT@HCMUS, Tool Survey Proposal và Seminar Scenario Draft.*
+*Tài liệu lý thuyết nội bộ nhóm T03 — biên soạn từ Seminar Guide, T03 brief, yêu cầu seminar FIT@HCMUS, Tool Survey Proposal, Seminar Scenario Draft và Demo_Scenario.md.*
