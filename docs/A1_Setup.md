@@ -87,4 +87,5 @@ Các `testID` đã thêm cho A2. Trên bản Android React Native hiện tại, 
 - Backend trả về 5 sản phẩm; API login chấp nhận tài khoản demo.
 - Expo build APK debug và cài lên AVD `eshop_api34` thành công; app hiển thị danh sách sản phẩm từ backend.
 - Appium 2.19.0 + UiAutomator2 4.2.9 tạo session thành công. XML giao diện có các `testID` trên màn hình Home và Login; Appium bấm được `nav-login` rồi thấy `login-email`, `login-password`, `login-submit`.
+- A2 chạy bằng `npm test` (`node --test`) đạt hai lượt liên tiếp trên AVD Linux ngày 22/10/2026: một lượt sau khi mở lại emulator và một lượt lặp lại. Test chủ động đưa app lên foreground sau khi tạo session để xử lý trường hợp cold start.
 - APK chia sẻ: `.artifacts/eshop-sut-debug.apk` (35 MB), SHA-256 `c94ba67435ff671d6a6ef50bdc144e637ab2cd80523c3a38355afa5c48571509`.

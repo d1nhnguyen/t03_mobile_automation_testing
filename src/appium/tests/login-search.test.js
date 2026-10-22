@@ -16,8 +16,12 @@ test("EShop: đăng nhập rồi tìm iPhone", { timeout: 120_000 }, async () =>
     const home = new HomePage(driver);
     const login = new LoginPage(driver);
 
+    // The debug app may not be foregrounded after a cold emulator boot.
+    // Start it explicitly after Appium has finished creating the session.
+    await driver.terminateApp("com.eshop.sut");
+    await driver.activateApp("com.eshop.sut");
     // A fresh Appium session resets app state (noReset=false in config/session.js).
-    await (await home.loginLink).waitForDisplayed({ timeout: 20_000 });
+    await (await home.loginLink).waitForDisplayed({ timeout: 30_000 });
     await home.openLogin();
     await (await login.screen).waitForDisplayed({ timeout: 10_000 });
 
