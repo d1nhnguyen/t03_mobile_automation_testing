@@ -20,7 +20,8 @@
             "usesCleartextTraffic": true
           }
         }
-      ]
+      ],
+      "expo-detox-config-plugin"
     ],
     "ios": {
       "supportsTablet": true

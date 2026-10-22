@@ -1,0 +1,79 @@
+A4 Detox results, 2026-10-22 (Ubuntu/Linux, eshop_api34, Node 22.23.4, Detox 20.51.4)
+Targeted build: BUILD SUCCESSFUL in 4m 42s; 161 actionable tasks: 53 executed, 108 up-to-date.
+
+===== Warm run after fixing pressBack =====
+> frontend-mobile@1.0.0 detox:test
+> detox test --config-path ../../src/detox/detox.config.js --configuration android.emu.debug --headless --gpu swiftshader_indirect --artifacts-location ../../.artifacts/A4_detox_artifacts
+
+10:53:29.570 detox[20246] B jest --config /home/npdinh/study/software_testing/seminar/t03_mobile_automation_testing/src/detox/jest.config.js
+10:53:36.116 detox[20259] i login-search.test.js is assigned to emulator-18320 (eshop_api34)
+10:53:51.714 detox[20259] i EShop login and product search: signs in and filters products to iPhone
+10:53:56.183 detox[20259] i EShop login and product search: signs in and filters products to iPhone [OK]
+
+PASS ../../src/detox/tests/login-search.test.js (25.174 s)
+  EShop login and product search
+    ✓ signs in and filters products to iPhone (4468 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        25.508 s, estimated 41 s
+Ran all test suites.
+
+===== Warm repeat =====
+> frontend-mobile@1.0.0 detox:test
+> detox test --config-path ../../src/detox/detox.config.js --configuration android.emu.debug --headless --gpu swiftshader_indirect --artifacts-location ../../.artifacts/A4_detox_artifacts
+
+10:54:13.743 detox[20912] B jest --config /home/npdinh/study/software_testing/seminar/t03_mobile_automation_testing/src/detox/jest.config.js
+10:54:19.816 detox[20930] i login-search.test.js is assigned to emulator-18320 (eshop_api34)
+10:54:35.199 detox[20930] i EShop login and product search: signs in and filters products to iPhone
+10:54:39.514 detox[20930] i EShop login and product search: signs in and filters products to iPhone [OK]
+
+PASS ../../src/detox/tests/login-search.test.js (24.547 s)
+  EShop login and product search
+    ✓ signs in and filters products to iPhone (4314 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        24.79 s, estimated 26 s
+Ran all test suites.
+
+===== Cold AVD after targeted build =====
+> frontend-mobile@1.0.0 detox:test
+> detox test --config-path ../../src/detox/detox.config.js --configuration android.emu.debug --headless --gpu swiftshader_indirect --artifacts-location ../../.artifacts/A4_detox_artifacts
+
+11:00:20.098 detox[23978] B jest --config /home/npdinh/study/software_testing/seminar/t03_mobile_automation_testing/src/detox/jest.config.js
+11:00:38.633 detox[23996] i login-search.test.js is assigned to emulator-11932 (eshop_api34)
+11:00:55.302 detox[23996] i EShop login and product search: signs in and filters products to iPhone
+11:00:59.904 detox[23996] i EShop login and product search: signs in and filters products to iPhone [OK]
+
+PASS ../../src/detox/tests/login-search.test.js (38.292 s)
+  EShop login and product search
+    ✓ signs in and filters products to iPhone (4602 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        38.594 s
+Ran all test suites.
+
+===== Appium A2 regression on rebuilt debug APK =====
+> eshop-appium@1.0.0 test
+> node --test
+
+TAP version 13
+# Subtest: EShop: đăng nhập rồi tìm iPhone
+ok 1 - EShop: đăng nhập rồi tìm iPhone
+  ---
+  duration_ms: 30529.414362
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30709.566376
