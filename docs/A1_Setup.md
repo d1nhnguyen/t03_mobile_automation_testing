@@ -90,7 +90,7 @@ npx appium plugin install --source=npm appium-inspector-plugin@2025.3.1   # bả
 npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors
 ```
 
-Mở `http://127.0.0.1:4723/inspector`, nhập capabilities như trong `config/session.js`, Start Session. UiAutomator2 chỉ chạy một instrumentation trên một thiết bị, nên **phải Quit Session trong Inspector trước khi chạy `npm test`**. Bằng chứng phiên thật (ảnh và đoạn code Recorder) được lưu ở `docs/evidence/` khi A2 hoàn tất.
+Mở `http://127.0.0.1:4723/inspector`, nhập capabilities như trong `config/session.js`, Start Session. UiAutomator2 chỉ chạy một instrumentation trên một thiết bị, nên **phải Quit Session trong Inspector trước khi chạy `npm test`**. Bằng chứng phiên thật ngày 23/10/2026: `docs/evidence/A2_inspector_0{1..4}_*.png` và `A2_inspector_recorder_2026-10-23.js` (xem [A2_Test_Design](A2_Test_Design.md) mục 7). Khi tìm phần tử trong Inspector, dùng chiến lược UIAutomator (`new UiSelector().resourceId("...")`); chiến lược Id tự thêm tiền tố package nên không khớp `testID`.
 
 ## 5. Bàn giao
 
