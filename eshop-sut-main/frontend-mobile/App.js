@@ -437,7 +437,7 @@ export default function App() {
             {user ? `Chào, ${user.name}` : "Đăng nhập"}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setView("cart")}>
+        <TouchableOpacity onPress={() => setView("cart")} testID="nav-cart">
           <Text style={styles.navText}>Giỏ ({cart.length})</Text>
         </TouchableOpacity>
       </View>
@@ -471,7 +471,9 @@ export default function App() {
       >
         {item.name}
       </Text>
-      <Text style={styles.productPrice}>{formatMoney(item.price)}</Text>
+      <Text style={styles.productPrice} testID={`product-price-${item.id}`}>
+        {formatMoney(item.price)}
+      </Text>
       <View style={styles.productActions}>
         <TouchableOpacity
           style={[styles.secondaryButton, styles.actionFlex]}
@@ -482,6 +484,7 @@ export default function App() {
         <TouchableOpacity
           style={[styles.button, styles.actionFlex]}
           onPress={() => addToCart(item, 1)}
+          testID={`product-add-${item.id}`}
         >
           <Text style={styles.buttonText}>Thêm vào giỏ</Text>
         </TouchableOpacity>
@@ -603,7 +606,7 @@ export default function App() {
       <View style={styles.paddedFlex}>
         <Text style={styles.header}>Giỏ Hàng</Text>
         {cart.length === 0 ? (
-          <View style={styles.emptyBox}>
+          <View style={styles.emptyBox} testID="cart-empty">
             <Text style={styles.emptyTitle}>Giỏ hàng của bạn đang trống</Text>
             <TouchableOpacity onPress={goHome}>
               <Text style={styles.linkText}>Tiếp tục mua sắm</Text>
@@ -613,9 +616,15 @@ export default function App() {
           <>
             <ScrollView style={styles.cartList}>
               {cart.map((item, index) => (
-                <View key={`${item.id}-${index}`} style={styles.cartItem}>
+                <View
+                  key={`${item.id}-${index}`}
+                  style={styles.cartItem}
+                  testID={`cart-item-${item.id}`}
+                >
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.cartProductName}>{item.name}</Text>
+                    <Text style={styles.cartProductName} testID={`cart-name-${item.id}`}>
+                      {item.name}
+                    </Text>
                     <Text>Giá: {formatMoney(item.price)}</Text>
                     <View style={styles.inlineRow}>
                       <Text>Số lượng:</Text>
@@ -634,18 +643,21 @@ export default function App() {
                         }}
                       />
                     </View>
-                    <Text>
+                    <Text testID={`cart-subtotal-${item.id}`}>
                       Thành tiền: {formatMoney(item.price * item.quantity)}
                     </Text>
                   </View>
-                  <TouchableOpacity onPress={() => removeFromCart(index)}>
+                  <TouchableOpacity
+                    onPress={() => removeFromCart(index)}
+                    testID={`cart-remove-${item.id}`}
+                  >
                     <Text style={styles.deleteText}>Xóa</Text>
                   </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
 
-            <Text style={styles.totalText}>
+            <Text style={styles.totalText} testID="cart-total">
               Tổng tạm tính: {formatMoney(cartTotal)}
             </Text>
             <View style={styles.actionRow}>

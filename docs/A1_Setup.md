@@ -4,7 +4,7 @@ Tài liệu bàn giao cho TV2 (Eyes) và TV3 (User Guide). Chạy các lệnh t�
 
 ## 1. Chuẩn bị
 
-- Node.js 20.19.x trở lên, npm, Java và Android SDK. Với Expo SDK 54, cần Android SDK Platform 36 và Build-Tools 36.0.0; một AVD Android đã tạo. Máy thực hiện A1 dùng AVD `eshop_api34`.
+- Node.js 20.19.x trở lên cho Appium và Expo; riêng plugin Detox (A4) cần Node.js 22.13+. Máy TV1 cài cả hai qua nvm: `nvm use 20` cho các lệnh Appium/Expo trong tài liệu này, `nvm use 22` chỉ khi chạy `detox:build`/`detox:test` theo [A4](A4_Detox.md). Ngoài ra cần npm, Java và Android SDK. Với Expo SDK 54, cần Android SDK Platform 36 và Build-Tools 36.0.0; một AVD Android đã tạo. Máy thực hiện A1 dùng AVD `eshop_api34`.
 - Đặt `ANDROID_HOME` tới thư mục SDK và thêm `platform-tools`, `emulator` vào `PATH`. Ví dụ trên Linux:
 
 ```bash
@@ -71,10 +71,26 @@ Các `testID` đã thêm cho A2. Trên bản Android React Native hiện tại, 
 
 | Màn hình | `testID` |
 |---|---|
-| Thanh điều hướng | `nav-home`, `nav-login`, `nav-profile` |
+| Thanh điều hướng | `nav-home`, `nav-login`, `nav-profile`, `nav-cart` |
 | Login | `login-screen`, `login-email`, `login-password`, `login-submit`, `login-error` |
 | Search | `search-input`, `search-submit`, `search-query`, `search-result-count` |
-| Sản phẩm | `product-card-<id>`, `product-name-<id>` |
+| Sản phẩm | `product-card-<id>`, `product-name-<id>`, `product-price-<id>`, `product-add-<id>` |
+| Giỏ hàng (thêm 22/10 cho luồng tổng tiền) | `cart-empty`, `cart-item-<id>`, `cart-name-<id>`, `cart-subtotal-<id>`, `cart-remove-<id>`, `cart-total` |
+
+Các `testID` này chỉ gắn nhãn phần tử, không đổi hành vi app. Vì là thay đổi JavaScript, Metro nạp lại được mà không cần build lại APK.
+
+### Appium Inspector (plugin web)
+
+Dùng để xem cây giao diện, thử locator và ghi thao tác (Record & Playback). Cài một lần và chạy server kèm plugin:
+
+```bash
+cd src/appium
+export APPIUM_HOME="$PWD/.appium"
+npx appium plugin install --source=npm appium-inspector-plugin@2025.3.1   # bản mới hơn yêu cầu Appium 3
+npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors
+```
+
+Mở `http://127.0.0.1:4723/inspector`, nhập capabilities như trong `config/session.js`, Start Session. UiAutomator2 chỉ chạy một instrumentation trên một thiết bị, nên **phải Quit Session trong Inspector trước khi chạy `npm test`**. Bằng chứng phiên thật (ảnh và đoạn code Recorder) được lưu ở `docs/evidence/` khi A2 hoàn tất.
 
 ## 5. Bàn giao
 
