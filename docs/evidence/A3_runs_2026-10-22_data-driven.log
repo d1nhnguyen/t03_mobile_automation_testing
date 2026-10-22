@@ -1,0 +1,570 @@
+===== RUN 1  2026-10-22T23:46:24+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 32646.647034
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5426.190938
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5277.860513
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 29266.104573
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5186.368193
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 4890.922498
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5328.788334
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 38110.453761
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 100638.122875
+===== RUN 2  2026-10-22T23:48:05+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 30969.297804
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5515.453295
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5649.077768
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 28464.714815
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5112.083044
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 4969.014058
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 4810.296183
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 37973.812514
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98039.914811
+===== RUN 3  2026-10-22T23:49:44+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 30934.850476
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5597.496355
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5446.800592
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 28938.81267
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5000.003184
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5062.902917
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 4994.28331
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 37905.965254
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98413.768465
+===== RUN 4  2026-10-22T23:51:23+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 32495.354185
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5716.86758
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 6108.412331
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 30952.942977
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 4903.212336
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5640.256906
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5050.201414
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 39516.142562
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103727.630712
+===== RUN 5  2026-10-22T23:53:07+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 32167.058235
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5661.942784
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5459.33366
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 29903.180025
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5202.691912
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5891.422069
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5069.877364
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 40392.376368
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103087.501366
+===== RUN 6  2026-10-22T23:54:51+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 33396.838415
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5682.494286
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5520.70236
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 30590.050944
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5176.278223
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5159.425321
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5287.655692
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 40365.617713
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 105006.463285
+===== RUN 7  2026-10-22T23:56:37+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 33909.715324
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5896.112127
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5380.538765
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 30508.992869
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5126.24163
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5215.411251
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 4971.029328
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 39702.213502
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 104693.440361
+===== RUN 8  2026-10-22T23:58:22+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 31487.306782
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5574.688536
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5457.280678
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 29258.412536
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5006.078063
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5122.328281
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5400.633066
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 38244.603358
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 99605.77762
+===== RUN 9  2026-10-23T00:00:02+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 31859.900481
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5503.598412
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5968.955636
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 29868.750849
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5336.633777
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5297.333126
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5029.7639
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 38553.890704
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 101003.565743
+===== RUN 10  2026-10-23T00:01:44+07:00
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+TAP version 13
+# Subtest: EShop: thêm giỏ hàng và kiểm tra tổng tiền
+ok 1 - EShop: thêm giỏ hàng và kiểm tra tổng tiền
+  ---
+  duration_ms: 32458.948526
+  ...
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 5624.954788
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 5377.63007
+      ...
+    1..2
+ok 2 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 29516.843704
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 5174.717043
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 5387.804487
+      ...
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 5412.919296
+      ...
+    1..3
+ok 3 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 39434.235371
+  ...
+1..3
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 102091.431246
