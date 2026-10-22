@@ -81,6 +81,7 @@ Các `testID` đã thêm cho A2. Trên bản Android React Native hiện tại, 
 - TV2 dùng APK, tài khoản demo, cấu hình Appium và ba màn hình baseline cần chọn cho Eyes.
 - TV3 dùng các lệnh đã chạy được ở đây để biên soạn User Guide; không sao chép các bước chưa được kiểm chứng.
 - A2 nằm trong `src/appium/pages/` và `src/appium/tests/`; chạy bằng `npm test` từ `src/appium/`.
+- Số liệu 10 lượt chạy của A3 nằm ở [`A3_Metrics.md`](A3_Metrics.md); kịch bản trình diễn ngắn nằm ở [`Demo_Scenario.md`](../Demo_Scenario.md).
 
 ## 6. Kết quả đã kiểm chứng trên máy TV1
 
