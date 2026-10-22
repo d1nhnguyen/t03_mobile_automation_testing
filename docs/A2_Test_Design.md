@@ -74,4 +74,6 @@ Kết quả TAP mong đợi: `ok 1 … giỏ hàng`, `ok 2 … đăng nhập the
 ## 7. Bằng chứng
 
 - Lượt chạy xanh đầu tiên của bộ data-driven: 22/10/2026 (log trong `docs/evidence/A3_runs_2026-10-22*.log` của chiến dịch đo sau khi mở rộng; xem [A3](A3_Metrics.md)).
-- Ảnh phiên Inspector và đoạn code Recorder: `docs/evidence/A2_inspector_*.png` (bổ sung khi có).
+- Phiên Appium Inspector thật (plugin 2025.3.1, 23/10/2026 00:08–00:11): [`A2_inspector_01_session_home.png`](evidence/A2_inspector_01_session_home.png) (phiên vừa tạo, màn Home), [`A2_inspector_02_login_source.png`](evidence/A2_inspector_02_login_source.png) (sau khi Tap `nav-login`, Recorder đang bật), [`A2_inspector_03_login_email_selected.png`](evidence/A2_inspector_03_login_email_selected.png) (Selected Element: `id = login-email`, selector UiAutomator, `text = test@eshop.com` vừa gửi), [`A2_inspector_04_recorder_code.png`](evidence/A2_inspector_04_recorder_code.png) và [`A2_inspector_recorder_2026-10-23.js`](evidence/A2_inspector_recorder_2026-10-23.js) (code Recorder dạng JS – WebdriverIO).
+- Lưu ý khi dùng tìm kiếm trong Inspector: chiến lược `Id` tự thêm tiền tố package (`com.eshop.sut:id/...`) nên không khớp `testID` của React Native; dùng chiến lược `UIAutomator` với `new UiSelector().resourceId("...")`, đúng như `config/locators.js`.
+- Code Recorder sinh ra dùng `$$` + chỉ số `[0]`, không có wait và không có assertion. Đó là lý do nhóm giữ Page Object và `waitForDisplayed` trong test chính thức.

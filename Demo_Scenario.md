@@ -8,7 +8,7 @@
 
 | Công cụ | Demo cài đặt | Demo chức năng cơ bản | Demo luồng phức tạp | Trạng thái bằng chứng |
 |---|---|---|---|---|
-| Appium 2 | Trình bày bước cài đặt A1 và Appium `/status` báo `ready: true`. Dùng log A1, nói rõ phạm vi đã kiểm chứng là Linux. | Trong Appium Inspector (plugin web), tạo phiên UiAutomator2, xem cây giao diện màn Login, chọn `login-email`, bật Recorder và xem đoạn code sinh ra. Giải thích script dùng `testID` ổn định, ánh xạ sang `resource-id` của Android. | Chạy bộ test data-driven A2: đăng nhập theo bảng (sai mật khẩu → đúng), tìm kiếm theo bảng (1 kết quả, 3 kết quả, 0 kết quả), thêm giỏ hàng và kiểm tra tổng tiền. Chỉ ra assertion nghiệp vụ và kết quả TAP thật. | A1 và bản A2 một truy vấn đã kiểm chứng 22/10. Bản data-driven và giỏ hàng đang triển khai 22/10; Inspector chưa có phiên ghi nhận. Chỉ ghi "đã pass" khi có log/ảnh trong `docs/evidence/`. |
+| Appium 2 | Trình bày bước cài đặt A1 và Appium `/status` báo `ready: true`. Dùng log A1, nói rõ phạm vi đã kiểm chứng là Linux. | Trong Appium Inspector (plugin web), tạo phiên UiAutomator2, xem cây giao diện màn Login, chọn `login-email`, bật Recorder và xem đoạn code sinh ra. Giải thích script dùng `testID` ổn định, ánh xạ sang `resource-id` của Android. | Chạy bộ test data-driven A2: đăng nhập theo bảng (sai mật khẩu → đúng), tìm kiếm theo bảng (1 kết quả, 2 kết quả, 0 kết quả), thêm giỏ hàng và kiểm tra tổng tiền. Chỉ ra assertion nghiệp vụ và kết quả TAP thật. | Đã kiểm chứng 22–23/10: A1; bộ data-driven 3 test / 8 kiểm tra pass 10/10 lượt ([A3](docs/A3_Metrics.md)); phiên Inspector thật có 4 ảnh + code Recorder ([A2](docs/A2_Test_Design.md) mục 7). |
 | Applitools Eyes | Trình bày cài SDK Eyes và cấu hình thật của TV2, kèm lệnh và kết quả thật. | Chạy một visual checkpoint so với baseline đã duyệt và giải thích kết quả. | Chạy cùng luồng trên bản đổi ảnh banner và bản đổi màu/bố cục; phân biệt khác biệt ảnh có chủ đích với regression giao diện thật. | Chờ TV2 làm B1/B2. Không được trình bày kết quả chưa chạy hoặc ảnh dựng. |
 
 Ba mức demo là ba cấp độ học cho từng công cụ: cài đặt, một khả năng cơ bản, một luồng nhiều bước sát thực tế. Đánh dấu từng mức trong video; chi tiết lặp lại được và bằng chứng nằm ở User Guide và báo cáo.
@@ -36,7 +36,7 @@ Nhóm dùng **plugin Inspector chạy trong trình duyệt**, không cần cài 
 
 **Quy tắc bắt buộc về phiên:** UiAutomator2 chỉ chạy một instrumentation trên một thiết bị. Khi phiên Inspector đang mở mà chạy `npm test`, một trong hai phiên sẽ đứt. Vì vậy **đóng phiên Inspector (Quit Session) trước khi chạy test**, và trong phần live chỉ chiếu Inspector từ video đã quay.
 
-**Cổng kiểm soát:** phần Inspector chưa có phiên nào được ghi nhận trong repo. Chỉ nói "đã làm" khi có ảnh `docs/evidence/A2_inspector_*.png` và đoạn code Recorder đã lưu.
+**Bằng chứng đã có (23/10/2026):** phiên Inspector thật với 4 ảnh `docs/evidence/A2_inspector_0{1..4}_*.png` và code Recorder `A2_inspector_recorder_2026-10-23.js`; khi tìm phần tử dùng chiến lược UIAutomator, không dùng Id (tự thêm tiền tố package).
 
 ## Đề cương video (5–8 phút)
 
