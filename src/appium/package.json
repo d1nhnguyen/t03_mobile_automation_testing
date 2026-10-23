@@ -9,7 +9,10 @@
     "test": "node --test --test-concurrency=1"
   },
   "devDependencies": {
+    "@applitools/eyes-webdriverio": "^5.61.14",
     "appium": "2.19.0",
+    "appium-uiautomator2-driver": "^4.2.9",
+    "dotenv": "^18.0.8",
     "webdriverio": "9.32.0"
   }
 }

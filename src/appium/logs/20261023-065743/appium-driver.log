@@ -1,0 +1,13 @@
+
+> eshop-appium@1.0.0 driver:install
+> appium driver install uiautomator2@4.2.9
+
+- Checking if 'appium-uiautomator2-driver' is compatible
+(node:10224) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ Checking if 'appium-uiautomator2-driver' is compatible
+- Installing 'uiautomator2@4.2.9'
+✔ Installing 'uiautomator2@4.2.9'
+ℹ [32mDriver uiautomator2@4.2.9 successfully installed
+[39m- automationName: [32mUiAutomator2[39m
+- platformNames: [32m["Android"][39m
