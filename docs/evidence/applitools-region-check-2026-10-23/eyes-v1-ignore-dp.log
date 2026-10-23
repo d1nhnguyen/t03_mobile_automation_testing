@@ -1,0 +1,46 @@
+TAP version 13
+# ◇ injected env (1) from .env
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+ok 1 - EShop: đăng nhập theo bảng dữ liệu # SKIP test name does not match pattern
+  ---
+  duration_ms: 3.580558
+  ...
+# Eyes: vùng ảnh (dp) = {"left":32,"top":262,"width":347,"height":170}
+# Eyes: vùng ảnh (dp) = {"left":32,"top":291,"width":347,"height":170}
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 10865.725832
+      ...
+# Eyes: vùng ảnh (dp) = {"left":32,"top":291,"width":347,"height":170}
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 11465.279979
+      ...
+# Eyes: không thấy product-image-1, layout region không được gắn
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 10906.824362
+      ...
+# Eyes: Unresolved | Search data-driven | steps 4 (mismatch 3, missing 0) | https://eyes.applitools.com/app/batches/00000251609556800938/00000251609556800809?accountId=<redacted>
+    1..3
+ok 2 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 73712.624234
+  ...
+1..2
+# tests 5
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 74728.227113
+
+real	1m14.893s
+user	0m10.221s
+sys	0m0.599s

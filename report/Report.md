@@ -9,6 +9,15 @@ Appium xác minh việc người dùng làm được và dữ liệu trên màn 
 
 ---
 
+## Quy ước ký hiệu dùng trong tài liệu
+
+| Ký hiệu | Nghĩa |
+|---|---|
+| **base / V1 / V2** | Ba bản giao diện EShop dùng cho visual testing, chọn bằng `EXPO_PUBLIC_UI_VARIANT`. base = bản gốc; **V1** = đổi ảnh sản phẩm 1, bố cục giữ nguyên (thay đổi hợp lệ); **V2** = đổi màu giá, màu nút, lệch vị trí nút và dòng tổng tiền (lỗi giao diện) |
+| **L1, L2 / S1–S3** | Dòng dữ liệu trong `src/appium/data/cases.js`: đăng nhập (sai mật khẩu, đúng) / tìm kiếm (1, 2, 0 kết quả) |
+| **TV1, TV2, TV3** | Ba thành viên nhóm, phụ trách lần lượt Appium–Detox, Applitools–hoạt động lớp, lý thuyết–báo cáo (xem `README.md`) |
+| **A1…A4, B1…B6, C1…C6** | Mã công việc nội bộ trong kế hoạch nhóm; tên file và nội dung tương ứng liệt kê ở `README.md` |
+
 ## 1. Ma trận chọn công cụ
 
 Ma trận dưới đây lấy từ đề xuất S1 (`Tool_Survey_Proposal.md`), đối chiếu ngày 28/09/2026. Detox không nằm trong ma trận S1. Brief T03 yêu cầu đối sánh DX với Appium; PoC đó thuộc chương 2, không phải ứng viên thay Eyes.
@@ -181,7 +190,7 @@ Eyes gắn vào chính bộ test Appium ở chương 2, không có bộ test ri�
 | API key | Đọc từ `APPLITOOLS_API_KEY` (biến môi trường hoặc `src/appium/.env`, file đã nằm trong `.gitignore`) |
 | Khóa baseline | Tên test cố định: `Login data-driven`, `Search data-driven`, `Cart add and total` |
 | Batch | `EShop - base`, `EShop - v1`, `EShop - v2`, đặt bằng `VARIANT_LABEL`; chỉ để nhóm lượt chạy, không đổi baseline |
-| Vùng | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận chưa chạy |
+| Vùng | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận 23/10 cho thấy vùng được gửi nhưng vẫn không có hiệu lực (mục 3.4) |
 | Đóng phiên | `eyes.close(false)`: diff không làm test đỏ trong terminal; mỗi test in `Eyes: <trạng thái> | steps | link` vào TAP, chi tiết xem trên dashboard |
 | Khi không có khoá | `createEyes()` trả về `null`, mọi checkpoint bị bỏ qua, assertion chức năng vẫn chạy đủ (`EYES=off` để tắt chủ động). Lớp functional không phụ thuộc trial Applitools |
 | Chạy | `run-variants.sh` ở gốc repo: mở AVD nếu chưa có emulator (mặc định `eshop_api34`; lần B2 dùng emulator `Medium_Phone_API_37.0` đang chạy sẵn), tắt animation, khởi động lại backend mỗi lượt, build APK lần đầu rồi đổi bản UI bằng cách khởi động lại Metro với `EXPO_PUBLIC_UI_VARIANT`, chạy base hai lần rồi V1, V2 |
@@ -225,7 +234,7 @@ Bản đầu của `docs/B2_Report.md` ghi 19,1297 s, 20,9672 s và 19,2640 s, n
 
 Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không báo checkpoint nào nằm ngoài vùng đã sửa.
 
-**Layout region không được gửi trong lượt V1.** `checkpoints.js` chỉ gọi `layoutRegions` khi `productImage(1)` tồn tại. Hàm đó tìm bằng `id=product-image-1`, trong khi mọi `testID` khác dùng `UiSelector().resourceId(...)`. Trên UiAutomator2, chiến lược `id` thêm tiền tố package (`com.eshop.sut:id/product-image-1`) và không khớp `resource-id` mà React Native ghi ra, nên `isExisting()` sai và nhánh gắn vùng không chạy. Vì vậy V1 vẫn so Strict cả ảnh sản phẩm. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước dashboard, chụp trong step editor, không phải hai lượt chạy. Selector đã đổi sang `byTestId` và thêm cảnh báo khi không thấy phần tử. Lượt chạy lại để xác nhận V1 hết lệch ở vùng ảnh chưa có, nên chưa được ghi là Passed.
+**Layout region không được gửi trong lượt V1.** `checkpoints.js` chỉ gọi `layoutRegions` khi `productImage(1)` tồn tại. Hàm đó tìm bằng `id=product-image-1`, trong khi mọi `testID` khác dùng `UiSelector().resourceId(...)`. Trên UiAutomator2, chiến lược `id` thêm tiền tố package (`com.eshop.sut:id/product-image-1`) và không khớp `resource-id` mà React Native ghi ra, nên `isExisting()` sai và nhánh gắn vùng không chạy. Vì vậy V1 vẫn so Strict cả ảnh sản phẩm. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước dashboard, chụp trong step editor, không phải hai lượt chạy. Selector đã đổi sang `byTestId` và thêm cảnh báo khi không thấy phần tử. Lượt xác nhận ngày 23/10 trên máy TV1 với selector `byTestId` (xem `docs/evidence/applitools-region-check-2026-10-23/`): vùng đã được gắn, nhưng V1 vẫn Unresolved 3/4 ở các bước có ảnh, kể cả khi đổi sang `ignoreRegions` hoặc tự tính toạ độ (dp, trừ status bar, px); base đối chứng Passed và vùng phủ toàn ảnh Passed. Kết luận: vùng khai báo trong code được gửi lên nhưng không trùng vị trí ảnh trên ảnh chụp của Eyes (nguyên nhân chưa xác định, ghi là failure mode); vùng có hiệu lực trong B2 là vùng đặt trên dashboard.
 
 ### 3.5 Ma trận functional × visual
 
@@ -255,7 +264,7 @@ Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không b
 
 1. **Terminal xanh, dashboard vàng.** `eyes.close(false)` không ném lỗi khi có diff (từ 23/10 TAP in thêm dòng `# Eyes: Unresolved | ... | link`, nên không còn im lặng, nhưng exit code vẫn 0). Lượt V2 có `# fail 0` và exit 0, trong khi dashboard báo 6/10 checkpoint lệch. Ai chỉ đọc CI hoặc terminal sẽ cho rằng V2 không có vấn đề.
 2. **Trạng thái theo test che vị trí lệch.** "Login data-driven: Unresolved" ở V1 khiến người đọc nghĩ màn Login đổi, trong khi lệch nằm ở bước Home cuối test. Phải mở từng bước mới biết.
-3. **Vùng viết trong code chưa chắc đã được gửi.** Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng selector `id=` không tìm thấy phần tử, nên Eyes không nhận vùng đó và V1 vẫn lệch ở ảnh sản phẩm. Phải xem log của lượt chạy, không chỉ đọc khai báo.
+3. **Vùng viết trong code chưa chắc có hiệu lực.** Lần đầu, selector `id=` không tìm thấy phần tử nên vùng không được gửi. Sau khi sửa selector, vùng được gửi nhưng V1 vẫn lệch ở ảnh sản phẩm; chỉ vùng phủ toàn ảnh mới Passed (chi tiết `docs/evidence/applitools-region-check-2026-10-23/`). Phải kiểm tra vùng trên dashboard của lượt chạy, không chỉ đọc khai báo hay log.
 
 **Đã quan sát với Appium và Detox**
 
@@ -290,7 +299,7 @@ Còn lại, và không làm được từ repo:
 
 | Việc | Kết quả |
 |------|---------|
-| Vì sao layout region không ăn | Selector `id=` không khớp `testID`. Đã đổi `productImage()` sang `byTestId` và thêm cảnh báo khi không thấy phần tử (`home.page.js`, `checkpoints.js`). Lượt xác nhận vẫn chưa chạy |
+| Vì sao layout region không ăn | Selector `id=` không khớp `testID`. Đã đổi `productImage()` sang `byTestId` và thêm cảnh báo khi không thấy phần tử (`home.page.js`, `checkpoints.js`). Lượt xác nhận 23/10: vùng được gửi nhưng V1 vẫn lệch 3/4; chỉ vùng phủ toàn ảnh Passed. Ghi nhận là failure mode; vùng có hiệu lực đặt trên dashboard |
 | Số liệu và chỗ trống trong `docs/B2_Report.md` | Thời gian lấy từ log (191,297 s / 209,672 s / 192,640 s). Bỏ dòng `checkout-flow.test.js` vì file không tồn tại. Mục 9 đã điền từ bốn lượt đã chạy. Mục 10 ghi có/không theo file thật |
 | Nguồn lỗi `adb_shell` và `Method is not implemented` | Cả hai do SDK Eyes, không do test của nhóm. `mobile:shell` hỏi `dumpsys window ... mCurrentRotation`; Appium chặn vì chưa bật insecure feature. Lệnh `execute/sync` còn lại là đoạn JS dò DOM trình duyệt (`applitools-marker`), UiAutomator2 trả 405 vì app là native. Checkpoint vẫn được chụp, base lần 2 vẫn Passed. `npm run server` đã thêm `--allow-insecure=uiautomator2:adb_shell` để lần sau hết lỗi xoay màn hình. Lỗi 405 trên app native là nhiễu, không sửa bằng cờ đó |
 | Đối chiếu deck và bằng chứng B2 | Worksheet căn theo slide 6 và slide 7. Phụ lục B2 không còn ô trống |

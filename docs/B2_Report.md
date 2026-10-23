@@ -96,7 +96,7 @@ Tên batch trên dashboard: `EShop - base`, `EShop - v1`, `EShop - v2` (đặt b
 | Lần chạy | Functional (assert) | Visual (Eyes) | Checkpoint lệch | Thời gian chạy | Kết luận |
 |---|---|---|---|---|---|
 | Base lần 2 | Pass (8/8) | Pass 3/3 | 0/10 | 191,297 s | Đối chứng |
-| V1 | Pass (8/8) | Unresolved (3/3) | 5/10 | 209,672 s | Ảnh sản phẩm đổi có chủ đích; Eyes vẫn báo lệch vì layout region không được gắn (mục 7) |
+| V1 | Pass (8/8) | Unresolved (3/3) | 5/10 | 209,672 s | Ảnh sản phẩm đổi có chủ đích; Eyes vẫn báo lệch vì vùng layout trong code không có hiệu lực (mục 7) |
 | V2 | Pass (8/8) | Unresolved (3/3) | 6/10 | 192,640 s | True regression: màu, vị trí nút và căn lề tổng tiền lệch; Appium vẫn pass |
 
 Thời gian lấy từ `duration_ms` trong log (`base-2-verify.log` 191297, `v1.log` 209672, `v2.log` 192640). Bản trước ghi 19,1297 s, 20,9672 s và 19,2640 s, lệch đúng một dấu thập phân. Base lần 1 (tạo baseline) mất 198,578 s và cũng `# pass 8` `# fail 0`.
@@ -121,7 +121,7 @@ Thời gian lấy từ `duration_ms` trong log (`base-2-verify.log` 191297, `v1.
 
 **False positive** là trường hợp công cụ báo khác biệt nhưng đó **không phải lỗi**.
 
-- Ca trong thực nghiệm: V1. Ảnh sản phẩm 1 đổi, khung giữ nguyên, nhưng Eyes vẫn Unresolved ở các bước có sản phẩm đó. `checkpoints.js` có `layoutRegions`, nhưng `productImage()` tìm bằng `id=product-image-1`. Chiến lược `id` của UiAutomator2 thêm tiền tố package (`com.eshop.sut:id/...`) và không khớp `testID` của React Native, nên `isExisting()` trả về sai và vùng Layout không được gửi lên Eyes. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước trên dashboard (cùng URL step), chụp trong step editor, không phải hai lượt chạy.
+- Ca trong thực nghiệm: V1. Ảnh sản phẩm 1 đổi, khung giữ nguyên, nhưng Eyes vẫn Unresolved ở các bước có sản phẩm đó. `checkpoints.js` có `layoutRegions`, nhưng `productImage()` tìm bằng `id=product-image-1`. Chiến lược `id` của UiAutomator2 thêm tiền tố package (`com.eshop.sut:id/...`) và không khớp `testID` của React Native, nên `isExisting()` trả về sai và vùng Layout không được gửi lên Eyes. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước trên dashboard (cùng URL step), chụp trong step editor, không phải hai lượt chạy. Lượt xác nhận ngày 23/10 trên máy TV1 với selector `byTestId` (xem `docs/evidence/applitools-region-check-2026-10-23/`): vùng đã được gắn, nhưng V1 vẫn Unresolved 3/4 ở các bước có ảnh, kể cả khi đổi sang `ignoreRegions` hoặc tự tính toạ độ (dp, trừ status bar, px); base đối chứng Passed và vùng phủ toàn ảnh Passed. Kết luận: vùng khai báo trong code được gửi lên nhưng không trùng vị trí ảnh trên ảnh chụp của Eyes (nguyên nhân chưa xác định, ghi là failure mode); vùng có hiệu lực trong B2 là vùng đặt trên dashboard.
 - Cách xử lý: selector đã đổi sang `byTestId` (cùng `UiSelector().resourceId` với các `testID` khác). Lượt chạy lại để xác nhận V1 hết lệch ở vùng ảnh **chưa có**. Trước lượt đó, cách xử lý đã kiểm chứng chỉ là Accept thủ công nếu thay đổi là chủ ý.
 - Các nguồn false positive thường gặp khác: giờ ở status bar, dữ liệu động, ảnh chưa tải xong lúc chụp, bàn phím ảo che màn hình, animation đang chạy.
 

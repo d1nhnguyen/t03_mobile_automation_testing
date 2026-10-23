@@ -11,6 +11,15 @@
 
 ---
 
+## Quy ước ký hiệu dùng trong tài liệu
+
+| Ký hiệu | Nghĩa |
+|---|---|
+| **base / V1 / V2** | Ba bản giao diện EShop dùng cho visual testing, chọn bằng `EXPO_PUBLIC_UI_VARIANT`. base = bản gốc; **V1** = đổi ảnh sản phẩm 1, bố cục giữ nguyên (thay đổi hợp lệ); **V2** = đổi màu giá, màu nút, lệch vị trí nút và dòng tổng tiền (lỗi giao diện) |
+| **L1, L2 / S1–S3** | Dòng dữ liệu trong `src/appium/data/cases.js`: đăng nhập (sai mật khẩu, đúng) / tìm kiếm (1, 2, 0 kết quả) |
+| **TV1, TV2, TV3** | Ba thành viên nhóm, phụ trách lần lượt Appium–Detox, Applitools–hoạt động lớp, lý thuyết–báo cáo (xem `README.md`) |
+| **A1…A4, B1…B6, C1…C6** | Mã công việc nội bộ trong kế hoạch nhóm; tên file và nội dung tương ứng liệt kê ở `README.md` |
+
 ## 1. Giới thiệu
 
 ### 1.1 Hướng dẫn này để làm gì
@@ -462,7 +471,7 @@ Thứ tự trong mã: `eyes.open(driver, "EShop", "<tên test cố định>")` �
 | Lần chạy | Functional | Visual (Eyes) | Kết luận |
 |----------|------------|---------------|----------|
 | Base lần 2 | Pass 8/8 | Pass 3/3 test | Đối chứng ổn định |
-| V1 | Pass 8/8 | Unresolved 3/3 (5/10 checkpoint lệch) | False positive nếu coi đổi ảnh là lỗi; giảm bằng layout region trên ảnh sản phẩm |
+| V1 | Pass 8/8 | Unresolved 3/3 (5/10 checkpoint lệch) | False positive nếu coi đổi ảnh là lỗi; giảm bằng vùng Layout/Ignore đặt trên dashboard (vùng khai báo trong code chưa có hiệu lực, mục 6) |
 | V2 | Pass 8/8 | Unresolved 3/3 (6/10 checkpoint lệch) | True regression: Appium bỏ sót, Eyes bắt màu và lệch bố cục |
 
 Ảnh so sánh: `v1_home_with_layout_region.png`, `v1_home_without_layout_region.png`, `v2_home_step.png`, `v2_cart_with_item_step.png` trong `docs/evidence/B1_B2_applitools-dashboard/`.
@@ -480,7 +489,7 @@ Script mở emulator mặc định `eshop_api34`, tắt animation, restart backe
 
 | Thay đổi | Test chức năng | Test giao diện | Cách xử lý sau khi có diff |
 |----------|----------------|----------------|----------------------------|
-| Ảnh sản phẩm đổi, khung giữ (V1) | Pass | Unresolved nếu so Strict toàn vùng ảnh | Accept nếu chủ ý; hoặc layout region trên `product-image-1` |
+| Ảnh sản phẩm đổi, khung giữ (V1) | Pass | Unresolved nếu so Strict toàn vùng ảnh | Accept nếu chủ ý; hoặc đặt vùng Layout trên ảnh trong dashboard |
 | Màu / vị trí nút / tổng tiền lệch (V2) | Pass | Unresolved | Reject, sửa app. Không bỏ qua vùng giá và nút |
 
 ### 4.6 Vùng bỏ qua và người được cập nhật baseline
@@ -629,7 +638,7 @@ Các fail Appium/Detox sau đã tái lập, đã sửa trong test, và không t�
 
 Sau các sửa đó, chiến dịch 2 của A3 ghi 10/10 lượt với `# fail 0`. A3 cũng nói mười lượt không ước lượng tỷ lệ flake dài hạn.
 
-Phía Eyes, V1 Unresolved khi đổi ảnh sản phẩm là **false positive** nếu coi đó là lỗi: thay đổi có chủ đích, khung giữ nguyên. `checkpoints.js` có gọi `layoutRegions`, nhưng `productImage()` lúc chạy B2 tìm bằng `id=product-image-1`. Chiến lược `id` của UiAutomator2 thêm tiền tố package và không khớp `testID`, nên vùng Layout không được gửi. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước trên dashboard, không phải hai lượt chạy. Selector đã đổi sang `byTestId`; lượt xác nhận chưa chạy. Ignore cả cửa sổ để Eyes xanh sẽ che regression kiểu V2.
+Phía Eyes, V1 Unresolved khi đổi ảnh sản phẩm là **false positive** nếu coi đó là lỗi: thay đổi có chủ đích, khung giữ nguyên. `checkpoints.js` có gọi `layoutRegions`, nhưng `productImage()` lúc chạy B2 tìm bằng `id=product-image-1`. Chiến lược `id` của UiAutomator2 thêm tiền tố package và không khớp `testID`, nên vùng Layout không được gửi. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước trên dashboard, không phải hai lượt chạy. Selector đã đổi sang `byTestId`. Lượt xác nhận ngày 23/10 trên máy TV1 với selector `byTestId` (xem `docs/evidence/applitools-region-check-2026-10-23/`): vùng đã được gắn, nhưng V1 vẫn Unresolved 3/4 ở các bước có ảnh, kể cả khi đổi sang `ignoreRegions` hoặc tự tính toạ độ (dp, trừ status bar, px); base đối chứng Passed và vùng phủ toàn ảnh Passed. Kết luận: vùng khai báo trong code được gửi lên nhưng không trùng vị trí ảnh trên ảnh chụp của Eyes (nguyên nhân chưa xác định, ghi là failure mode); vùng có hiệu lực trong B2 là vùng đặt trên dashboard. Ignore cả cửa sổ để Eyes xanh sẽ che regression kiểu V2.
 
 ### 6.3 Câu trên màn hình, hoặc ảnh “đẹp”, là oracle yếu hơn
 

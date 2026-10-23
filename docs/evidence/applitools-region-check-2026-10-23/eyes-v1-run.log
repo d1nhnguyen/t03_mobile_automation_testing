@@ -1,0 +1,55 @@
+TAP version 13
+# ◇ injected env (1) from .env
+# Subtest: EShop: đăng nhập theo bảng dữ liệu
+    # Subtest: L1 sai mật khẩu
+    ok 1 - L1 sai mật khẩu
+      ---
+      duration_ms: 11073.278355
+      ...
+    # Subtest: L2 đúng tài khoản
+    ok 2 - L2 đúng tài khoản
+      ---
+      duration_ms: 18126.615045
+      ...
+# Eyes: Unresolved | Login data-driven | steps 3 (mismatch 1, missing 0) | https://eyes.applitools.com/app/batches/00000251609557503567/00000251609557503446?accountId=<redacted>
+    1..2
+ok 1 - EShop: đăng nhập theo bảng dữ liệu
+  ---
+  duration_ms: 73004.595242
+  ...
+# Subtest: EShop: tìm kiếm theo bảng dữ liệu
+    # Subtest: S1 "iPhone" → 1 sản phẩm
+    ok 1 - S1 "iPhone" → 1 sản phẩm
+      ---
+      duration_ms: 14151.514824
+      ...
+    # Subtest: S2 "Pro M" → 2 sản phẩm
+    ok 2 - S2 "Pro M" → 2 sản phẩm
+      ---
+      duration_ms: 14915.397299
+      ...
+# Eyes: không thấy product-image-1, layout region không được gắn
+    # Subtest: S3 "Nokia 3310" → 0 sản phẩm
+    ok 3 - S3 "Nokia 3310" → 0 sản phẩm
+      ---
+      duration_ms: 10587.834256
+      ...
+# Eyes: Unresolved | Search data-driven | steps 4 (mismatch 3, missing 0) | https://eyes.applitools.com/app/batches/00000251609557427066/00000251609557426939?accountId=<redacted>
+    1..3
+ok 2 - EShop: tìm kiếm theo bảng dữ liệu
+  ---
+  duration_ms: 89638.018151
+  ...
+1..2
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 163619.697621
+
+real	2m43.837s
+user	0m15.438s
+sys	0m0.844s
