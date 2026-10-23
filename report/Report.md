@@ -1,47 +1,42 @@
 <div align="center">
-
-**ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH**  
-**TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN**  
-**KHOA CÔNG NGHỆ THÔNG TIN**
-
+<p>
+<b>ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH</b><br/>
+<b>TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN</b><br/>
+<b>KHOA CÔNG NGHỆ THÔNG TIN</b>
+</p>
 <br/>
-
-# BÁO CÁO
-
-**MÔN: KIỂM CHỨNG PHẦN MỀM**  
-**(CS423 / CSC15003 — AI-First 2026)**
-
-## SEMINAR T03 — MOBILE AUTOMATION TESTING
-
-**Appium 2 + UiAutomator2 · Applitools Eyes · đối sánh Detox**  
-**SUT:** EShop React Native Expo (`com.eshop.sut`)
-
+<h1>BÁO CÁO</h1>
+<p>
+<b>MÔN: KIỂM CHỨNG PHẦN MỀM</b><br/>
+<b>(CS423 / CSC15003 — AI-First 2026)</b>
+</p>
+<h2>SEMINAR T03 — MOBILE AUTOMATION TESTING</h2>
+<p>
+<b>Appium 2 + UiAutomator2 · Applitools Eyes · đối sánh Detox</b><br/>
+<b>SUT:</b> EShop React Native Expo (<code>com.eshop.sut</code>)
+</p>
 <br/>
-
-| | |
-|---|---|
-| **Giảng viên hướng dẫn** | TS. Lâm Quang Vũ |
-| | ThS. Trần Thị Bích Hạnh *(TH / EShop)* |
-| **Sinh viên thực hiện** | Nguyễn Phú Dinh — 23120031 |
-| | Nguyễn Hải Đăng — 23120027 |
-| | Ứng Thị Thùy Dương — 23120034 |
-| **Lớp** | CS423 / CSC15003 |
-
+<table>
+<tr><td><b>Giảng viên hướng dẫn</b></td><td>TS. Lâm Quang Vũ</td></tr>
+<tr><td></td><td>ThS. Trần Thị Bích Hạnh <i>(TH / EShop)</i></td></tr>
+<tr><td><b>Sinh viên thực hiện</b></td><td>Nguyễn Phú Dinh — 23120031</td></tr>
+<tr><td></td><td>Nguyễn Hải Đăng — 23120027</td></tr>
+<tr><td></td><td>Ứng Thị Thùy Dương — 23120034</td></tr>
+<tr><td><b>Lớp</b></td><td>CS423 / CSC15003</td></tr>
+</table>
 <br/>
-
-**Thành phố Hồ Chí Minh — 2026**
-
+<p><b>Thành phố Hồ Chí Minh — 2026</b></p>
 </div>
 
 ---
 
 ## DANH SÁCH PHÂN CÔNG THÀNH VIÊN
 
-| STT | MSSV | Họ và tên | Nhiệm vụ | Hoàn thành |
-|-----|------|-----------|----------|------------|
-| 1 | 23120031 | Nguyễn Phú Dinh | Khảo sát S1; cài đặt Appium (A1); bộ test data-driven login/search/cart (A2); đo thời gian và flake (A3); PoC Detox (A4); kịch bản và video demo | ~90% |
-| 2 | 23120027 | Nguyễn Hải Đăng | Tích hợp Applitools Eyes (B1); hai bản UI có kiểm soát base/V1/V2 (B2); 10 thẻ diff và worksheet hoạt động lớp (B4) | ~90% |
-| 3 | 23120034 | Ứng Thị Thùy Dương | Lý thuyết; báo cáo `report/Report.md`; `User_Guide.md`; khai báo AI; kịch bản demo; slide tổng hợp | ~90% |
+| STT | MSSV     | Họ và tên          | Nhiệm vụ                                                                                                                                         | Hoàn thành |
+| --- | -------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
+| 1   | 23120031 | Nguyễn Phú Dinh    | Khảo sát S1; cài đặt Appium (A1); bộ test data-driven login/search/cart (A2); đo thời gian và flake (A3); PoC Detox (A4); kịch bản và video demo | ~90%       |
+| 2   | 23120027 | Nguyễn Hải Đăng    | Tích hợp Applitools Eyes (B1); hai bản UI có kiểm soát base/V1/V2 (B2); 10 thẻ diff và worksheet hoạt động lớp (B4)                              | ~90%       |
+| 3   | 23120034 | Ứng Thị Thùy Dương | Lý thuyết; báo cáo `report/Report.md`; `User_Guide.md`; khai báo AI; kịch bản demo; slide tổng hợp                                               | ~90%       |
 
 ---
 
@@ -86,22 +81,22 @@ Appium xác minh việc người dùng làm được và dữ liệu trên màn 
 
 ## Quy ước ký hiệu dùng trong tài liệu
 
-| Ký hiệu | Nghĩa |
-|---|---|
-| **base / V1 / V2** | Ba bản giao diện EShop dùng cho visual testing, chọn bằng `EXPO_PUBLIC_UI_VARIANT`. base = bản gốc; **V1** = đổi ảnh sản phẩm 1, bố cục giữ nguyên (thay đổi hợp lệ); **V2** = đổi màu giá, màu nút, lệch vị trí nút và dòng tổng tiền (lỗi giao diện) |
-| **L1, L2 / S1–S3** | Dòng dữ liệu trong `src/appium/data/cases.js`: đăng nhập (sai mật khẩu, đúng) / tìm kiếm (1, 2, 0 kết quả) |
-| **TV1, TV2, TV3** | Ba thành viên nhóm, phụ trách lần lượt Appium–Detox, Applitools–hoạt động lớp, lý thuyết–báo cáo (xem `README.md`) |
-| **A1…A4, B1…B6, C1…C6** | Mã công việc nội bộ trong kế hoạch nhóm; tên file và nội dung tương ứng liệt kê ở `README.md` |
+| Ký hiệu                 | Nghĩa                                                                                                                                                                                                                                                  |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **base / V1 / V2**      | Ba bản giao diện EShop dùng cho visual testing, chọn bằng `EXPO_PUBLIC_UI_VARIANT`. base = bản gốc; **V1** = đổi ảnh sản phẩm 1, bố cục giữ nguyên (thay đổi hợp lệ); **V2** = đổi màu giá, màu nút, lệch vị trí nút và dòng tổng tiền (lỗi giao diện) |
+| **L1, L2 / S1–S3**      | Dòng dữ liệu trong `src/appium/data/cases.js`: đăng nhập (sai mật khẩu, đúng) / tìm kiếm (1, 2, 0 kết quả)                                                                                                                                             |
+| **TV1, TV2, TV3**       | Ba thành viên nhóm, phụ trách lần lượt Appium–Detox, Applitools–hoạt động lớp, lý thuyết–báo cáo (xem `README.md`)                                                                                                                                     |
+| **A1…A4, B1…B6, C1…C6** | Mã công việc nội bộ trong kế hoạch nhóm; tên file và nội dung tương ứng liệt kê ở `README.md`                                                                                                                                                          |
 
 ## 1. Ma trận chọn công cụ
 
 Ma trận dưới đây lấy từ đề xuất S1 (`Tool_Survey_Proposal.md`), đối chiếu ngày 28/09/2026. Detox không nằm trong ma trận S1. Brief T03 yêu cầu đối sánh DX với Appium; PoC đó thuộc chương 2, không phải ứng viên thay Eyes.
 
-| Công cụ | Chi phí bản quyền | Độ khó học | Mức phù hợp với EShop | Khả năng AI | Cộng đồng |
-|---------|-------------------|------------|------------------------|-------------|-----------|
-| **Appium 2 + UiAutomator2** *(truyền thống)* | Miễn phí, Apache-2.0 | Trung bình-cao; cần Node.js, JDK, Android SDK và WebDriver | **Cao:** Android native, emulator, thiết bị thật và device farm | Không tích hợp AI; thao tác và assertion xác định | **Rất lớn:** khoảng 22 nghìn sao GitHub; driver và Inspector chính thức |
-| **Applitools Eyes** *(AI-augmented)* | Thương mại; Starter 667 USD/tháng khi trả theo năm; trial 14 ngày | Trung bình; gắn được vào Appium, nhưng phải quản lý baseline và ignore region | **Rất cao:** thêm visual checkpoint vào cùng luồng Appium | Visual AI phát hiện lệch bố cục/nội dung và giảm nhiễu kết xuất | Tài liệu và SDK do hãng duy trì; tích hợp hơn 50 framework |
-| **Maestro CLI + AI assertions** *(dự phòng)* | CLI/Studio cục bộ miễn phí, mã nguồn mở; Cloud cần gói hoặc trial | Thấp-trung bình; YAML dễ đọc, tự chờ | **Rất cao:** React Native, Expo, emulator và thiết bị thật | `assertWithAI`, `assertNoDefectsWithAI`, còn thử nghiệm | **Lớn:** khoảng 15,6 nghìn sao GitHub |
+| Công cụ                                      | Chi phí bản quyền                                                 | Độ khó học                                                                    | Mức phù hợp với EShop                                           | Khả năng AI                                                     | Cộng đồng                                                               |
+| -------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Appium 2 + UiAutomator2** _(truyền thống)_ | Miễn phí, Apache-2.0                                              | Trung bình-cao; cần Node.js, JDK, Android SDK và WebDriver                    | **Cao:** Android native, emulator, thiết bị thật và device farm | Không tích hợp AI; thao tác và assertion xác định               | **Rất lớn:** khoảng 22 nghìn sao GitHub; driver và Inspector chính thức |
+| **Applitools Eyes** _(AI-augmented)_         | Thương mại; Starter 667 USD/tháng khi trả theo năm; trial 14 ngày | Trung bình; gắn được vào Appium, nhưng phải quản lý baseline và ignore region | **Rất cao:** thêm visual checkpoint vào cùng luồng Appium       | Visual AI phát hiện lệch bố cục/nội dung và giảm nhiễu kết xuất | Tài liệu và SDK do hãng duy trì; tích hợp hơn 50 framework              |
+| **Maestro CLI + AI assertions** _(dự phòng)_ | CLI/Studio cục bộ miễn phí, mã nguồn mở; Cloud cần gói hoặc trial | Thấp-trung bình; YAML dễ đọc, tự chờ                                          | **Rất cao:** React Native, Expo, emulator và thiết bị thật      | `assertWithAI`, `assertNoDefectsWithAI`, còn thử nghiệm         | **Lớn:** khoảng 15,6 nghìn sao GitHub                                   |
 
 **Quyết định S1:** Appium 2 + UiAutomator2 làm lớp chức năng, Applitools Eyes làm lớp giao diện, Maestro chỉ khi trial Eyes không phủ S3–S6 và giảng viên chấp thuận.
 
@@ -119,13 +114,13 @@ Một lệnh đi qua năm tầng: test WebdriverIO → Appium Server → driver 
 
 Session trong `src/appium/config/session.js`:
 
-| Capability | Giá trị |
-|------------|---------|
-| `platformName` | `Android` |
-| `appium:automationName` | `UiAutomator2` |
-| `appium:app` | APK debug, hoặc `ESHOP_APK_PATH` |
-| `appium:appPackage` | `com.eshop.sut` |
-| `appium:noReset` | `false` |
+| Capability              | Giá trị                          |
+| ----------------------- | -------------------------------- |
+| `platformName`          | `Android`                        |
+| `appium:automationName` | `UiAutomator2`                   |
+| `appium:app`            | APK debug, hoặc `ESHOP_APK_PATH` |
+| `appium:appPackage`     | `com.eshop.sut`                  |
+| `appium:noReset`        | `false`                          |
 
 `noReset: false` reset app lúc mở và đóng phiên, nên dữ liệu giỏ của phiên trước không còn.
 
@@ -135,33 +130,33 @@ Session trong `src/appium/config/session.js`:
 
 Trong Inspector, chiến lược Id tự thêm tiền tố package (`com.eshop.sut:id/...`) và không khớp các id này. Chiến lược dùng được là UIAutomator: `new UiSelector().resourceId("login-email")`. Phiên Inspector ngày 23/10/2026 chọn đúng `login-email`; bốn ảnh và file Recorder nằm ở `docs/evidence/`. Code Recorder dùng `$$(...)[0]`, không có wait và không có assertion, nên test chính thức giữ Page Object.
 
-| Màn hình | `testID` |
-|----------|----------|
-| Điều hướng | `nav-home`, `nav-login`, `nav-profile`, `nav-cart` |
-| Đăng nhập | `login-screen`, `login-email`, `login-password`, `login-submit`, `login-error` |
-| Tìm kiếm | `search-input`, `search-submit`, `search-query`, `search-result-count` |
-| Sản phẩm | `product-card-<id>`, `product-name-<id>`, `product-price-<id>`, `product-add-<id>` |
-| Giỏ | `cart-empty`, `cart-item-<id>`, `cart-name-<id>`, `cart-subtotal-<id>`, `cart-remove-<id>`, `cart-total` |
+| Màn hình   | `testID`                                                                                                 |
+| ---------- | -------------------------------------------------------------------------------------------------------- |
+| Điều hướng | `nav-home`, `nav-login`, `nav-profile`, `nav-cart`                                                       |
+| Đăng nhập  | `login-screen`, `login-email`, `login-password`, `login-submit`, `login-error`                           |
+| Tìm kiếm   | `search-input`, `search-submit`, `search-query`, `search-result-count`                                   |
+| Sản phẩm   | `product-card-<id>`, `product-name-<id>`, `product-price-<id>`, `product-add-<id>`                       |
+| Giỏ        | `cart-empty`, `cart-item-<id>`, `cart-name-<id>`, `cart-subtotal-<id>`, `cart-remove-<id>`, `cart-total` |
 
 Detox trên cùng app dùng `by.id()` với đúng các `testID` đó, không đi qua `UiSelector`.
 
 ### 2.3 Ba khối automation trên bộ test A2
 
-| Khối | Trong repo |
-|------|------------|
-| Record & Playback | Inspector plugin `2025.3.1` khám phá cây UI và ghi bước. Bản ghi là nháp |
-| Data-driven | `src/appium/data/cases.js`: đăng nhập L1→L2, tìm kiếm S1–S3, một ca giỏ hàng. Thêm dòng không cần sửa assertion |
-| Checkpoint | Thông báo lỗi, tên người dùng, số kết quả, tên sản phẩm có hoặc vắng, thành tiền và tổng theo chữ số |
+| Khối              | Trong repo                                                                                                      |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| Record & Playback | Inspector plugin `2025.3.1` khám phá cây UI và ghi bước. Bản ghi là nháp                                        |
+| Data-driven       | `src/appium/data/cases.js`: đăng nhập L1→L2, tìm kiếm S1–S3, một ca giỏ hàng. Thêm dòng không cần sửa assertion |
+| Checkpoint        | Thông báo lỗi, tên người dùng, số kết quả, tên sản phẩm có hoặc vắng, thành tiền và tổng theo chữ số            |
 
 Dữ liệu đã chạy:
 
-| ID | Đầu vào | Kỳ vọng đã assert |
-|----|---------|-------------------|
-| L1 | `test@eshop.com` / `SaiMatKhau-1` | Còn màn Login, `login-error` chứa "Đăng nhập thất bại" |
-| L2 | cùng email / `Test1234!` | "Chào, Test User" |
-| S1 | `iPhone` | 1 kết quả, `iPhone 15 Pro Max` |
-| S2 | `Pro M` | 2 kết quả, gồm iPhone 15 Pro Max và MacBook Pro M3 |
-| S3 | `Nokia 3310` | 0 kết quả: dòng đếm biến mất, năm sản phẩm không còn |
+| ID  | Đầu vào                                   | Kỳ vọng đã assert                                                      |
+| --- | ----------------------------------------- | ---------------------------------------------------------------------- |
+| L1  | `test@eshop.com` / `SaiMatKhau-1`         | Còn màn Login, `login-error` chứa "Đăng nhập thất bại"                 |
+| L2  | cùng email / `Test1234!`                  | "Chào, Test User"                                                      |
+| S1  | `iPhone`                                  | 1 kết quả, `iPhone 15 Pro Max`                                         |
+| S2  | `Pro M`                                   | 2 kết quả, gồm iPhone 15 Pro Max và MacBook Pro M3                     |
+| S3  | `Nokia 3310`                              | 0 kết quả: dòng đếm biến mất, năm sản phẩm không còn                   |
 | Giỏ | iPhone 15 Pro Max, 30.000.000, thêm 2 lần | Chữ số `60000000` ở thành tiền và tổng; xoá dòng thì `cart-empty` hiện |
 
 `npm test` là `node --test --test-concurrency=1`: ba test, mỗi test một phiên, vì UiAutomator2 chỉ một instrumentation trên một thiết bị. TAP kỳ vọng `# pass 8`, `# fail 0` (3 test và 5 subtest).
@@ -193,12 +188,12 @@ PoC Detox, từ `eshop-sut-main/frontend-mobile` với Node 22.13+: `npm ci`, `n
 
 Hai chiến dịch cùng máy, cùng AVD, cùng Appium 2.19.0 và UiAutomator2 4.2.9. Chúng đo hai phiên bản test khác nhau, không so thời gian giữa hai bảng. Mười lượt không đủ để kết luận xác suất flaky dài hạn. Log và CSV ở `docs/evidence/`.
 
-| | Chiến dịch 1 — sáng 22/10 | Chiến dịch 2 — tối 22/10 |
-|--|----------------------------|---------------------------|
-| Bản test | Commit `865deea`, một ca đăng nhập + tìm `iPhone` | Bộ data-driven A2: 3 phiên, 3 test, 8 kiểm tra TAP |
-| Kết quả | 10/10 đạt, flake quan sát 0/10 | 10/10 đạt, `# pass 8` `# fail 0`, flake quan sát 0/10 |
+|                    | Chiến dịch 1 — sáng 22/10                                      | Chiến dịch 2 — tối 22/10                                          |
+| ------------------ | -------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Bản test           | Commit `865deea`, một ca đăng nhập + tìm `iPhone`              | Bộ data-driven A2: 3 phiên, 3 test, 8 kiểm tra TAP                |
+| Kết quả            | 10/10 đạt, flake quan sát 0/10                                 | 10/10 đạt, `# pass 8` `# fail 0`, flake quan sát 0/10             |
 | Thời gian một lượt | Trung bình 30,559 s; trung vị 30,496 s; khoảng 29,751–31,734 s | Trung bình 102,284 s; trung vị 102,238 s; khoảng 98,729–105,646 s |
-| Setup | Bốn dịch vụ sẵn sàng trong 20,219 s | Dùng lại dịch vụ đã chạy, không đo lại |
+| Setup              | Bốn dịch vụ sẵn sàng trong 20,219 s                            | Dùng lại dịch vụ đã chạy, không đo lại                            |
 
 Thời gian tăng lên khoảng 102 s vì mỗi lượt tạo ba phiên và `noReset: false` cài lại app (khoảng 25–30 s mỗi phiên), cộng thêm ba lần tìm và bước giỏ. Hai lỗi trước chiến dịch 2 — bàn phím che "Thêm vào giỏ", Alert nuốt cú bấm thứ hai — đã sửa trong test và không tính vào 10/10.
 
@@ -208,13 +203,13 @@ PoC ở `src/detox/tests/login-search.test.js` đăng nhập tài khoản mẫu,
 
 Ngày 22/10/2026, build Gradle rút gọn `BUILD SUCCESSFUL` trong 4 phút 42 giây. Ba lượt sau khi bỏ `pressBack()` đều 1/1 test; Jest báo 25,508 s, 24,790 s và 38,594 s. Lượt nháp đầu đóng activity vì `pressBack()` đứng sau `replaceText()`.
 
-| Khía cạnh | Appium A2 | Detox A4 |
-|-----------|-----------|----------|
-| Chuẩn bị | Server 2.19.0, driver 4.2.9, APK debug, Metro | Thêm instrumentation, APK test, Jest, Node 22.13+ |
-| Locator | `UiSelector().resourceId` | `by.id` trên cùng `testID` |
-| Chờ | `waitForDisplayed` / `waitUntil` | Tự chờ idle; vẫn `waitFor` khi đợi API |
-| State sạch | `noReset: false`, rồi `terminateApp` + `activateApp` | `device.launchApp({ delete: true })` |
-| Vướng đã gặp | Cold start không đưa app lên foreground | `pressBack()` đóng activity; build native tốn đĩa |
+| Khía cạnh    | Appium A2                                            | Detox A4                                          |
+| ------------ | ---------------------------------------------------- | ------------------------------------------------- |
+| Chuẩn bị     | Server 2.19.0, driver 4.2.9, APK debug, Metro        | Thêm instrumentation, APK test, Jest, Node 22.13+ |
+| Locator      | `UiSelector().resourceId`                            | `by.id` trên cùng `testID`                        |
+| Chờ          | `waitForDisplayed` / `waitUntil`                     | Tự chờ idle; vẫn `waitFor` khi đợi API            |
+| State sạch   | `noReset: false`, rồi `terminateApp` + `activateApp` | `device.launchApp({ delete: true })`              |
+| Vướng đã gặp | Cold start không đưa app lên foreground              | `pressBack()` đóng activity; build native tốn đĩa |
 
 Detox làm đoạn thao tác React Native ngắn hơn và ít lệnh chờ tự viết hơn trong PoC này. Đổi lại phải prebuild Expo và tạo APK kiểm thử. Không kết luận công cụ nào nhanh hơn từ 25 s của Detox và trung vị 30,496 s của chiến dịch Appium 1: khác số lượt, khác phạm vi (Detox không có giỏ), khác điều kiện.
 
@@ -222,14 +217,14 @@ Appium vẫn là công cụ demo vì đứng ngoài APK, chạy được device 
 
 ### 2.7 Giới hạn đã gặp khi vận hành
 
-| Việc đã xảy ra | Cách bộ test xử lý |
-|----------------|--------------------|
-| Bàn phím ảo che phần tử; UiAutomator2 không trả về phần tử bị che | `hideKeyboardIfShown`, rồi `waitForDisplayed` |
-| Alert "Thành công" nhận cú bấm thêm giỏ thứ hai | Bấm `android:id/button1` và chờ nút biến mất |
-| APK debug không lên foreground sau cold start | `terminateApp` rồi `activateApp`, chờ `nav-login` tối đa 30 s |
-| UI đăng nhập luôn hiện một câu, dù API trả sai mật khẩu hoặc tài khoản bị khoá | Assert đúng câu của app; mỗi lượt chỉ một lần sai |
-| `pressBack()` trên Detox đóng màn Login | Bỏ lệnh đó trước ba lượt pass |
-| Emulator không boot khi đĩa gần đầy | Cần khoảng vài GiB trống trước khi mở AVD |
+| Việc đã xảy ra                                                                 | Cách bộ test xử lý                                            |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| Bàn phím ảo che phần tử; UiAutomator2 không trả về phần tử bị che              | `hideKeyboardIfShown`, rồi `waitForDisplayed`                 |
+| Alert "Thành công" nhận cú bấm thêm giỏ thứ hai                                | Bấm `android:id/button1` và chờ nút biến mất                  |
+| APK debug không lên foreground sau cold start                                  | `terminateApp` rồi `activateApp`, chờ `nav-login` tối đa 30 s |
+| UI đăng nhập luôn hiện một câu, dù API trả sai mật khẩu hoặc tài khoản bị khoá | Assert đúng câu của app; mỗi lượt chỉ một lần sai             |
+| `pressBack()` trên Detox đóng màn Login                                        | Bỏ lệnh đó trước ba lượt pass                                 |
+| Emulator không boot khi đĩa gần đầy                                            | Cần khoảng vài GiB trống trước khi mở AVD                     |
 
 Appium không kiểm tra màu, khoảng cách hay ảnh banner. Một màn hình sai màu nhưng còn đủ `testID` vẫn pass. Lượt V2 ở mục 3.4 đo đúng trường hợp này.
 
@@ -245,12 +240,12 @@ Ba cách so, từ cứng đến có ngữ cảnh: Exact từng pixel, ngưỡng 
 
 Hai hướng AI trong T03 không cùng một oracle:
 
-| | Applitools Eyes | Maestro |
-|--|-----------------|---------|
-| Câu hỏi | Ảnh lần này có lệch baseline đã duyệt, theo match level đã chọn, không? | LLM có cho rằng ảnh thỏa câu mô tả, hoặc có defect nhìn thấy, không? |
-| Oracle | Baseline có người duyệt | Phán đoán; không có baseline |
-| Tính lặp | Cùng ảnh, cùng baseline, cùng match level | Xác suất. `assertWithAI` mặc định `optional: true` |
-| Chỗ chạy | Eyes Cloud, cần API key | Lệnh AI đi qua Maestro Cloud |
+|          | Applitools Eyes                                                         | Maestro                                                              |
+| -------- | ----------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Câu hỏi  | Ảnh lần này có lệch baseline đã duyệt, theo match level đã chọn, không? | LLM có cho rằng ảnh thỏa câu mô tả, hoặc có defect nhìn thấy, không? |
+| Oracle   | Baseline có người duyệt                                                 | Phán đoán; không có baseline                                         |
+| Tính lặp | Cùng ảnh, cùng baseline, cùng match level                               | Xác suất. `assertWithAI` mặc định `optional: true`                   |
+| Chỗ chạy | Eyes Cloud, cần API key                                                 | Lệnh AI đi qua Maestro Cloud                                         |
 
 Match level dùng cho cả checkpoint hoặc từng vùng: Strict (hồi quy trên một thiết bị, nội dung tĩnh), Layout (bỏ nội dung, giữ cấu trúc), Ignore colors, Content, Dynamic, Exact. Ảnh xoay vòng là vùng Layout hoặc ignore. Giá, nút và thông báo lỗi giữ Strict. Ignore cả cửa sổ sẽ che regression sau này.
 
@@ -258,47 +253,47 @@ Match level dùng cho cả checkpoint hoặc từng vùng: Strict (hồi quy tr�
 
 Eyes gắn vào chính bộ test Appium ở chương 2, không có bộ test riêng. Mỗi file test mở một phiên Eyes, chụp checkpoint **sau** khi phần tử đã hiển thị và assertion chức năng đã qua, rồi đóng phiên.
 
-| Hạng mục | Giá trị trong repo |
-|----------|--------------------|
-| SDK | `@applitools/eyes-webdriverio@5.61.14` (`src/appium/package.json`) |
-| Cấu hình | `src/appium/config/eyes.js`: app `EShop`, host app `com.eshop.sut`, host OS Android, match level mặc định Strict, `setSaveNewTests(true)` |
-| API key | Đọc từ `APPLITOOLS_API_KEY` (biến môi trường hoặc `src/appium/.env`, file đã nằm trong `.gitignore`) |
-| Khóa baseline | Tên test cố định: `Login data-driven`, `Search data-driven`, `Cart add and total` |
-| Batch | `EShop - base`, `EShop - v1`, `EShop - v2`, đặt bằng `VARIANT_LABEL`; chỉ để nhóm lượt chạy, không đổi baseline |
-| Vùng | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận 23/10 cho thấy vùng được gửi nhưng vẫn không có hiệu lực (mục 3.4) |
-| Đóng phiên | `eyes.close(false)`: diff không làm test đỏ trong terminal; mỗi test in `Eyes: <trạng thái> | steps | link` vào TAP, chi tiết xem trên dashboard |
-| Khi không có khoá | `createEyes()` trả về `null`, mọi checkpoint bị bỏ qua, assertion chức năng vẫn chạy đủ (`EYES=off` để tắt chủ động). Lớp functional không phụ thuộc trial Applitools |
-| Chạy | `run-variants.sh` ở gốc repo: mở AVD nếu chưa có emulator (mặc định `eshop_api34`; lần B2 dùng emulator `Medium_Phone_API_37.0` đang chạy sẵn), tắt animation, khởi động lại backend mỗi lượt, build APK lần đầu rồi đổi bản UI bằng cách khởi động lại Metro với `EXPO_PUBLIC_UI_VARIANT`, chạy base hai lần rồi V1, V2 |
+| Hạng mục          | Giá trị trong repo                                                                                                                                                                                                                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------------------------------------ |
+| SDK               | `@applitools/eyes-webdriverio@5.61.14` (`src/appium/package.json`)                                                                                                                                                                                                                                                       |
+| Cấu hình          | `src/appium/config/eyes.js`: app `EShop`, host app `com.eshop.sut`, host OS Android, match level mặc định Strict, `setSaveNewTests(true)`                                                                                                                                                                                |
+| API key           | Đọc từ `APPLITOOLS_API_KEY` (biến môi trường hoặc `src/appium/.env`, file đã nằm trong `.gitignore`)                                                                                                                                                                                                                     |
+| Khóa baseline     | Tên test cố định: `Login data-driven`, `Search data-driven`, `Cart add and total`                                                                                                                                                                                                                                        |
+| Batch             | `EShop - base`, `EShop - v1`, `EShop - v2`, đặt bằng `VARIANT_LABEL`; chỉ để nhóm lượt chạy, không đổi baseline                                                                                                                                                                                                          |
+| Vùng              | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận 23/10 cho thấy vùng được gửi nhưng vẫn không có hiệu lực (mục 3.4)                                                        |
+| Đóng phiên        | `eyes.close(false)`: diff không làm test đỏ trong terminal; mỗi test in `Eyes: <trạng thái>                                                                                                                                                                                                                              | steps | link` vào TAP, chi tiết xem trên dashboard |
+| Khi không có khoá | `createEyes()` trả về `null`, mọi checkpoint bị bỏ qua, assertion chức năng vẫn chạy đủ (`EYES=off` để tắt chủ động). Lớp functional không phụ thuộc trial Applitools                                                                                                                                                    |
+| Chạy              | `run-variants.sh` ở gốc repo: mở AVD nếu chưa có emulator (mặc định `eshop_api34`; lần B2 dùng emulator `Medium_Phone_API_37.0` đang chạy sẵn), tắt animation, khởi động lại backend mỗi lượt, build APK lần đầu rồi đổi bản UI bằng cách khởi động lại Metro với `EXPO_PUBLIC_UI_VARIANT`, chạy base hai lần rồi V1, V2 |
 
 Ba test tạo **10 checkpoint** mỗi lượt:
 
-| Test | Checkpoint |
-|------|-----------|
-| `Login data-driven` | Login - initial · Login - L1 error · Home - L2 logged in |
+| Test                 | Checkpoint                                                                             |
+| -------------------- | -------------------------------------------------------------------------------------- |
+| `Login data-driven`  | Login - initial · Login - L1 error · Home - L2 logged in                               |
 | `Search data-driven` | Home - before search · Search S1 "iPhone" · Search S2 "Pro M" · Search S3 "Nokia 3310" |
-| `Cart add and total` | Home - product list · Cart - 1 item with total · Cart - empty after remove |
+| `Cart add and total` | Home - product list · Cart - 1 item with total · Cart - empty after remove             |
 
 ### 3.3 Hai bản UI có kiểm soát
 
 Learning objective của brief là so chi phí bảo trì khi **banner đổi ảnh** và khi **đổi colour token**. Màn Home của EShop mobile không có banner riêng, nên nhóm dùng ảnh sản phẩm id 1 làm vùng thay thế cho banner. Cả hai bản giữ nguyên `testID`, chữ và thứ tự màn hình, để mọi khác biệt chỉ nằm ở giao diện.
 
-| | V1 — đổi ảnh (thay cho banner) | V2 — đổi màu và bố cục |
-|--|--------------------------------|------------------------|
+|          | V1 — đổi ảnh (thay cho banner)                                                   | V2 — đổi màu và bố cục                                                                                                                                                    |
+| -------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Thay đổi | Ảnh sản phẩm id 1 thay bằng `assets/product-v1.png`, khung giữ nguyên kích thước | Giá tím và to hơn; hai nút trong thẻ sản phẩm bị đẩy xuống và sang phải; nút "Thêm vào giỏ" từ xanh sang đỏ; dòng tổng tiền lệch trái; nút thanh toán từ xanh lá sang cam |
-| Bản chất | Thay đổi hợp lệ về nội dung | Lỗi giao diện thật |
-| Mã | `App.js` (`renderProduct`) + ảnh mới | `App.js` (`v2Styles`, `renderProduct`, `renderCart`) |
-| Bật bằng | `EXPO_PUBLIC_UI_VARIANT=v1` | `EXPO_PUBLIC_UI_VARIANT=v2` |
+| Bản chất | Thay đổi hợp lệ về nội dung                                                      | Lỗi giao diện thật                                                                                                                                                        |
+| Mã       | `App.js` (`renderProduct`) + ảnh mới                                             | `App.js` (`v2Styles`, `renderProduct`, `renderCart`)                                                                                                                      |
+| Bật bằng | `EXPO_PUBLIC_UI_VARIANT=v1`                                                      | `EXPO_PUBLIC_UI_VARIANT=v2`                                                                                                                                               |
 
 ### 3.4 Kết quả base / V1 / V2
 
 Lượt đo hợp lệ nằm trong `src/appium/logs/20261023-065743/`. Lượt trước đó (`20261023-065159`) hỏng ngay ở `newSession` với `ECONNREFUSED` vì server Appium chưa chạy, nên không tính. Thời gian lấy từ `duration_ms` trong log của `node --test`.
 
-| Lượt | Functional (Appium) | Visual (Eyes, theo test) | Checkpoint lệch | Thời gian chạy |
-|------|---------------------|--------------------------|:---------------:|---------------:|
-| Base lần 1 (tạo baseline) | `# pass 8` `# fail 0` | New; theo quy trình B2, Accept và Save trên dashboard | — | 198,578 s |
-| Base lần 2 (đối chứng) | `# pass 8` `# fail 0` | 3/3 Passed | 0/10 | 191,297 s |
-| V1 | `# pass 8` `# fail 0` | 3/3 Unresolved | 5/10 | 209,672 s |
-| V2 | `# pass 8` `# fail 0` | 3/3 Unresolved | 6/10 | 192,640 s |
+| Lượt                      | Functional (Appium)   | Visual (Eyes, theo test)                              | Checkpoint lệch | Thời gian chạy |
+| ------------------------- | --------------------- | ----------------------------------------------------- | :-------------: | -------------: |
+| Base lần 1 (tạo baseline) | `# pass 8` `# fail 0` | New; theo quy trình B2, Accept và Save trên dashboard |        —        |      198,578 s |
+| Base lần 2 (đối chứng)    | `# pass 8` `# fail 0` | 3/3 Passed                                            |      0/10       |      191,297 s |
+| V1                        | `# pass 8` `# fail 0` | 3/3 Unresolved                                        |      5/10       |      209,672 s |
+| V2                        | `# pass 8` `# fail 0` | 3/3 Unresolved                                        |      6/10       |      192,640 s |
 
 Bản đầu của `docs/B2_Report.md` ghi 19,1297 s, 20,9672 s và 19,2640 s, nhỏ hơn log đúng 10 lần. File đó đã sửa theo `duration_ms`. Bảng trên dùng số của log.
 
@@ -313,23 +308,23 @@ Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không b
 
 ### 3.5 Ma trận functional × visual
 
-| Tình huống | Appium | Eyes |
-|------------|--------|------|
-| Đăng nhập sai rồi đúng, tìm 1 / 2 / 0 sản phẩm, tổng giỏ 60.000.000 | **Đã đo.** A3 chiến dịch 2: 10/10; B2: 8/8 ở cả bốn lượt | **Đã đo.** Base lần 2: 10/10 checkpoint khớp |
-| Đổi ảnh sản phẩm, khung giữ nguyên (V1) | **Đã đo:** pass 8/8. Đúng, vì đây không phải lỗi | **Đã đo:** 5/10 lệch. Báo thừa (false positive) cho tới khi người duyệt Accept hoặc có vùng Layout hoạt động |
-| Đổi màu, vị trí nút, căn lề tổng tiền (V2) | **Đã đo:** pass 8/8. Đây là lỗ hổng của lớp functional | **Đã đo:** 6/10 lệch, đúng các vùng đã sửa (true regression) |
-| Bỏ hoặc đổi `testID` | **Suy từ locator:** `resourceId` không khớp thì script gãy. Chưa có lượt cố ý gỡ id | Chưa đo |
-| Giá hiển thị sai, bố cục giữ nguyên | **Đã đo dạng assertion:** so chữ số `60000000`. Một click rơi vào Alert từng để tổng ở 30.000.000 | Chưa chạy trên app. Thẻ diff số 10 (mục 3.8) dựng đúng ca này: vùng lệch chỉ là vài chữ số, rất dễ bị Accept nhầm, và sẽ qua hẳn nếu vùng giá đặt ở Layout |
-| Bàn phím che nút, Alert che cú bấm, cold start | **Đã gặp và đã xử lý trong test** trước chiến dịch 2 | Không phải oracle giao diện |
-| `pressBack()` sau khi nhập mật khẩu trên Detox | **Đã gặp** ở lượt nháp A4; activity đóng | Không liên quan Eyes |
+| Tình huống                                                          | Appium                                                                                            | Eyes                                                                                                                                                       |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Đăng nhập sai rồi đúng, tìm 1 / 2 / 0 sản phẩm, tổng giỏ 60.000.000 | **Đã đo.** A3 chiến dịch 2: 10/10; B2: 8/8 ở cả bốn lượt                                          | **Đã đo.** Base lần 2: 10/10 checkpoint khớp                                                                                                               |
+| Đổi ảnh sản phẩm, khung giữ nguyên (V1)                             | **Đã đo:** pass 8/8. Đúng, vì đây không phải lỗi                                                  | **Đã đo:** 5/10 lệch. Báo thừa (false positive) cho tới khi người duyệt Accept hoặc có vùng Layout hoạt động                                               |
+| Đổi màu, vị trí nút, căn lề tổng tiền (V2)                          | **Đã đo:** pass 8/8. Đây là lỗ hổng của lớp functional                                            | **Đã đo:** 6/10 lệch, đúng các vùng đã sửa (true regression)                                                                                               |
+| Bỏ hoặc đổi `testID`                                                | **Suy từ locator:** `resourceId` không khớp thì script gãy. Chưa có lượt cố ý gỡ id               | Chưa đo                                                                                                                                                    |
+| Giá hiển thị sai, bố cục giữ nguyên                                 | **Đã đo dạng assertion:** so chữ số `60000000`. Một click rơi vào Alert từng để tổng ở 30.000.000 | Chưa chạy trên app. Thẻ diff số 10 (mục 3.8) dựng đúng ca này: vùng lệch chỉ là vài chữ số, rất dễ bị Accept nhầm, và sẽ qua hẳn nếu vùng giá đặt ở Layout |
+| Bàn phím che nút, Alert che cú bấm, cold start                      | **Đã gặp và đã xử lý trong test** trước chiến dịch 2                                              | Không phải oracle giao diện                                                                                                                                |
+| `pressBack()` sau khi nhập mật khẩu trên Detox                      | **Đã gặp** ở lượt nháp A4; activity đóng                                                          | Không liên quan Eyes                                                                                                                                       |
 
 ### 3.6 Chi phí bảo trì: đổi ảnh so với đổi màu
 
-| | Đổi ảnh (V1) | Đổi màu và bố cục (V2) |
-|--|--------------|------------------------|
-| Appium cần sửa gì | Không gì; test vẫn đúng | Không gì; nhưng test cũng không thấy lỗi |
-| Eyes cần làm gì | Mỗi lần ảnh đổi: duyệt 5 bước rồi Accept, hoặc đặt chính sách Layout cho vùng ảnh một lần | Duyệt 6 bước, Reject, mở bug. Nếu đổi màu là chủ ý thì Accept 6 bước và baseline mới thành chuẩn |
-| Ai quyết định | Người duyệt baseline, theo ngữ cảnh release | Như bên trái |
+|                   | Đổi ảnh (V1)                                                                              | Đổi màu và bố cục (V2)                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Appium cần sửa gì | Không gì; test vẫn đúng                                                                   | Không gì; nhưng test cũng không thấy lỗi                                                         |
+| Eyes cần làm gì   | Mỗi lần ảnh đổi: duyệt 5 bước rồi Accept, hoặc đặt chính sách Layout cho vùng ảnh một lần | Duyệt 6 bước, Reject, mở bug. Nếu đổi màu là chủ ý thì Accept 6 bước và baseline mới thành chuẩn |
+| Ai quyết định     | Người duyệt baseline, theo ngữ cảnh release                                               | Như bên trái                                                                                     |
 
 Đổi ảnh rẻ với Appium nhưng tốn công duyệt với Eyes. Đổi màu cũng rẻ với Appium, nhưng chỉ vì Appium không nhìn thấy nó. Chi phí thật của Eyes là thời gian triage của con người, nên hoạt động trên lớp (mục 3.8) tập trung vào việc phân loại diff.
 
@@ -360,7 +355,7 @@ Bốn nhãn: Accept, Reject, Nhiễu, Chưa đủ thông tin. Phân bố đáp �
 
 Chính sách mẫu cho vùng thay banner là **Layout** trên `product-image-1`, không Ignore, và không phủ giá, tên hay nút. Ignore chỉ dùng cho status bar.
 
-Đã đối chiếu với deck mẫu `T03_Mobile_Automation_Testing_InClass.pptx` (8 slide). Khớp deck: 10 thẻ, 25 phút, đúng năm mốc của slide 6, nhóm 3–4 người. Ba nhãn của deck (*true bug*, *intentional update*, *false positive*) map sang Reject, Accept và Nhiễu; phiếu giữ thêm **Chưa đủ thông tin** vì thẻ 5 và 9 không quyết được. Minute paper lấy bốn câu debrief của slide 7, cộng thang 1–5 của Seminar Guide, và nộp sau 25 phút chứ không chiếm suất cuối.
+Đã đối chiếu với deck mẫu `T03_Mobile_Automation_Testing_InClass.pptx` (8 slide). Khớp deck: 10 thẻ, 25 phút, đúng năm mốc của slide 6, nhóm 3–4 người. Ba nhãn của deck (_true bug_, _intentional update_, _false positive_) map sang Reject, Accept và Nhiễu; phiếu giữ thêm **Chưa đủ thông tin** vì thẻ 5 và 9 không quyết được. Minute paper lấy bốn câu debrief của slide 7, cộng thang 1–5 của Seminar Guide, và nộp sau 25 phút chứ không chiếm suất cuối.
 
 Còn lại, và không làm được từ repo:
 
@@ -372,22 +367,22 @@ Còn lại, và không làm được từ repo:
 
 Đã xử lý trong repo, chưa cần chạy lại:
 
-| Việc | Kết quả |
-|------|---------|
-| Vì sao layout region không ăn | Selector `id=` không khớp `testID`. Đã đổi `productImage()` sang `byTestId` và thêm cảnh báo khi không thấy phần tử (`home.page.js`, `checkpoints.js`). Lượt xác nhận 23/10: vùng được gửi nhưng V1 vẫn lệch 3/4; chỉ vùng phủ toàn ảnh Passed. Ghi nhận là failure mode; vùng có hiệu lực đặt trên dashboard |
-| Số liệu và chỗ trống trong `docs/B2_Report.md` | Thời gian lấy từ log (191,297 s / 209,672 s / 192,640 s). Bỏ dòng `checkout-flow.test.js` vì file không tồn tại. Mục 9 đã điền từ bốn lượt đã chạy. Mục 10 ghi có/không theo file thật |
+| Việc                                                 | Kết quả                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Vì sao layout region không ăn                        | Selector `id=` không khớp `testID`. Đã đổi `productImage()` sang `byTestId` và thêm cảnh báo khi không thấy phần tử (`home.page.js`, `checkpoints.js`). Lượt xác nhận 23/10: vùng được gửi nhưng V1 vẫn lệch 3/4; chỉ vùng phủ toàn ảnh Passed. Ghi nhận là failure mode; vùng có hiệu lực đặt trên dashboard                                                                                                                                                                        |
+| Số liệu và chỗ trống trong `docs/B2_Report.md`       | Thời gian lấy từ log (191,297 s / 209,672 s / 192,640 s). Bỏ dòng `checkout-flow.test.js` vì file không tồn tại. Mục 9 đã điền từ bốn lượt đã chạy. Mục 10 ghi có/không theo file thật                                                                                                                                                                                                                                                                                               |
 | Nguồn lỗi `adb_shell` và `Method is not implemented` | Cả hai do SDK Eyes, không do test của nhóm. `mobile:shell` hỏi `dumpsys window ... mCurrentRotation`; Appium chặn vì chưa bật insecure feature. Lệnh `execute/sync` còn lại là đoạn JS dò DOM trình duyệt (`applitools-marker`), UiAutomator2 trả 405 vì app là native. Checkpoint vẫn được chụp, base lần 2 vẫn Passed. `npm run server` đã thêm `--allow-insecure=uiautomator2:adb_shell` để lần sau hết lỗi xoay màn hình. Lỗi 405 trên app native là nhiễu, không sửa bằng cờ đó |
-| Đối chiếu deck và bằng chứng B2 | Worksheet căn theo slide 6 và slide 7. Phụ lục B2 không còn ô trống |
+| Đối chiếu deck và bằng chứng B2                      | Worksheet căn theo slide 6 và slide 7. Phụ lục B2 không còn ô trống                                                                                                                                                                                                                                                                                                                                                                                                                  |
 
 Chưa làm được ở máy này:
 
-| Việc | Vì sao còn lại |
-|------|----------------|
-| Chạy lại V1 sau khi sửa selector, rồi mới ghi Passed hoặc vẫn lệch | Cần AVD, `APPLITOOLS_API_KEY` và dashboard để Accept. Máy biên tập báo cáo không có lần chạy đó |
-| Chốt AVD buổi demo | Baseline Eyes đang gắn `Medium_Phone_API_37.0` (viewport dashboard 411×866). Appium/Detox đo trên `eshop_api34`. `run-variants.sh` mặc định mở `eshop_api34`, tức một baseline mới. Demo Eyes phải dùng đúng AVD đã Accept, hoặc Accept lại trên AVD mới. Đây là quyết định của nhóm trước buổi chạy |
-| Chụp lại ảnh diff thẻ 7 và thêm thẻ nhiễu thuần | Cần dashboard hoặc một lượt chụp mới |
-| Dry-run 25 phút với người ngoài nhóm | Cần một người không soạn thẻ và đồng hồ thật. Mẫu biên bản ở `docs/B4_Activity_Worksheet.md` mục 6 vẫn trống |
-| Video demo và `Demo_Video_Links.md` | Chưa có file hay link YouTube trong repo |
+| Việc                                                               | Vì sao còn lại                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Chạy lại V1 sau khi sửa selector, rồi mới ghi Passed hoặc vẫn lệch | Cần AVD, `APPLITOOLS_API_KEY` và dashboard để Accept. Máy biên tập báo cáo không có lần chạy đó                                                                                                                                                                                                      |
+| Chốt AVD buổi demo                                                 | Baseline Eyes đang gắn `Medium_Phone_API_37.0` (viewport dashboard 411×866). Appium/Detox đo trên `eshop_api34`. `run-variants.sh` mặc định mở `eshop_api34`, tức một baseline mới. Demo Eyes phải dùng đúng AVD đã Accept, hoặc Accept lại trên AVD mới. Đây là quyết định của nhóm trước buổi chạy |
+| Chụp lại ảnh diff thẻ 7 và thêm thẻ nhiễu thuần                    | Cần dashboard hoặc một lượt chụp mới                                                                                                                                                                                                                                                                 |
+| Dry-run 25 phút với người ngoài nhóm                               | Cần một người không soạn thẻ và đồng hồ thật. Mẫu biên bản ở `docs/B4_Activity_Worksheet.md` mục 6 vẫn trống                                                                                                                                                                                         |
+| Video demo và `Demo_Video_Links.md`                                | https://youtu.be/J20ZP5IAsuc                                                                                                                                                                                                                                                                         |
 
 ---
 
@@ -400,6 +395,6 @@ Chưa làm được ở máy này:
 5. `docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`; log Eyes trong `src/appium/logs/20261023-065159/` và `20261023-065743/`; ảnh dashboard trong `docs/evidence/B1_B2_applitools-dashboard/`; mã `src/appium/config/eyes.js`, `checkpoints.js`, `run-variants.sh`.
 6. Appium 2.19: [capability và tiền tố `appium:`](https://appium.io/docs/en/2.19/guides/caps/). [Kiến trúc UiAutomator2](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/architecture.md).
 7. [Detox — design principles](https://wix.github.io/Detox/docs/next/articles/design-principles/). [Espresso](https://developer.android.com/training/testing/espresso).
-8. Applitools — *Visual AI 101*; [Match levels and regions](https://applitools.com/docs/eyes/concepts/best-practices/match-levels). Giá Starter lấy từ đề xuất S1, cần kiểm tra lại trước khi nộp.
+8. Applitools — _Visual AI 101_; [Match levels and regions](https://applitools.com/docs/eyes/concepts/best-practices/match-levels). Giá Starter lấy từ đề xuất S1, cần kiểm tra lại trước khi nộp.
 
 Chương 1–2 được biên tập với Cursor (Grok) ngày 23/10/2026 từ các tài liệu trên. Chương 3 được hoàn thiện với Cursor (Claude) cùng ngày từ tài liệu, log và ảnh dashboard của TV2. Số liệu Eyes lấy từ log và ảnh dashboard, không lấy từ AI. Thời gian chạy được đọc lại từ `duration_ms`, và số checkpoint lệch được đối chiếu với từng bước trên ảnh dashboard. Không có kết quả Eyes, baseline hay ảnh diff nào được tạo thêm. Ma trận S1 do đề xuất công cụ ghi là có dùng OpenAI Codex để trích tiêu chí; nhóm đã đối chiếu giấy phép, giá và tài liệu hãng vào ngày 28/09/2026.
