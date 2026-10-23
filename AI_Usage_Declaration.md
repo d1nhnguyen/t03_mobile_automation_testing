@@ -22,9 +22,9 @@ Tài liệu này gộp ba biểu mẫu của môn cho phần seminar:
 
 | Vai trò | Họ tên | MSSV | Tài khoản Git | Phần phụ trách |
 |---------|--------|------|---------------|----------------|
-| TV1 | `[điền]` | `[điền]` | `d1nhnguyen` | Khảo sát S1, cài đặt A1, bộ Appium data-driven A2, đo A3, PoC Detox A4 |
-| TV2 | `[điền]` | `[điền]` | `stardust65613` | Tích hợp Applitools Eyes (B1), hai UI variant có kiểm soát (B2), diff cards và worksheet |
-| TV3 | `[điền]` | `[điền]` | `UngDuong125` | Lý thuyết, báo cáo `report/Report.md`, `User_Guide.md`, kịch bản demo |
+| TV1 | Nguyễn Phú Dinh | 23120031 | `d1nhnguyen` | Khảo sát S1, cài đặt A1, bộ Appium data-driven A2, đo A3, PoC Detox A4 |
+| TV2 | Nguyễn Hải Đăng | 23120027 | `stardust65613` | Tích hợp Applitools Eyes (B1), hai UI variant có kiểm soát (B2), diff cards và worksheet |
+| TV3 | Ứng Thị Thùy Dương | 23120034 | `UngDuong125` | Lý thuyết, báo cáo `report/Report.md`, `User_Guide.md`, kịch bản demo |
 | TV4 *(nếu có)* | `[điền]` | `[điền]` | `[điền]` | `[điền]` |
 
 ---
