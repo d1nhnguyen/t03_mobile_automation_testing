@@ -33,9 +33,11 @@ Người làm lại bài cần:
 5. Đặt `APPLITOOLS_API_KEY`, chạy cùng `npm test` để Eyes chụp checkpoint, rồi so batch `base` / `v1` / `v2` trên dashboard (mục 2.5 và 4.5).
 6. Chuyển sang Maestro khi trial Applitools không dùng được và giảng viên đã chấp thuận.
 
-### 1.2 Vì sao tự động hoá mobile khó hơn web
+### 1.2 Kiểm thử mobile là gì và vì sao tự động hoá
 
-Cùng một kịch bản có thể đạt trên ảnh Android này và trượt trên ảnh khác vì phân mảnh OS, quyền, độ trễ mạng và vùng chạm nhỏ. Cấu hình đã chạy đạt là một AVD: `eshop_api34`, Android 14, 1080×2400 (A1/A2, Linux). Ảnh máy thứ hai là một bài test khác.
+Kiểm thử ứng dụng mobile là kiểm tra một ứng dụng chạy trên thiết bị di động để xác nhận nó **làm đúng chức năng**, **hiển thị đúng** và **dùng được** trong điều kiện thật của người dùng (nhiều máy, nhiều phiên bản hệ điều hành, mạng không ổn định, bị gián đoạn). Mục đích là tìm lỗi trước người dùng và có bằng chứng để quyết định phát hành. Hướng dẫn này tự động hoá hai khía cạnh: **chức năng** (Appium, assertion trên dữ liệu và trạng thái) và **giao diện** (Applitools Eyes, so với baseline đã duyệt). Tự động hoá hợp với kịch bản lặp lại sau mỗi thay đổi, nhiều bộ dữ liệu và nhiều thiết bị; đổi lại phải bảo trì script khi UI đổi. Lý thuyết đầy đủ (loại app, các khía cạnh kiểm thử, cấp độ, quy trình) ở `Ly_Thuyet_T03_Mobile_Automation.md` mục I.1.a.
+
+Điều kiện môi trường là một phần của bài test: cùng một kịch bản có thể đạt trên ảnh Android này và trượt trên ảnh khác vì phân mảnh OS, quyền, độ trễ mạng và bàn phím ảo. Cấu hình đã chạy đạt là một AVD: `eshop_api34`, Android 14, 1080×2400 (Linux). Ảnh máy thứ hai là một bài test khác.
 
 ### 1.3 Mỗi công cụ trả lời câu hỏi nào
 

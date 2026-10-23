@@ -318,7 +318,7 @@ Chưa làm được ở máy này:
 
 ## Nguồn
 
-1. `Ly_Thuyet_T03_Mobile_Automation.md` — phần A, B, C1–C4.
+1. `Ly_Thuyet_T03_Mobile_Automation.md` — phần I, II, III.1–III.4.
 2. `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`, và log trong `docs/evidence/`.
 3. `Tool_Survey_Proposal.md` — ma trận S1, kiểm tra ngày 28/09/2026.
 4. `User_Guide.md` — quy trình cài trên máy chưa có SDK.
