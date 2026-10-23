@@ -1,3 +1,78 @@
+<div align="center">
+
+**ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH**  
+**TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN**  
+**KHOA CÔNG NGHỆ THÔNG TIN**
+
+<br/>
+
+# BÁO CÁO
+
+**MÔN: KIỂM CHỨNG PHẦN MỀM**  
+**(CS423 / CSC15003 — AI-First 2026)**
+
+## SEMINAR T03 — MOBILE AUTOMATION TESTING
+
+**Appium 2 + UiAutomator2 · Applitools Eyes · đối sánh Detox**  
+**SUT:** EShop React Native Expo (`com.eshop.sut`)
+
+<br/>
+
+| | |
+|---|---|
+| **Giảng viên hướng dẫn** | TS. Lâm Quang Vũ |
+| | ThS. Trần Thị Bích Hạnh *(TH / EShop)* |
+| **Sinh viên thực hiện** | Nguyễn Phú Dinh — 23120031 |
+| | Nguyễn Hải Đăng — 23120027 |
+| | Ứng Thị Thùy Dương — 23120034 |
+| **Lớp** | CS423 / CSC15003 |
+
+<br/>
+
+**Thành phố Hồ Chí Minh — 2026**
+
+</div>
+
+---
+
+## DANH SÁCH PHÂN CÔNG THÀNH VIÊN
+
+| STT | MSSV | Họ và tên | Nhiệm vụ | Hoàn thành |
+|-----|------|-----------|----------|------------|
+| 1 | 23120031 | Nguyễn Phú Dinh | Khảo sát S1; cài đặt Appium (A1); bộ test data-driven login/search/cart (A2); đo thời gian và flake (A3); PoC Detox (A4); kịch bản và video demo | ~90% |
+| 2 | 23120027 | Nguyễn Hải Đăng | Tích hợp Applitools Eyes (B1); hai bản UI có kiểm soát base/V1/V2 (B2); 10 thẻ diff và worksheet hoạt động lớp (B4) | ~90% |
+| 3 | 23120034 | Ứng Thị Thùy Dương | Lý thuyết; báo cáo `report/Report.md`; `User_Guide.md`; khai báo AI; kịch bản demo; slide tổng hợp | ~90% |
+
+---
+
+## MỤC LỤC
+
+1. [DANH SÁCH PHÂN CÔNG THÀNH VIÊN](#danh-sách-phân-công-thành-viên)
+2. [MỤC LỤC](#mục-lục)
+3. [Quy ước ký hiệu dùng trong tài liệu](#quy-ước-ký-hiệu-dùng-trong-tài-liệu)
+4. [1. Ma trận chọn công cụ](#1-ma-trận-chọn-công-cụ)
+5. [2. Appium và Detox](#2-appium-và-detox)
+   - [2.1 Kiến trúc đã dùng](#21-kiến-trúc-đã-dùng)
+   - [2.2 `testID` thành `resource-id`](#22-testid-thành-resource-id)
+   - [2.3 Ba khối automation trên bộ test A2](#23-ba-khối-automation-trên-bộ-test-a2)
+   - [2.4 Quy trình vận hành](#24-quy-trình-vận-hành)
+   - [2.5 Số liệu A3](#25-số-liệu-a3)
+   - [2.6 Đối sánh Detox](#26-đối-sánh-detox)
+   - [2.7 Giới hạn đã gặp khi vận hành](#27-giới-hạn-đã-gặp-khi-vận-hành)
+6. [3. Visual AI](#3-visual-ai)
+   - [3.1 Khung lý thuyết](#31-khung-lý-thuyết)
+   - [3.2 Cấu hình Eyes đã chạy](#32-cấu-hình-eyes-đã-chạy)
+   - [3.3 Hai bản UI có kiểm soát](#33-hai-bản-ui-có-kiểm-soát)
+   - [3.4 Kết quả base / V1 / V2](#34-kết-quả-base--v1--v2)
+   - [3.5 Ma trận functional × visual](#35-ma-trận-functional--visual)
+   - [3.6 Chi phí bảo trì: đổi ảnh so với đổi màu](#36-chi-phí-bảo-trì-đổi-ảnh-so-với-đổi-màu)
+   - [3.7 Failure mode](#37-failure-mode)
+   - [3.8 Hoạt động lớp: Visual Diff Triage Workshop](#38-hoạt-động-lớp-visual-diff-triage-workshop)
+   - [3.9 Việc còn lại](#39-việc-còn-lại)
+7. [Nguồn](#nguồn)
+
+---
+
 # Báo cáo T03 — Mobile Automation Testing
 
 **Môn:** CS423 / CSC15003 Kiểm thử phần mềm  
