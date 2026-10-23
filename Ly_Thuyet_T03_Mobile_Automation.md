@@ -8,7 +8,7 @@ Tài liệu lý thuyết cho seminar **T03 Mobile Automation Testing** (CS423 / 
 
 | Vai trò | Công cụ |
 |---------|---------|
-| Truyền thống (chính) | Appium 2 + UiAutomator2 |
+| Truyền thống (chính) | Appium 2.19.0 + UiAutomator2 4.2.9 (client WebdriverIO 9.32.0) |
 | AI-augmented (chính) | Applitools Eyes |
 | Dự phòng | Maestro CLI + AI assertions |
 | So sánh truyền thống (learning objective) | Detox (khi nào chọn thay Appium) |
@@ -84,7 +84,9 @@ Một lệnh trên Android đi qua năm tầng:
 
 Server trên thiết bị là hai gói `io.appium.uiautomator2.server` và `io.appium.uiautomator2.server.test`. Driver cài và khởi động chúng bằng instrumentation; `adb forward` nối cổng máy host tới HTTP server đó. `findElement` và `click` hỏi cây accessibility tại đúng thời điểm lệnh tới. Chúng không thấy JS thread hay bridge của Expo còn bận — đó là lý do phải explicit wait (A4.1) và là điểm khác Detox (A1.4).
 
-Trên APK EShop của nhóm, `testID` của React Native xuất hiện thành `resource-id`. Locator vì vậy dùng `UiSelector().resourceId` (`src/appium/config/locators.js`). Session trong `src/appium/config/session.js` khai đúng hợp đồng Appium 2: `platformName` trần, các khoá còn lại có tiền tố `appium:`, `automationName` là `UiAutomator2`, `app` trỏ APK debug, `appPackage` là `com.eshop.sut`, `noReset` là `false`.
+Trên APK EShop của nhóm, `testID` của React Native xuất hiện thành `resource-id`. Locator vì vậy dùng `UiSelector().resourceId` (`src/appium/config/locators.js`). Chiến lược Id của Inspector tự thêm tiền tố package (`com.eshop.sut:id/...`) nên không khớp các id này. Session trong `src/appium/config/session.js` khai đúng hợp đồng Appium 2: `platformName` trần, các khoá còn lại có tiền tố `appium:`, `automationName` là `UiAutomator2`, `app` trỏ APK debug, `appPackage` là `com.eshop.sut`, `noReset` là `false`, đường gốc là `/`.
+
+Phiên bản khóa trong `src/appium/package.json` và đã tạo session trên máy TV1 (Ubuntu, AVD `eshop_api34`, 22–23/10/2026): Appium **2.19.0**, UiAutomator2 **4.2.9**, WebdriverIO **9.32.0**. `npm run driver:install` cài `uiautomator2@4.2.9`. Inspector dùng plugin `appium-inspector-plugin@2025.3.1`; bản plugin mới hơn yêu cầu Appium 3.
 
 | | |
 |--|--|
@@ -128,6 +130,20 @@ Ba công cụ cùng điều khiển giao diện mobile, nhưng khác nhau ở ch
 **Quan hệ Espresso và Detox.** Trên Android, Detox dùng Espresso để thao tác view, rồi thêm lớp đồng bộ React Native mà Espresso thuần không có. Trên iOS, từ Detox 18 hệ đồng bộ là của Detox, không còn phụ thuộc EarlGrey. “Detox nhanh vì nó là Espresso” chỉ đúng một nửa: đường chạm view trên Android đi qua Espresso; lý do ít flaky trên RN là lớp gray-box.
 
 **Kết luận cho nhóm T03:** Appium là lớp functional chính vì black-box trên APK, chạy được device farm và gắn được Eyes. Espresso bị loại vì chỉ phủ Android native. Detox dùng để *báo cáo khác biệt DX* trên cùng luồng đăng nhập và tìm kiếm (TV1), không thay cặp Appium + Applitools.
+
+#### Đối sánh đã đo trên EShop (A4)
+
+PoC Detox chạy cùng luồng đăng nhập tài khoản mẫu và tìm `iPhone`, không chạy giỏ hàng. Phạm vi: Ubuntu, AVD `eshop_api34`, Node.js 22.13+ (lần chạy ghi Node 22.23.4), Detox 20.51.4. Ba lượt sau khi bỏ `pressBack()` đều 1/1 test; Jest báo 25,508 s, 24,790 s và 38,594 s. Build Gradle rút gọn kết thúc trong 4 phút 42 giây. Chi tiết lệnh và hash APK ở [A4](docs/A4_Detox.md).
+
+| Khía cạnh | Appium A2 | Detox A4 |
+|-----------|-----------|----------|
+| Chuẩn bị thêm | Server Appium 2.19.0 và driver UiAutomator2 4.2.9 | Instrumentation, APK app và APK test, Jest, Node 22.13+ |
+| Tìm phần tử | `testID` qua `UiSelector().resourceId(...)` | Cùng `testID`, qua `by.id(...)` |
+| Đồng bộ | `waitForDisplayed` / `waitUntil` do test viết | Tự chờ idle; PoC vẫn `waitFor` khi đợi API |
+| State sạch | `noReset: false`, rồi `terminateApp` + `activateApp` | `device.launchApp({ delete: true })` |
+| Điểm vướng đã gặp | Cold start không đưa app lên foreground | `pressBack()` sau `replaceText()` đóng activity; build native cần đĩa trống (lần đầu emulator không boot khi còn khoảng 1,7 GiB) |
+
+Không xếp hạng tốc độ từ ba lượt Detox và trung vị Appium chiến dịch 1 (30,496 s). Hai mẫu khác số lượt và khác điều kiện. A4 ghi rõ điều này.
 
 ---
 
@@ -296,6 +312,8 @@ Hai flake đã gặp trên EShop, và cách bộ test đang xử lý:
 
 Khi một fail không tái lập, tăng timeout không phải bước đầu. Chạy lại cùng test nhiều lần và lấy page source tại lần `findElement` thất bại (`appium:printPageSourceOnFindFailure`) để phân biệt locator sai, màn hình sai, và chờ chưa đủ.
 
+Hai chiến dịch A3 trên cùng máy Linux, AVD `eshop_api34`, Appium 2.19.0 và UiAutomator2 4.2.9, mỗi chiến dịch 10 lượt, flake quan sát 0/10. Chiến dịch 1 (một ca đăng nhập + tìm `iPhone`, commit `865deea`): trung bình 30,559 s, trung vị 30,496 s, khoảng 29,751–31,734 s; thời gian bốn dịch vụ sẵn sàng đo được 20,219 s. Chiến dịch 2 (bộ data-driven, 3 test, 8 kiểm tra TAP): trung bình 102,284 s, trung vị 102,238 s, khoảng 98,729–105,646 s. Mười lượt không ước lượng xác suất flaky dài hạn. Số liệu và log ở [A3](docs/A3_Metrics.md).
+
 ### A4.2 Chi phí bảo trì khi UI thay đổi
 
 | Loại thay đổi UI | Functional (Appium) | Visual AI (Eyes) |
@@ -304,7 +322,7 @@ Khi một fail không tái lập, tăng timeout không phải bước đầu. Ch
 | Đổi màu / spacing / typography | Thường vẫn pass | Thường fail → phát hiện regression |
 | Đổi hierarchy / bỏ `testID` | Script gãy | Checkpoint vẫn có thể bắt lệch layout |
 
-Learning objective T03: **đo và giải thích** chi phí bảo trì khi home banner đổi ảnh so với đổi colour token.
+Learning objective T03: **đo và giải thích** chi phí bảo trì khi home banner đổi ảnh so với đổi colour token. Đến 23/10/2026 repo chưa có batch Eyes và chưa có hai bản UI biến thể, nên bảng trên vẫn là dự đoán từ cơ chế hai oracle. Cột Appium đã có lần chạy; cột Eyes chưa đo.
 
 ### A4.3 Ghép cặp hai lớp kiểm thử
 
@@ -322,9 +340,11 @@ Learning objective T03: **đo và giải thích** chi phí bảo trì khi home b
 
 ### A4.4 Failure modes (khung lý thuyết — chi tiết worksheet thuộc TV2)
 
+Đến 23/10/2026 TV2 chưa giao SDK, baseline, batch dashboard hay ảnh diff. Ba mục dưới giữ làm khung cho worksheet đó. Những lần fail đã tái lập thuộc Appium và Detox, không phải Eyes: bàn phím che nút, Alert nuốt cú bấm thứ hai, cold start không lên foreground, `pressBack()` đóng activity Detox, và thông báo đăng nhập gộp hai nguyên nhân thành một chuỗi. Chúng nằm ở A4.1, [A2](docs/A2_Test_Design.md) mục 5 và [A4](docs/A4_Detox.md).
+
 1. **Locator / đồng bộ** — không tìm thấy element; timeout do animation hoặc mạng.  
-2. **Visual nhiễu** — Eyes báo fail vì nội dung động; ignore region che mất lỗi thật.  
-3. **Oracle lệch** — functional pass + visual fail (hoặc ngược lại); cần quy trình triage rõ.
+2. **Visual nhiễu** — Eyes báo fail vì nội dung động; ignore region che mất lỗi thật. Chưa có diff để gắn vào mục này.  
+3. **Oracle lệch** — functional pass + visual fail (hoặc ngược lại); cần quy trình triage rõ. Cặp này vẫn là chính sách, chưa quan sát trên dashboard.
 
 ### A4.5 Ai được cập nhật baseline?
 
@@ -421,7 +441,7 @@ Ba mức này nằm trong video 5–8 phút. Phần live không chạy lại Ins
 |------|----------|
 | Mục tiêu | Chứng minh Appium 2 + UiAutomator2 đã sẵn sàng |
 | Việc làm | Trình bày các bước cài trong [A1](docs/A1_Setup.md) và gọi Appium `/status` |
-| Kết quả kỳ vọng | `/status` báo `ready: true`. Nói rõ log A1 đã kiểm chứng trên Linux |
+| Kết quả kỳ vọng | `/status` báo `ready: true` và `build.version` là `2.19.0`. `appium driver list --installed` có `uiautomator2@4.2.9`. Nói rõ log A1 đã kiểm chứng trên Linux |
 | Bằng chứng | Log cài đặt A1. Không diễn lại toàn bộ bước cài trong video |
 
 #### Demo 2 — Chức năng cơ bản (Inspector + Recorder)
@@ -442,7 +462,7 @@ Ba mức này nằm trong video 5–8 phút. Phần live không chạy lại Ins
 | Mục tiêu | Chạy nghiệp vụ đã kiểm chứng và chỉ ra assertion cùng kết quả TAP thật |
 | Việc làm | Từ `src/appium/`, chạy `npm test`. Ba test, mỗi test một phiên (`noReset: false`): đăng nhập theo bảng, tìm kiếm theo bảng, thêm giỏ và kiểm tra tổng tiền |
 | Dữ liệu | **L1** `test@eshop.com` / `SaiMatKhau-1` rồi **L2** / `Test1234!`. Tìm `iPhone` → 1, `Pro M` → 2, `Nokia 3310` → 0. Giỏ: iPhone 15 Pro Max, đơn giá 30.000.000, thêm 2 lần |
-| Kết quả kỳ vọng | L1 còn màn Login, `login-error` chứa "Đăng nhập thất bại". L2 hiện "Chào, Test User". Tìm kiếm đúng số kết quả và tên; 0 kết quả là ca pass khi không còn dòng đếm. Giỏ: thành tiền và tổng = 60.000.000, rồi giỏ trống. TAP: 3 test / 8 kiểm tra, pass 10/10 lượt ([A3](docs/A3_Metrics.md)) |
+| Kết quả kỳ vọng | L1 còn màn Login, `login-error` chứa "Đăng nhập thất bại". L2 hiện "Chào, Test User". Tìm kiếm đúng số kết quả và tên; 0 kết quả là ca pass khi không còn dòng đếm. Giỏ: thành tiền và tổng = 60.000.000, rồi giỏ trống. TAP: 3 test / 8 kiểm tra, pass 10/10 lượt. Chiến dịch 2: trung bình 102,284 s, trung vị 102,238 s ([A3](docs/A3_Metrics.md)) |
 | Ràng buộc dữ liệu | Backend cộng 2 vào `login_attempts` mỗi lần sai và khoá 3 phút khi ≥ 3, nên hai lần sai liên tiếp sẽ khoá tài khoản. Mỗi lượt chỉ sai một lần (L1) rồi đăng nhập đúng (L2). Video nêu failure mode này khi có bằng chứng, và chỉ trích số liệu A3 của đúng phiên bản đã đo |
 | Case study | Lớp functional của seminar, là safety net trước checkpoint Eyes |
 
@@ -455,6 +475,18 @@ Ba mức này nằm trong video 5–8 phút. Phần live không chạy lại Ins
 | Locator phụ thuộc XPath/text | Script dễ gãy khi UI/copy đổi |
 | Môi trường phức tạp | Cài SDK + driver + capability tốn thời gian; sai cấu hình → session fail |
 | Flaky do timing/mạng | Ngoài tiến trình, mỗi lệnh là một ảnh cây UI. Wait và reset theo A4.1; Appium không tự hết flaky |
+
+### C1.7 Quy trình vận hành đã kiểm chứng
+
+Thứ tự này là thứ tự máy TV1 đã chạy trên Ubuntu với AVD `eshop_api34`. Lệnh đầy đủ ở [A1](docs/A1_Setup.md); bản cho người làm lại từ máy trống ở [User_Guide.md](User_Guide.md) mục 2–3. Chương báo cáo tóm tắt cùng quy trình ở [Report.md](report/Report.md).
+
+1. Node.js 20.19 trở lên, JDK 17 hoặc 21, `ANDROID_HOME`, SDK Platform 36, Build-Tools 36.0.0, AVD `eshop_api34` (Android 14, 1080×2400). Detox dùng Node.js 22.13 trở lên và không cần server Appium.
+2. Backend: `cd eshop-sut-main/backend && npm ci && npm start`. Mỗi lần khởi động tạo lại seed. Tài khoản demo `test@eshop.com` / `Test1234!`. API mặc định của app trên emulator là `http://10.0.2.2:3000/api`.
+3. Emulator đang `device`, rồi `adb reverse tcp:8081 tcp:8081`. Metro phải chạy với APK debug. Package là `com.eshop.sut`.
+4. Appium: `cd src/appium`, `export APPIUM_HOME="$PWD/.appium"`, `npm ci`, `npm run driver:install`, `npm run server`. Sẵn sàng khi `GET http://127.0.0.1:4723/status` có `ready: true` và phiên bản `2.19.0`.
+5. Inspector và `npm test` không chạy cùng lúc: UiAutomator2 chỉ một instrumentation trên một thiết bị. Quit Session trước khi test. Trong Inspector, tìm phần tử bằng chiến lược UIAutomator.
+6. `npm test` từ `src/appium/` chạy ba test tuần tự (`--test-concurrency=1`), mỗi test một phiên `noReset: false`. TAP kỳ vọng `# pass 8`, `# fail 0`.
+7. Mỗi lượt chỉ được sai mật khẩu một lần (L1) rồi đăng nhập đúng (L2). Backend cộng 2 vào `login_attempts` và khoá 3 phút khi đạt 3.
 
 ---
 
