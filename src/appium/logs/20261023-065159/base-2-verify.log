@@ -1,0 +1,18 @@
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+◇ injected env (0) from .env
+2026-10-22T23:57:06.074Z ERROR webdriver: WebDriverError: Request failed with error code ECONNREFUSED when running "http://127.0.0.1:4723/session" with method "POST"
+2026-10-22T23:57:06.075Z ERROR webdriver: Error: WebDriverError: Request failed with error code ECONNREFUSED when running "http://127.0.0.1:4723/session" with method "POST"
+    at FetchRequest._libRequest (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:2251:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async FetchRequest._request (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:2281:20)
+    at async startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1376:16)
+    at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+    at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+    at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\cart-total.test.js:16:14)
+    at async Test.run (node:internal/test_runner/test:1409:7)
+    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+✖ EShop: thêm giỏ hàng và kiểm tra tổng tiền (2073.3273ms)
+◇ injected env (0) from .env

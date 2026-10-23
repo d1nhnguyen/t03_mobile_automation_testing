@@ -1,5 +1,6 @@
 
 require("dotenv").config();
+const variant = process.env.VARIANT_LABEL || "base";
 
 const {
   Eyes,
@@ -22,7 +23,7 @@ function createEyes() {
 
   conf.setApiKey(apiKey);
   conf.setAppName("EShop");
-  conf.setBatch(new BatchInfo("EShop Appium"));
+  conf.setBatch(new BatchInfo(`EShop - ${variant}`));
   conf.setMatchLevel(MatchLevel.Strict);
   conf.setSaveNewTests(true);
   conf.setHostApp("com.eshop.sut");

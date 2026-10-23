@@ -1,0 +1,63 @@
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+◇ injected env (0) from .env
+2026-10-23T00:05:58.797Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:01.058Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:02.594Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:06:20.381Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:21.916Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:23.618Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:06:31.326Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:32.847Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:34.519Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:06:38.013Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:39.544Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:06:41.258Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+✔ EShop: thêm giỏ hàng và kiểm tra tổng tiền (60225.8733ms)
+◇ injected env (0) from .env
+2026-10-23T00:06:59.918Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:02.144Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:03.684Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:07:16.026Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:17.563Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:19.247Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:07:27.122Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:28.642Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:30.342Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+▶ EShop: đăng nhập theo bảng dữ liệu
+  ✔ L1 sai mật khẩu (10492.3806ms)
+2026-10-23T00:07:38.238Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:39.767Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:41.456Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+  ✔ L2 đúng tài khoản (11074.0006ms)
+✔ EShop: đăng nhập theo bảng dữ liệu (57837.9116ms)
+2026-10-23T00:07:55.683Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:57.219Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:07:58.744Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:08:17.638Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:19.181Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:20.888Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+2026-10-23T00:08:27.298Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:28.822Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:30.499Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+▶ EShop: tìm kiếm theo bảng dữ liệu
+  ✔ S1 "iPhone" → 1 sản phẩm (9634.0939ms)
+2026-10-23T00:08:37.767Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:39.288Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:41.381Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+  ✔ S2 "Pro M" → 2 sản phẩm (10845.5069ms)
+2026-10-23T00:08:48.220Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:49.759Z ERROR webdriver: WebDriverError: Method is not implemented when running "execute/sync" with method "POST"
+2026-10-23T00:08:51.489Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Potentially insecure feature 'adb_shell' has not been enabled. If you want to enable this feature and accept the security ramifications, please do so by following the documented instructions at http://appium.io/docs/en/latest/guides/security/ when running "execute/sync" with method "POST"
+  ✔ S3 "Nokia 3310" → 0 sản phẩm (10037.4903ms)
+✔ EShop: tìm kiếm theo bảng dữ liệu (71545.7615ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 191297.2372

@@ -27,7 +27,7 @@ test("EShop: thêm giỏ hàng và kiểm tra tổng tiền", { timeout: 180_000
     assert.equal(digits(await (await home.productPrice(productId)).getText()), String(unitPrice));
 
     // Checkpoint 1: Home với danh sách sản phẩm, trước khi thêm vào giỏ
-    await checkpointAs(eyes, "homeLoggedIn", "Home - product list (cart test)");
+    await checkpointAs(eyes, "homeLoggedIn", "Home - product list (cart test)", { home, requireImage: true }); // ĐỔI
 
     await home.addToCart(productId, addTimes);
     await driver.waitUntil(

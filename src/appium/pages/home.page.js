@@ -45,6 +45,10 @@ class HomePage {
     return this.driver.$(byTestId(`product-name-${id}`));
   }
 
+  productImage(id) {
+    return this.driver.$(`id=product-image-${id}`);   // dùng cùng kiểu selector với productName
+  }
+
   productPrice(id) {
     return this.driver.$(byTestId(`product-price-${id}`));
   }
