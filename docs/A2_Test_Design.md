@@ -57,6 +57,7 @@ Thêm vào `eshop-sut-main/frontend-mobile/App.js`, chỉ gắn nhãn phần t�
 | 4 | Ô số lượng trong giỏ cộng thêm 1 khi parse (`parsed + 1`) | Gõ "2" thành 3 | Không gõ vào ô số lượng; tăng số lượng bằng cách thêm lại sản phẩm |
 | 5 | Bàn phím ảo còn mở sau khi nhập liệu che phần dưới màn hình; UiAutomator2 không trả về phần tử bị che | "element wasn't found" dù phần tử có trong mã | `hideKeyboardIfShown` sau đăng nhập; `waitForDisplayed` trước khi bấm |
 | 6 | Route `/api/products?search=` nối chuỗi thẳng vào SQL | Không ảnh hưởng test hiện tại | Ghi nhận (rủi ro SQL injection) cho phần đánh giá SUT; không khai thác trong demo |
+| 7 | Emulator headless (GPU phần mềm) trên máy nặng tải có thể hiện hộp thoại **"System UI isn't responding"** ngay sau khi boot (23/10) | Hộp thoại chặn app lên foreground → cả 3 test lỗi `nav-login still not displayed after 30000ms` dù code đúng | Trước khi chạy: `adb shell dumpsys window \| grep mCurrentFocus`; nếu thấy `Application Not Responding` thì bấm Wait (`adb shell input tap 320 1332` trên 1080×2400) hoặc chụp màn hình kiểm tra; đây là lỗi môi trường, không phải lỗi test |
 
 ## 6. Cách chạy
 
@@ -65,9 +66,12 @@ Theo [A1](A1_Setup.md): backend, emulator, `adb reverse tcp:8081 tcp:8081`, Metr
 ```bash
 cd src/appium
 export APPIUM_HOME="$PWD/.appium"
-npm test                       # 3 file test, tuần tự, ~2 phút
+npm test                       # 3 file test, tuần tự, ~2 phút (không khoá Eyes) / ~3,5 phút (có Eyes)
+EYES=off npm test              # tắt Eyes chủ động dù có khoá
 bash scripts/measure-runs.sh   # 10 lượt, ghi docs/evidence/A3_runs_<ngày>.csv|log
 ```
+
+Eyes là lớp tuỳ chọn: không có `APPLITOOLS_API_KEY` thì `createEyes()` trả `null`, checkpoint bị bỏ qua và TAP in `# Eyes: tắt`; có khoá thì mỗi test in thêm `# Eyes: <trạng thái> | steps | <link dashboard>`.
 
 Kết quả TAP mong đợi: `ok 1 … giỏ hàng`, `ok 2 … đăng nhập theo bảng dữ liệu` (2 subtest), `ok 3 … tìm kiếm theo bảng dữ liệu` (3 subtest); `# pass 8`, `# fail 0` (3 test + 5 subtest).
 

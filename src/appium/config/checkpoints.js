@@ -29,6 +29,7 @@ const CHECKPOINTS = {
 
 // ctx = { home } khi checkpoint cần tìm phần tử (home/search)
 async function checkpointAs(eyes, key, name, ctx) {
+  if (!eyes) return; // Eyes tắt (không có khoá / EYES=off): bỏ qua checkpoint visual
   await eyes.check(name, await CHECKPOINTS[key].target(ctx));
 }
 

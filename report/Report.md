@@ -182,7 +182,8 @@ Eyes gắn vào chính bộ test Appium ở chương 2, không có bộ test ri�
 | Khóa baseline | Tên test cố định: `Login data-driven`, `Search data-driven`, `Cart add and total` |
 | Batch | `EShop - base`, `EShop - v1`, `EShop - v2`, đặt bằng `VARIANT_LABEL`; chỉ để nhóm lượt chạy, không đổi baseline |
 | Vùng | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận chưa chạy |
-| Đóng phiên | `eyes.close(false)`: diff không làm test đỏ trong terminal, kết quả visual xem trên dashboard |
+| Đóng phiên | `eyes.close(false)`: diff không làm test đỏ trong terminal; mỗi test in `Eyes: <trạng thái> | steps | link` vào TAP, chi tiết xem trên dashboard |
+| Khi không có khoá | `createEyes()` trả về `null`, mọi checkpoint bị bỏ qua, assertion chức năng vẫn chạy đủ (`EYES=off` để tắt chủ động). Lớp functional không phụ thuộc trial Applitools |
 | Chạy | `run-variants.sh` ở gốc repo: mở AVD nếu chưa có emulator (mặc định `eshop_api34`; lần B2 dùng emulator `Medium_Phone_API_37.0` đang chạy sẵn), tắt animation, khởi động lại backend mỗi lượt, build APK lần đầu rồi đổi bản UI bằng cách khởi động lại Metro với `EXPO_PUBLIC_UI_VARIANT`, chạy base hai lần rồi V1, V2 |
 
 Ba test tạo **10 checkpoint** mỗi lượt:
@@ -252,7 +253,7 @@ Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không b
 
 **Đã quan sát với Eyes**
 
-1. **Terminal xanh, dashboard vàng.** `eyes.close(false)` không ném lỗi khi có diff. Lượt V2 có `# fail 0` và exit 0, trong khi dashboard báo 6/10 checkpoint lệch. Ai chỉ đọc CI hoặc terminal sẽ cho rằng V2 không có vấn đề.
+1. **Terminal xanh, dashboard vàng.** `eyes.close(false)` không ném lỗi khi có diff (từ 23/10 TAP in thêm dòng `# Eyes: Unresolved | ... | link`, nên không còn im lặng, nhưng exit code vẫn 0). Lượt V2 có `# fail 0` và exit 0, trong khi dashboard báo 6/10 checkpoint lệch. Ai chỉ đọc CI hoặc terminal sẽ cho rằng V2 không có vấn đề.
 2. **Trạng thái theo test che vị trí lệch.** "Login data-driven: Unresolved" ở V1 khiến người đọc nghĩ màn Login đổi, trong khi lệch nằm ở bước Home cuối test. Phải mở từng bước mới biết.
 3. **Vùng viết trong code chưa chắc đã được gửi.** Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng selector `id=` không tìm thấy phần tử, nên Eyes không nhận vùng đó và V1 vẫn lệch ở ảnh sản phẩm. Phải xem log của lượt chạy, không chỉ đọc khai báo.
 

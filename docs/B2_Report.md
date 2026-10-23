@@ -145,7 +145,7 @@ Thời gian lấy từ `duration_ms` trong log (`base-2-verify.log` 191297, `v1.
 
 - Baseline gắn với môi trường (thiết bị, độ phân giải, tên test). Đổi AVD hoặc độ phân giải sẽ tạo baseline mới.
 - Ảnh phải ổn định: cần chờ phần tử hiển thị và tắt animation trước khi chụp.
-- Code dùng `eyes.close(false)` nên terminal không báo lỗi khi có diff visual; kết quả visual chỉ xem trên dashboard.
+- Code dùng `eyes.close(false)` nên diff visual không làm test chức năng đỏ; từ 23/10 mỗi test in `# Eyes: <trạng thái> | ... | <link>` vào TAP, chi tiết xem trên dashboard. Không có khoá thì Eyes tắt và chỉ chạy functional (`createEyes()` trả `null`).
 - Số lần chạy ít (1 lần mỗi bản), chưa đủ để kết luận về độ ổn định (flake rate) của test visual.
 - Tọa độ vùng ignore status bar phụ thuộc độ phân giải AVD.
 - Nếu lỡ Accept và Save trên lần chạy V1 hoặc V2, baseline bị ghi đè bằng giao diện variant và các lần chạy sau sẽ so sai; cần khôi phục baseline cũ hoặc tạo lại từ đầu.

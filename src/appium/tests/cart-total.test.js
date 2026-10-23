@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const { createSession } = require("../config/session");
-const { createEyes } = require("../config/eyes");
+const { createEyes, openEyes, closeEyes, abortEyes } = require("../config/eyes");
 const { checkpointAs } = require("../config/checkpoints");
 const { DEMO_USER, CART_CASE } = require("../data/cases");
 const { CartPage } = require("../pages/cart.page");
@@ -14,7 +14,7 @@ test("EShop: thêm giỏ hàng và kiểm tra tổng tiền", { timeout: 180_000
   const eyes = createEyes();
   try {
     driver = await createSession();
-    await eyes.open(driver, "EShop", "Cart add and total"); // tên cố định = khóa baseline
+    await openEyes(eyes, driver, "Cart add and total");
     const home = new HomePage(driver);
     const login = new LoginPage(driver);
     const cart = new CartPage(driver);
@@ -52,9 +52,9 @@ test("EShop: thêm giỏ hàng và kiểm tra tổng tiền", { timeout: 180_000
     // Checkpoint 3: Giỏ hàng trống sau khi xóa
     await checkpointAs(eyes, "cartEmpty", "Cart - empty after remove");
 
-    await eyes.close(false); // không throw, xem kết quả trên dashboard
+    await closeEyes(eyes);
   } finally {
-    await eyes.abort(); // không làm gì nếu đã close
+    await abortEyes(eyes);
     if (driver) await driver.deleteSession();
   }
 });

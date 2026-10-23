@@ -285,7 +285,7 @@ Trong `src/appium`, tạo file `.env` (đã nằm trong `.gitignore`, không com
 APPLITOOLS_API_KEY=...
 ```
 
-Hoặc export cùng tên biến trong terminal. Thiếu khoá thì `createEyes` ném lỗi `Missing APPLITOOLS_API_KEY`.
+Hoặc export cùng tên biến trong terminal. **Thiếu khoá thì Eyes tự tắt**: `npm test` vẫn chạy đủ assertion chức năng và in `# Eyes: tắt (không có APPLITOOLS_API_KEY)`. Muốn tắt chủ động dù có khoá: `EYES=off npm test`. Lớp functional vì thế không phụ thuộc vào trial hay khoá của Applitools.
 
 Cấu hình đã khóa trong `src/appium/config/eyes.js` và `config/checkpoints.js`:
 
@@ -298,7 +298,7 @@ Cấu hình đã khóa trong `src/appium/config/eyes.js` và `config/checkpoints
 | Layout | ảnh sản phẩm id 1 (`product-image-1`) trên Home và Search |
 | Batch | `EShop - ${VARIANT_LABEL}`; mặc định `VARIANT_LABEL=base` |
 
-`eyes.close(false)` không làm terminal đỏ khi có diff visual. Kết quả Passed / Unresolved xem trên [dashboard Applitools](https://eyes.applitools.com). Ảnh batch `EShop - base` đã Passed nằm ở `docs/evidence/B1_B2_applitools-dashboard/login_base.png`.
+`eyes.close(false)` không làm terminal đỏ khi có diff visual, nhưng mỗi test in một dòng `# Eyes: <trạng thái> | ... | <link>` vào TAP. Chi tiết Passed / Unresolved xem trên [dashboard Applitools](https://eyes.applitools.com). Ảnh batch `EShop - base` đã Passed nằm ở `docs/evidence/B1_B2_applitools-dashboard/login_base.png`.
 
 Baseline gắn với viewport và thiết bị đã duyệt. Lần B2 dùng AVD `Medium_Phone_API_37.0`, 1080×2400, viewport dashboard khoảng 411×866. Đổi AVD hoặc độ phân giải sẽ tạo baseline mới, không so được với batch đã Accept.
 
@@ -310,7 +310,7 @@ Bỏ qua, trừ khi giảng viên chấp nhận Maestro thay trial Applitools đ
 
 ## 3. Bài test đầu
 
-Mục tiêu: một đường chức năng. Visual AI đi sâu ở mục 4, nhưng `npm test` hiện tại đã mở Eyes và chụp checkpoint, nên bước 6 cần `APPLITOOLS_API_KEY` (mục 2.5). Làm xong mục 2 trước. Nếu đĩa chỉ có `eshop-sut-main`, chép `src/appium` rồi làm mục 2.4 trước bước 6. Kết quả chức năng cả bộ đã ghi nằm ở `docs/A3_Metrics.md`: 3 test, 8 kiểm tra, 10/10 lượt trên AVD `eshop_api34`.
+Mục tiêu: một đường chức năng. Visual AI đi sâu ở mục 4, nhưng `npm test` sẽ mở Eyes và chụp checkpoint khi có khoá (không có khoá thì Eyes tắt, chỉ còn functional), nên bước 6 cần `APPLITOOLS_API_KEY` (mục 2.5). Làm xong mục 2 trước. Nếu đĩa chỉ có `eshop-sut-main`, chép `src/appium` rồi làm mục 2.4 trước bước 6. Kết quả chức năng cả bộ đã ghi nằm ở `docs/A3_Metrics.md`: 3 test, 8 kiểm tra, 10/10 lượt trên AVD `eshop_api34`.
 
 Một lượt đạt của đường đầu trông như sau:
 
@@ -337,7 +337,7 @@ Phiên Inspector vừa mở có thể vẫn hiện màn hình Android trống ch
 7. Bật server bằng `npm run server`.
 8. Mở `http://127.0.0.1:4723/status`. Chỉ tiếp tục khi `ready` là `true`.
 9. Quit mọi phiên Inspector. Một instrumentation UiAutomator2 cho một thiết bị. `npm test` thất bại nếu Inspector còn giữ phiên.
-10. Từ terminal thứ hai trong `src/appium`, cùng `APPIUM_HOME` và `APPLITOOLS_API_KEY`, chạy `npm test`. Đó là `node --test --test-concurrency=1`. Assertion chức năng in ra terminal; kết quả Eyes xem trên dashboard.
+10. Từ terminal thứ hai trong `src/appium`, cùng `APPIUM_HOME` (và `APPLITOOLS_API_KEY` nếu muốn bật Eyes), chạy `npm test`. Đó là `node --test --test-concurrency=1`. Assertion chức năng in ra terminal; kết quả Eyes xem trên dashboard.
 11. Ở test đăng nhập, `L1` còn màn Đăng nhập, có dòng `Đăng nhập thất bại`, và chưa có lời chào `Test User`. `L2` có lời chào `Chào, Test User` và không còn dòng lỗi.
 12. Ở test tìm kiếm, từ khoá `iPhone` tới `Hiển thị 1 sản phẩm` và tên `iPhone 15 Pro Max`. Các sản phẩm còn lại không còn trên màn hình. Đây là checkpoint của bài test đầu.
 13. Không nhập mật khẩu sai lần thứ hai khi tiến trình backend này còn chạy. Mỗi lần sai cộng 2 vào `login_attempts`, và tài khoản khoá 3 phút khi đạt 3. Nếu một lượt chết sau `L1` và trước `L2`, dừng backend rồi khởi động lại để seed sạch, sau đó chạy lại `npm test`.
@@ -574,6 +574,10 @@ APK debug không phải lúc nào cũng được đưa lên trước. `startApp`
 
 `pressBack()` sau `replaceText` đóng màn hình trên `eshop_api34`. Lệnh đã bỏ trước ba lượt pass. Dòng đầu log là `Warm run after fixing pressBack` trong `docs/evidence/A4_detox_runs_2026-10-22.log`.
 
+### 5.6a Emulator hiện "System UI isn't responding" sau khi boot
+
+Gặp ngày 23/10 trên emulator headless (`-gpu swiftshader_indirect`) khi máy đang nặng tải: hộp thoại ANR của System UI che màn hình, app không lên foreground, cả ba test lỗi `nav-login still not displayed after 30000ms`. Kiểm tra bằng `adb shell dumpsys window | grep mCurrentFocus` (thấy `Application Not Responding`) hoặc `adb exec-out screencap -p > now.png`. Xử lý: bấm **Wait** (`adb shell input tap 320 1332` với màn 1080×2400) rồi chạy lại; nếu lặp lại, mở emulator có cửa sổ hoặc giảm tải máy. Không phải lỗi của test hay Appium.
+
 ### 5.6 Emulator không boot khi đĩa gần đầy
 
 **Đã gặp** trên máy Linux lúc làm A4. Còn khoảng 1,7 GiB thì emulator từ chối khởi động. Sau khi dọn cache, còn khoảng 3,4 GiB, máy ảo boot được. Kiểm tra đĩa trống trước khi mở `eshop_api34`. Đây là lỗi môi trường, không phải test flaky.
@@ -594,8 +598,8 @@ Các việc này hiện trên máy chưa xong mục 2.1. Chúng là lỗ hổng 
 |-------------|------------------------|
 | Đăng nhập xoay mãi hoặc báo lỗi mạng | Backend phải ở cổng 3000. Trên emulator, client dùng địa chỉ mặc định trong mã; `localhost` bên trong emulator là chính emulator |
 | Tìm `iPhone` không ra gì | Khởi động lại `npm start` để nạp seed, rồi bấm nút tìm |
-| `Missing APPLITOOLS_API_KEY` khi `npm test` | Tạo `src/appium/.env` hoặc export biến (mục 2.5) |
-| Terminal xanh nhưng dashboard Unresolved | Đúng với `eyes.close(false)`. Functional và visual tách nhau; xem batch `EShop - <variant>` |
+| TAP in `# Eyes: tắt (không có APPLITOOLS_API_KEY)` | Bình thường khi chưa có khoá: chỉ chạy functional. Muốn bật Eyes thì tạo `src/appium/.env` hoặc export biến (mục 2.5) |
+| Terminal xanh nhưng dashboard Unresolved | Đúng với `eyes.close(false)`: diff visual không làm test chức năng đỏ, nhưng TAP in dòng `# Eyes: Unresolved | <tên test> | ... | <link>` cho từng test; mở link đó |
 | Diff trên mọi checkpoint sau khi đổi AVD | Baseline gắn viewport/thiết bị. B2 dùng `Medium_Phone_API_37.0`; A1 dùng `eshop_api34`. Cùng độ phân giải 1080×2400 vẫn có thể lệch nếu mật độ khác — Accept lại trên đúng AVD demo |
 | Lỡ Accept trên batch `v1` hoặc `v2` | Baseline bị ghi đè. Tạo lại từ `base` (`./run-variants.sh base`) rồi Accept chỉ batch `base` |
 | Maestro không thấy app | Chưa có file flow. Một thiết bị, APK debug đã cài, không phải Expo Go |

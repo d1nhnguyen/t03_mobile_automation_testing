@@ -68,6 +68,8 @@ Khung 10 phút live trong `requirements/Seminar_Guide.docx` dành cho một màn
 
 Diễn tập đúng trình tự này cùng TV2. Nếu tích hợp Eyes hoặc bản UI biến thể chưa sẵn sàng thì phần live chưa đủ điều kiện để quay hoặc trình bày là hoàn chỉnh.
 
+**Đường lùi khi Eyes gặp sự cố lúc live** (hết trial, mất mạng, khoá lỗi): chạy `EYES=off npm test` để phần Appium vẫn chạy đủ 8 kiểm tra, rồi chiếu kết quả Eyes từ video/ảnh dashboard đã có. Không được dừng demo vì lớp AI.
+
 ## Checklist quay và bằng chứng
 
 - [ ] Chương cài đặt Appium dùng lệnh và kết quả thật của dự án.

@@ -1,7 +1,7 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 const { createSession } = require("../config/session");
-const { createEyes } = require("../config/eyes");
+const { createEyes, openEyes, closeEyes, abortEyes } = require("../config/eyes");
 const { checkpointAs } = require("../config/checkpoints");
 const { DEMO_USER, LOGIN_CASES, SEARCH_CASES } = require("../data/cases");
 const { HomePage } = require("../pages/home.page");
@@ -13,7 +13,7 @@ test("EShop: đăng nhập theo bảng dữ liệu", { timeout: 180_000 }, async
   const eyes = createEyes();
   try {
     driver = await createSession();
-    await eyes.open(driver, "EShop", "Login data-driven"); // tên cố định = khóa baseline
+    await openEyes(eyes, driver, "Login data-driven");
     const home = new HomePage(driver);
     const login = new LoginPage(driver);
     await startApp(driver, home);
@@ -47,9 +47,9 @@ test("EShop: đăng nhập theo bảng dữ liệu", { timeout: 180_000 }, async
       });
     }
 
-    await eyes.close(false); // không throw, xem kết quả trên dashboard
+    await closeEyes(eyes);
   } finally {
-    await eyes.abort(); // không làm gì nếu đã close
+    await abortEyes(eyes);
     if (driver) await driver.deleteSession();
   }
 });
@@ -59,7 +59,7 @@ test("EShop: tìm kiếm theo bảng dữ liệu", { timeout: 240_000 }, async (
   const eyes = createEyes();
   try {
     driver = await createSession();
-    await eyes.open(driver, "EShop", "Search data-driven");
+    await openEyes(eyes, driver, "Search data-driven");
     const home = new HomePage(driver);
     const login = new LoginPage(driver);
     await startApp(driver, home);
@@ -102,9 +102,9 @@ test("EShop: tìm kiếm theo bảng dữ liệu", { timeout: 240_000 }, async (
       });
     }
 
-    await eyes.close(false);
+    await closeEyes(eyes);
   } finally {
-    await eyes.abort();
+    await abortEyes(eyes);
     if (driver) await driver.deleteSession();
   }
 });
