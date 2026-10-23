@@ -1,0 +1,82 @@
+
+> eshop-appium@1.0.0 test
+> node --test --test-concurrency=1
+
+◇ injected env (0) from .env
+2026-10-22T23:53:27.762Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+2026-10-22T23:53:27.763Z ERROR webdriver: unknown error: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+    at FetchRequest._request (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:2316:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1376:16)
+    at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+    at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+    at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\cart-total.test.js:16:14)
+    at async Test.run (node:internal/test_runner/test:1409:7)
+    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+✖ EShop: thêm giỏ hàng và kiểm tra tổng tiền (2398.0399ms)
+◇ injected env (0) from .env
+2026-10-22T23:53:30.739Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+2026-10-22T23:53:30.740Z ERROR webdriver: unknown error: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+    at FetchRequest._request (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:2316:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1376:16)
+    at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+    at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+    at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\login-search.test.js:15:14)
+    at async Test.run (node:internal/test_runner/test:1409:7)
+    at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+✖ EShop: đăng nhập theo bảng dữ liệu (2151.3353ms)
+2026-10-22T23:53:32.287Z ERROR webdriver: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+2026-10-22T23:53:32.288Z ERROR webdriver: unknown error: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+    at FetchRequest._request (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:2316:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1376:16)
+    at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+    at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+    at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\login-search.test.js:61:14)
+    at async Test.run (node:internal/test_runner/test:1409:7)
+    at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+✖ EShop: tìm kiếm theo bảng dữ liệu (1545.6731ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8021.7653
+
+✖ failing tests:
+
+test at tests\cart-total.test.js:12:1
+✖ EShop: thêm giỏ hàng và kiểm tra tổng tiền (2398.0399ms)
+  Error: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+      at startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1380:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+      at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+      at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\cart-total.test.js:16:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests\login-search.test.js:11:1
+✖ EShop: đăng nhập theo bảng dữ liệu (2151.3353ms)
+  Error: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+      at startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1380:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+      at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+      at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\login-search.test.js:15:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests\login-search.test.js:57:1
+✖ EShop: tìm kiếm theo bảng dữ liệu (1545.6731ms)
+  Error: WebDriverError: An unknown server-side error occurred while processing the command. Original error: Could not find a driver for automationName 'UiAutomator2' and platformName 'Android'. Have you installed a driver that supports those capabilities? Run 'appium driver list --installed' to see. (Lower-level error: Could not find installed driver to support given caps) when running "http://127.0.0.1:4723/session" with method "POST"
+      at startWebDriverSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1380:11)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async _WebDriver.newSession (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriver/build/node.js:1805:41)
+      at async remote (file:///D:/t03_mobile_automation_testing/src/appium/node_modules/webdriverio/build/node.js:10947:20)
+      at async TestContext.<anonymous> (D:\t03_mobile_automation_testing\src\appium\tests\login-search.test.js:61:14)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

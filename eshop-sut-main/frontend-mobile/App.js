@@ -19,6 +19,14 @@ import { StatusBar } from "expo-status-bar";
 // EXPO_PUBLIC_API_URL to a LAN address when running on a physical device.
 const API_URL = process.env.EXPO_PUBLIC_API_URL || "http://10.0.2.2:3000/api";
 
+const VARIANT = process.env.EXPO_PUBLIC_UI_VARIANT || "base";
+const v1 = VARIANT === "v1";
+const v2 = VARIANT === "v2";
+
+// Ảnh thay thế cho V1, đặt tại frontend-mobile/assets/product-v1.png
+const V1_IMAGE = require("./assets/product-v1.png");
+const V1_PRODUCT_ID = 1;
+
 const formatMoney = (value) => `${Number(value).toLocaleString()} ₫`;
 
 export default function App() {
@@ -458,39 +466,47 @@ export default function App() {
   );
 
   const renderProduct = ({ item }) => (
-    <View style={styles.productCard} testID={`product-card-${item.id}`}>
+  <View style={styles.productCard} testID={`product-card-${item.id}`}>
+    {/* View bọc ngoài để có testID ổn định cho Eyes (layout region) */}
+    <View testID={`product-image-${item.id}`} collapsable={false}>
       <Image
-        source={{ uri: item.imageUrl }}
+        source={
+          v1 && item.id === V1_PRODUCT_ID ? V1_IMAGE : { uri: item.imageUrl }
+        }
         style={styles.productImage}
         resizeMode="stretch"
       />
-      <Text
-        style={styles.productName}
-        numberOfLines={1}
-        testID={`product-name-${item.id}`}
-      >
-        {item.name}
-      </Text>
-      <Text style={styles.productPrice} testID={`product-price-${item.id}`}>
-        {formatMoney(item.price)}
-      </Text>
-      <View style={styles.productActions}>
-        <TouchableOpacity
-          style={[styles.secondaryButton, styles.actionFlex]}
-          onPress={() => openProductDetail(item.id)}
-        >
-          <Text style={styles.secondaryButtonText}>Xem chi tiết</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.actionFlex]}
-          onPress={() => addToCart(item, 1)}
-          testID={`product-add-${item.id}`}
-        >
-          <Text style={styles.buttonText}>Thêm vào giỏ</Text>
-        </TouchableOpacity>
-      </View>
     </View>
-  );
+    <Text
+      style={styles.productName}
+      numberOfLines={1}
+      testID={`product-name-${item.id}`}
+    >
+      {item.name}
+    </Text>
+    <Text
+      style={[styles.productPrice, v2 && v2Styles.price]}
+      testID={`product-price-${item.id}`}
+    >
+      {formatMoney(item.price)}
+    </Text>
+    <View style={[styles.productActions, v2 && v2Styles.actions]}>
+      <TouchableOpacity
+        style={[styles.secondaryButton, styles.actionFlex]}
+        onPress={() => openProductDetail(item.id)}
+      >
+        <Text style={styles.secondaryButtonText}>Xem chi tiết</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.button, styles.actionFlex, v2 && v2Styles.addButton]}
+        onPress={() => addToCart(item, 1)}
+        testID={`product-add-${item.id}`}
+      >
+        <Text style={styles.buttonText}>Thêm vào giỏ</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+);
 
   const renderHome = () =>
     renderScreen(
@@ -657,7 +673,7 @@ export default function App() {
               ))}
             </ScrollView>
 
-            <Text style={styles.totalText} testID="cart-total">
+            <Text style={[styles.totalText, v2 && v2Styles.total]} testID="cart-total">
               Tổng tạm tính: {formatMoney(cartTotal)}
             </Text>
             <View style={styles.actionRow}>
@@ -668,7 +684,7 @@ export default function App() {
                 <Text style={styles.buttonText}>← Mua tiếp</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.checkoutBtn, styles.actionFlex]}
+                style={[styles.checkoutBtn, styles.actionFlex, v2 && v2Styles.checkout]}
                 onPress={openCheckout}
               >
                 <Text style={styles.buttonText}>Tiến hành thanh toán</Text>
@@ -1334,4 +1350,13 @@ const styles = StyleSheet.create({
   centerText: { textAlign: "center", marginBottom: 16 },
   footer: { backgroundColor: "#1f2937", padding: 12, alignItems: "center" },
   footerText: { color: "#fff", fontSize: 12, textAlign: "center" },
+});
+
+// Chỉ áp dụng khi EXPO_PUBLIC_UI_VARIANT=v2
+const v2Styles = StyleSheet.create({
+  price: { color: "#7c3aed", fontSize: 20 },            // giá: đỏ → tím, chữ to hơn
+  actions: { marginTop: 24, paddingLeft: 24 },          // hai nút bị đẩy xuống và sang phải
+  addButton: { backgroundColor: "#dc2626" },            // nút Thêm vào giỏ: xanh → đỏ
+  total: { textAlign: "left", marginLeft: 24 },         // tổng tiền: phải → trái
+  checkout: { backgroundColor: "#f97316" },             // nút thanh toán: xanh lá → cam
 });
