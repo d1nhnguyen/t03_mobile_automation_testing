@@ -39,7 +39,7 @@ Tài liệu này gộp ba biểu mẫu của môn cho phần seminar:
 | Claude (model Claude Fable 5.1) | TV1 | Hỗ trợ viết bộ test Appium data-driven, script đo thời gian/flake, viết lại tài liệu A2/A3 và kịch bản demo | Trailer `Co-Authored-By: Claude Fable 5.1` trong commit `de57ee8`, `18ef5fd`, `33209e2`, `54a2df2` |
 | Cursor agent (Grok) | TV3 | Biên tập lý thuyết, căn chỉnh kịch bản demo, soạn báo cáo chương 1–2 và User Guide, dịch sang tiếng Việt; cập nhật User Guide theo kết quả Eyes | Trailer `Co-authored-by: Cursor` trong commit `29d06a4`, `c97aebd`, `2db70ed`, `eebdc08`; mục 8 của `User_Guide.md`; cuối `report/Report.md` |
 | Cursor agent (Claude) | TV3 | Tóm tắt yêu cầu seminar từ tài liệu giảng viên; soạn tài liệu khai báo này; hoàn thiện chương 3 (Visual AI) của `report/Report.md` từ tài liệu, log và ảnh dashboard của TV2 | Phiên làm việc ngày 23/10/2026; ghi chú cuối `report/Report.md` |
-| `[TV2 xác nhận]` | TV2 | `[TV2 điền: công cụ, và phần nào trong tích hợp Eyes, run-variants.sh, App.js variant, B2_Report.md, B4_Activity_Worksheet.md, diff cards có AI hỗ trợ]` | Các commit `24eb347`, `e154ead`, `f792677`, `b7f11c4`, `42c20f4`, `0e5a176` không có trailer AI và tài liệu B2/B4 không có mục khai báo. Ảnh `docs/evidence/B1_B2_applitools-dashboard/batch_history_4_runs.png` chụp cả thanh tab trình duyệt, trong đó có các tab tên "Appium, Detox và Applitools Ey…", "Tạo thẻ diff trực quan", "Giải thích chụp ảnh Applitools". Tên tab giống tiêu đề hội thoại với trợ lý AI; TV2 xác nhận hoặc bác bỏ |
+| Claude | TV2 | Cấu hình Applitool Eyes, viết script phục vụ việc chạy test, tạo các diffcard và các tài liệu B2, B4 | Các commit `24eb347`, `e154ead`, `f792677`, `b7f11c4`, `42c20f4`, `0e5a176` không có trailer AI và tài liệu B2/B4 không có mục khai báo. |
 
 ### 2.2 AI là đối tượng được kiểm thử (không phải trợ lý)
 
@@ -77,7 +77,7 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 | P4 | TV3 | Cursor (Grok) | Biên tập lý thuyết, báo cáo và User Guide từ `docs/A1`–`A4` và mã nguồn; chỉ ghi lệnh đã chạy thật |
 | P5 | TV3 | Cursor (Claude) | Đọc tài liệu seminar của giảng viên, tóm tắt yêu cầu, soạn khung khai báo AI từ commit và tài liệu trong repo |
 | P6 | TV3 | Cursor (Claude) | Lấy bản cập nhật của TV2 trên GitHub, hoàn thiện nội dung báo cáo và khai báo AI, rồi commit |
-| P7 | TV2 | `[TV2 điền]` | `[TV2 điền]` |
+| P7 | TV2 | Claude | Cấu hình applitool eyes và viết scripts chạy test |
 
 ### 2.5 Phần AI đóng góp và phần không có AI
 
@@ -88,7 +88,7 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 - `src/appium/scripts/measure-runs.sh`, `summarize-runs.py`; văn bản `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `Demo_Scenario.md`.
 - Văn bản `Ly_Thuyet_T03_Mobile_Automation.md` (sau bản nháp tay `c5a4d19`), `report/Report.md` (chương 1–2 với Grok, chương 3 với Claude), `User_Guide.md`.
 - Bản nháp tài liệu khai báo này.
-- Phần của TV2 (`docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`): **chờ TV2 xác nhận**.
+- Các file `docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`
 
 **Không có AI tạo ra hoặc chỉnh sửa:**
 
@@ -133,8 +133,8 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 7 | Cursor (Grok), 23/10/2026 — báo cáo Appium (TV3, `c97aebd`) | `report/Report.md` chương 1–3 | INCOMPLETE | Báo cáo kiểm thử chỉ được ghi kết quả đã quan sát (CTFL §5.3) | Để trống cột kết quả Eyes thay vì điền dự đoán; ghi nguồn từng số liệu về A1–A4 |
 | 8 | Cursor (Grok), 23/10/2026 — User Guide (TV3, `2db70ed`) | `User_Guide.md` mục 1–7 | INCOMPLETE | Bản nháp đầu tự ghi "không phải bản ghi một lần chạy thành công"; User Guide phải tái lập được (rubric 20%) | Thay các mục *Not yet recorded* bằng lệnh đã chạy ở A1; lỗi ở mục 5–6 lấy từ log A2/A3/A4 |
 | 9 | Cursor (Claude), 23/10/2026 — tóm tắt yêu cầu và soạn khai báo này (TV3) | Tài liệu này | INCOMPLETE | Khai báo phải đúng và đủ theo [AI-03]; AI không biết họ tên, MSSV và prompt của từng người | Thành viên điền thông tin, dán prompt nguyên văn, kiểm tra từng hàng rồi ký |
-| 10 | `[TV2 điền]` — tích hợp Eyes, `run-variants.sh`, hai bản UI, `docs/B2_Report.md` (`24eb347`, `e154ead`) | `[TV2 điền]` | `[TV2]` | `[TV2]` | `[TV2]` |
-| 11 | `[TV2 điền]` — worksheet B4 và bộ 10 diff card (`0e5a176`) | `[TV2 điền]` | `[TV2]` | `[TV2]` | `[TV2]` |
+| 10 | Claude 22/10/2026 — tích hợp Eyes, `run-variants.sh`, hai bản UI, `docs/B2_Report.md` (`24eb347`, `e154ead`) | `run-variants.sh`, `docs/B2_Report.md`, các file cấu hình applitool eyes | INCOMPLETE | luồng test chạy applitool eyes chạy được nhưng vẫn còn lỗi  | Chưa tìm ra vấn đề |
+| 11 | Claude 22/10/2026 — DiffCards_Questions.md, DiffCards_AnswerKey.md và Activity_Worksheet.md cho workshop Visual Diff Triage. | Tài liệu B4 và diffcard, không bao gồm các hình ảnh | INCOMPLETE | Nội dung được xây dựng dựa trên yêu cầu B4 nhưng chưa đối chiếu đầy đủ với deck của GV; dry-run và phản hồi thực tế chưa có dữ liệu. | Cần đối chiếu deck, kiểm tra ảnh và đáp án, bổ sung nhiễu còn thiếu, thực hiện dry-run thực tế và chỉ tổng hợp minute papers từ phản hồi thật. |
 | 12 | Cursor, 23/10/2026 — cập nhật User Guide theo kết quả Eyes (TV3, `eebdc08`) | Mục 2.5, 4.1, 4.5–4.6, 5.8, 6, 9 của `User_Guide.md` | INCOMPLETE | Mục 6 viết "chạy thêm không có layout region" và dẫn ảnh `v1_home_without_layout_region.png`, nhưng log chỉ có một lượt V1, và ảnh đó cùng bước với ảnh "with layout region". Báo cáo kiểm thử chỉ ghi điều đã quan sát (CTFL §5.3) | Chưa sửa trong User Guide; đã ghi đúng ở `report/Report.md` mục 3.4. Sửa câu này trước khi nộp bản cuối |
 | 13 | Cursor (Claude), 23/10/2026 — hoàn thiện chương 3 của báo cáo (TV3) | `report/Report.md` mục 3.1–3.9 | INCOMPLETE | Số liệu đọc lại từ log và ảnh dashboard, nhưng phần diễn giải ảnh layout region và nguồn lỗi `adb_shell` là suy luận của người đọc log, chưa được TV2 xác nhận | TV2 kiểm tra mục 3.4 và 3.9; mục nào sai thì sửa báo cáo |
 
