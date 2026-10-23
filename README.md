@@ -66,13 +66,11 @@ Không có khoá Applitools thì Eyes tự tắt, phần Appium vẫn chạy đ�
 
 ## Thành viên
 
-| Vai trò | Tài khoản Git | Phụ trách |
-|---|---|---|
-| TV1 | `d1nhnguyen` | Môi trường, bộ test Appium, đo lặp lại, PoC Detox, kịch bản và video demo |
-| TV2 | `stardust65613` | Applitools Eyes, hai bản UI có kiểm soát, 10 thẻ diff, worksheet |
-| TV3 | `UngDuong125` | Lý thuyết, báo cáo, hướng dẫn sử dụng, khai báo AI, slide tổng hợp |
-
-Họ tên và MSSV: xem bảng "Thông tin nhóm" trong `AI_Usage_Declaration.md`.
+| Vai trò | MSSV | Họ tên | Tài khoản Git | Phụ trách |
+|---|---|---|---|---|
+| TV1 | 23120031 | Nguyễn Phú Dinh | `d1nhnguyen` | Môi trường, bộ test Appium, đo lặp lại, PoC Detox, kịch bản và video demo |
+| TV2 | 23120027 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | Applitools Eyes, hai bản UI có kiểm soát, 10 thẻ diff, worksheet |
+| TV3 | 23120034 | Ứng Thị Thuỳ Dương | `UngDuong125` | Lý thuyết, báo cáo, hướng dẫn sử dụng, khai báo AI, slide tổng hợp |
 
 ## Quy ước ký hiệu
 
