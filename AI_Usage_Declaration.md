@@ -38,7 +38,7 @@ Tài liệu này gộp ba biểu mẫu của môn cho phần seminar:
 | OpenAI Codex | TV1 | Trích tiêu chí S1 từ đề bài, đọc mã EShop, soạn nháp ma trận so sánh 5 tiêu chí | Mục *AI Disclosure* trong `Tool_Survey_Proposal.md` |
 | Claude (model Claude Fable 5.1) | TV1 | Hỗ trợ viết bộ test Appium data-driven, script đo thời gian/flake, viết lại tài liệu A2/A3 và kịch bản demo | Trailer `Co-Authored-By: Claude Fable 5.1` trong commit `de57ee8`, `18ef5fd`, `33209e2`, `54a2df2` |
 | Cursor agent (Grok) | TV3 | Biên tập lý thuyết, căn chỉnh kịch bản demo, soạn báo cáo chương 1–2 và User Guide, dịch sang tiếng Việt; cập nhật User Guide theo kết quả Eyes | Trailer `Co-authored-by: Cursor` trong commit `29d06a4`, `c97aebd`, `2db70ed`, `eebdc08`; mục 8 của `User_Guide.md`; cuối `report/Report.md` |
-| Cursor agent (Claude) | TV3 | Tóm tắt yêu cầu seminar từ tài liệu giảng viên; soạn tài liệu khai báo này; hoàn thiện chương 3 (Visual AI) của `report/Report.md` từ tài liệu, log và ảnh dashboard của TV2 | Phiên làm việc ngày 23/10/2026; ghi chú cuối `report/Report.md` |
+| Cursor agent (Claude) | TV3 | Tóm tắt yêu cầu seminar; soạn tài liệu khai báo này; hoàn thiện chương 3 của báo cáo từ log và ảnh dashboard; lần lỗi `adb_shell` trong log Appium; sửa selector `productImage`; sửa số liệu và kết luận `docs/B2_Report.md`; căn `docs/B4_Activity_Worksheet.md` theo deck in-class; sửa câu sai ở `User_Guide.md` mục 6.2 | Phiên làm việc ngày 23/10/2026; ghi chú cuối `report/Report.md`; mục 3 hàng 9, 12, 13, 14 của tài liệu này |
 | `[TV2 xác nhận]` | TV2 | `[TV2 điền: công cụ, và phần nào trong tích hợp Eyes, run-variants.sh, App.js variant, B2_Report.md, B4_Activity_Worksheet.md, diff cards có AI hỗ trợ]` | Các commit `24eb347`, `e154ead`, `f792677`, `b7f11c4`, `42c20f4`, `0e5a176` không có trailer AI và tài liệu B2/B4 không có mục khai báo. Ảnh `docs/evidence/B1_B2_applitools-dashboard/batch_history_4_runs.png` chụp cả thanh tab trình duyệt, trong đó có các tab tên "Appium, Detox và Applitools Ey…", "Tạo thẻ diff trực quan", "Giải thích chụp ảnh Applitools". Tên tab giống tiêu đề hội thoại với trợ lý AI; TV2 xác nhận hoặc bác bỏ |
 
 ### 2.2 AI là đối tượng được kiểm thử (không phải trợ lý)
@@ -60,7 +60,7 @@ Kết quả Eyes (Passed / Unresolved) do dịch vụ Applitools trả về trê
 | Outline | ✔ | Khung lý thuyết, khung User Guide, khung báo cáo |
 | Viết nháp | ✔ | Ma trận S1, tài liệu A2/A3, lý thuyết, báo cáo, User Guide |
 | Phản hồi / sửa chữa | ✔ | Viết lại tiếng Việt, căn chỉnh tài liệu với log chạy thật |
-| Code | ✔ | Bộ test Appium data-driven, script đo `measure-runs.sh` / `summarize-runs.py` |
+| Code | ✔ | Bộ test Appium data-driven, script đo `measure-runs.sh` / `summarize-runs.py`; sau đó sửa `productImage()` và thêm cờ `--allow-insecure` cho server. Hai sửa sau chưa được chạy lại |
 | Phân tích dữ liệu | ✔ | Tổng hợp trung bình, trung vị, flake từ CSV đo thật |
 | Thiết kế đồ hoạ | ✘ | Ảnh Inspector và ảnh dashboard Eyes là ảnh chụp màn hình thật |
 | Tạo kết quả test, log, ảnh bằng chứng | ✘ | Không dùng AI để tạo hay sửa kết quả chạy |
@@ -76,8 +76,9 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 | P3 | TV1 | Claude | Viết script chạy lặp 10 lượt, ghi CSV và tính thời gian, flake |
 | P4 | TV3 | Cursor (Grok) | Biên tập lý thuyết, báo cáo và User Guide từ `docs/A1`–`A4` và mã nguồn; chỉ ghi lệnh đã chạy thật |
 | P5 | TV3 | Cursor (Claude) | Đọc tài liệu seminar của giảng viên, tóm tắt yêu cầu, soạn khung khai báo AI từ commit và tài liệu trong repo |
-| P6 | TV3 | Cursor (Claude) | Lấy bản cập nhật của TV2 trên GitHub, hoàn thiện nội dung báo cáo và khai báo AI, rồi commit |
-| P7 | TV2 | `[TV2 điền]` | `[TV2 điền]` |
+| P6 | TV3 | Cursor (Claude) | Lấy bản cập nhật của TV2 trên GitHub, hoàn thiện chương 3 của báo cáo từ log và ảnh dashboard, rồi commit |
+| P7 | TV3 | Cursor (Claude) | Kiểm tra mục việc còn lại của báo cáo: tìm nguồn lỗi trong `appium.log`, sửa những chỗ đối chiếu được với log và deck, không bịa lần chạy Eyes mới |
+| P8 | TV2 | `[TV2 điền]` | `[TV2 điền]` |
 
 ### 2.5 Phần AI đóng góp và phần không có AI
 
@@ -88,7 +89,8 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 - `src/appium/scripts/measure-runs.sh`, `summarize-runs.py`; văn bản `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `Demo_Scenario.md`.
 - Văn bản `Ly_Thuyet_T03_Mobile_Automation.md` (sau bản nháp tay `c5a4d19`), `report/Report.md` (chương 1–2 với Grok, chương 3 với Claude), `User_Guide.md`.
 - Bản nháp tài liệu khai báo này.
-- Phần của TV2 (`docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`): **chờ TV2 xác nhận**.
+- Sửa chiều 23/10/2026, cũng với Cursor (Claude), và đã đối chiếu log trước khi giữ: `home.page.js` (`productImage` dùng `byTestId`), cảnh báo trong `checkpoints.js`, cờ server trong `package.json`, số liệu và mục 9–10 của `docs/B2_Report.md`, đồng hồ và nhãn của `docs/B4_Activity_Worksheet.md`, câu mục 6.2 của `User_Guide.md`.
+- Bản gốc của TV2 (`docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`): **chờ TV2 xác nhận** có dùng AI hay không. Các sửa của TV3 liệt kê ở gạch đầu dòng trên không thay cho khai báo đó.
 
 **Không có AI tạo ra hoặc chỉnh sửa:**
 
@@ -104,9 +106,11 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 1. **Chạy trên SUT thật.** Bộ data-driven chạy 10/10 lượt đạt trên AVD `eshop_api34` (Android 14), flake quan sát 0/10, trung vị 102,238 s (`docs/A3_Metrics.md`, chiến dịch 2). Hai lượt lỗi trước đó (bàn phím ảo che nút "Thêm vào giỏ", Alert "Thành công" chặn cú bấm thứ hai) được sửa trong code trước chiến dịch đo.
 2. **Đối chiếu tài liệu hãng.** Giấy phép, giá, hỗ trợ React Native và tính năng AI trong ma trận S1 được kiểm tra trên trang chính thức ngày 28/09/2026; link nằm cuối `Tool_Survey_Proposal.md`.
 3. **Khóa phiên bản theo mã.** Phiên bản Appium 2.19.0, UiAutomator2 4.2.9, WebdriverIO 9.32.0 trong tài liệu được đối chiếu với `src/appium/package.json`, không lấy theo lời AI.
-4. **Không ghi kết quả chưa chạy.** Bản nháp User Guide đầu tiên do AI soạn tự ghi rõ "không phải bản ghi một lần chạy thành công" và đánh dấu *Not yet recorded*; nhóm thay các mục đó bằng lệnh và kết quả từ A1–A4. Phần Eyes trong báo cáo và User Guide để trống cho tới khi TV2 có batch thật.
-5. **Đọc lại số liệu từ log.** Khi hoàn thiện chương 3 của báo cáo, mọi số Eyes được đọc lại từ `src/appium/logs/` và ảnh dashboard thay vì chép từ tài liệu. Cách này phát hiện hai chỗ sai trong `docs/B2_Report.md`: cột thời gian nhỏ hơn log đúng 10 lần (ví dụ 19,1297 s thay vì 191,297 s), và hai ảnh "có / không có layout region" thực ra là cùng một bước của cùng một lượt chạy.
-6. **Review chéo.** Tài liệu của TV3 dựa trên log của TV1 và TV2; TV1 và TV2 đọc lại phần mô tả công việc của mình.
+4. **Không ghi kết quả chưa chạy.** Bản nháp User Guide đầu tiên do AI soạn tự ghi rõ "không phải bản ghi một lần chạy thành công". Sau khi TV2 có batch, chương 3 và User Guide chỉ ghi các lượt có log. Selector `productImage` và cờ `--allow-insecure` đã sửa trong mã, nhưng chưa có lượt V1 mới, nên báo cáo không ghi V1 là Passed.
+5. **Đọc lại số liệu từ log.** Mọi số Eyes lấy từ `src/appium/logs/` và ảnh dashboard, không chép từ tài liệu. Cách này phát hiện cột thời gian trong `docs/B2_Report.md` nhỏ hơn log đúng 10 lần (19,1297 s thay vì 191,297 s), và hai ảnh layout region là cùng một bước dashboard.
+6. **Đọc lệnh bị lỗi trong log server.** `appium.log` ghi nguyên script `mobile:shell` với `dumpsys window | grep 'mCurrentRotation'`, và script JS có chuỗi `applitools-marker`. Nguồn là SDK Eyes, không phải test của nhóm. Selector sai được xác nhận bằng cách đọc `home.page.js` cạnh `locators.js`: một hàm dùng `id=`, các hàm còn lại dùng `UiSelector().resourceId`.
+7. **Đối chiếu deck.** Text của `T03_Mobile_Automation_Testing_InClass.pptx` được trích từ file giảng viên. Đồng hồ 25 phút và bốn câu minute paper trong worksheet lấy từ slide 6 và slide 7. Nhãn thứ tư giữ lại vì đáp án thẻ 5 và thẻ 9 không nằm trong ba nhãn của deck.
+8. **Review chéo.** Tài liệu của TV3 dựa trên log của TV1 và TV2; TV1 và TV2 đọc lại phần mô tả công việc của mình.
 
 ### 2.7 Trích dẫn (IEEE)
 
@@ -135,19 +139,20 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 9 | Cursor (Claude), 23/10/2026 — tóm tắt yêu cầu và soạn khai báo này (TV3) | Tài liệu này | INCOMPLETE | Khai báo phải đúng và đủ theo [AI-03]; AI không biết họ tên, MSSV và prompt của từng người | Thành viên điền thông tin, dán prompt nguyên văn, kiểm tra từng hàng rồi ký |
 | 10 | `[TV2 điền]` — tích hợp Eyes, `run-variants.sh`, hai bản UI, `docs/B2_Report.md` (`24eb347`, `e154ead`) | `[TV2 điền]` | `[TV2]` | `[TV2]` | `[TV2]` |
 | 11 | `[TV2 điền]` — worksheet B4 và bộ 10 diff card (`0e5a176`) | `[TV2 điền]` | `[TV2]` | `[TV2]` | `[TV2]` |
-| 12 | Cursor, 23/10/2026 — cập nhật User Guide theo kết quả Eyes (TV3, `eebdc08`) | Mục 2.5, 4.1, 4.5–4.6, 5.8, 6, 9 của `User_Guide.md` | INCOMPLETE | Mục 6 viết "chạy thêm không có layout region" và dẫn ảnh `v1_home_without_layout_region.png`, nhưng log chỉ có một lượt V1, và ảnh đó cùng bước với ảnh "with layout region". Báo cáo kiểm thử chỉ ghi điều đã quan sát (CTFL §5.3) | Chưa sửa trong User Guide; đã ghi đúng ở `report/Report.md` mục 3.4. Sửa câu này trước khi nộp bản cuối |
-| 13 | Cursor (Claude), 23/10/2026 — hoàn thiện chương 3 của báo cáo (TV3) | `report/Report.md` mục 3.1–3.9 | INCOMPLETE | Số liệu đọc lại từ log và ảnh dashboard, nhưng phần diễn giải ảnh layout region và nguồn lỗi `adb_shell` là suy luận của người đọc log, chưa được TV2 xác nhận | TV2 kiểm tra mục 3.4 và 3.9; mục nào sai thì sửa báo cáo |
+| 12 | Cursor, 23/10/2026 — cập nhật User Guide theo kết quả Eyes (TV3, `eebdc08`, sửa cùng ngày) | Mục 2.5, 4.1, 4.5–4.6, 5.8, 6, 9 của `User_Guide.md` | INCOMPLETE | Bản `eebdc08` viết "chạy thêm không có layout region". Log chỉ có một lượt V1, và hai ảnh layout region là cùng một bước dashboard (CTFL §5.3) | Đã sửa mục 6.2: nêu selector `id=` và ghi lượt xác nhận chưa chạy |
+| 13 | Cursor (Claude), 23/10/2026 — hoàn thiện chương 3 của báo cáo (TV3) | `report/Report.md` mục 3.1–3.9 | INCOMPLETE | Số liệu và lệnh `mobile:shell` lấy từ log. Kết luận "vùng không được gửi" suy từ selector sai cộng với V1 vẫn lệch; chưa có lượt chạy lại | TV2 chạy lại V1. Nếu vẫn lệch thì sửa mục 3.4 |
+| 14 | Cursor (Claude), 23/10/2026 — xử lý việc còn lại (TV3) | Sửa `home.page.js`, `checkpoints.js`, `package.json`; sửa thời gian, mục 9 và mục 10 của `docs/B2_Report.md`; căn `docs/B4_Activity_Worksheet.md`; sửa `User_Guide.md` mục 6.2 | INCOMPLETE | Ba việc không làm được vẫn để mở: chạy lại V1, dry-run, video. Không sinh log hay ảnh mới (CTFL §5.3) | Giữ bảng "chưa làm được" ở `report/Report.md` mục 3.9. Nhãn thứ tư của worksheet là quyết định của nhóm, không có trong deck |
 
-### 3.1 Tổng kết độ chính xác (artifact #1–#9, #12, #13)
+### 3.1 Tổng kết độ chính xác (artifact #1–#9, #12–#14)
 
 Hai hàng của TV2 (#10, #11) chưa tính vì chưa có khai báo.
 
 | Chỉ số | Số lượng | Tỉ lệ |
 |--------|:--------:|:-----:|
-| Tổng artifact AI đã audit | 11 | 100% |
-| VALID (dùng nguyên) | 2 | 18% |
+| Tổng artifact AI đã audit | 12 | 100% |
+| VALID (dùng nguyên) | 2 | 17% |
 | INVALID (loại bỏ) | 0 | 0% |
-| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) | 9 | 82% |
+| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) | 10 | 83% |
 
 Số INVALID bằng 0 chỉ phản ánh những gì còn dấu vết trong git. Đề xuất AI bị từ chối ngay trong phiên chat không để lại commit, nên con số này có thể thấp hơn thực tế. Thành viên bổ sung nếu nhớ ca cụ thể.
 
@@ -157,7 +162,7 @@ AI làm tốt phần việc có khuôn: tách test thành bảng dữ liệu, vi
 
 ### 3.3 Mandatory Disclosure
 
-"Mã test, script đo và tài liệu (đề xuất công cụ, lý thuyết, báo cáo, User Guide, kịch bản demo) của seminar T03 có phiên bản đầu được sinh hoặc biên tập với OpenAI Codex, Claude và Cursor (Grok, Claude); nhóm đã rà soát và chỉnh sửa bộ test (ẩn bàn phím, đóng Alert, chạy tuần tự), bổ sung nguồn đối chiếu cho ma trận S1, thay mọi mục chưa kiểm chứng bằng lệnh và kết quả đã chạy, và đọc lại số liệu Eyes trong báo cáo từ log; log, CSV, ảnh Inspector, ảnh dashboard Applitools và số liệu đo do nhóm tự chạy và ghi nhận. AI Audit Report chi tiết ở mục 3. Chúng tôi cam đoan không dùng AI để tạo kết quả kiểm thử, bằng chứng hay phản hồi khán giả."
+"Mã test, script đo và tài liệu (đề xuất công cụ, lý thuyết, báo cáo, User Guide, kịch bản demo) của seminar T03 có phiên bản đầu được sinh hoặc biên tập với OpenAI Codex, Claude và Cursor (Grok, Claude); nhóm đã rà soát và chỉnh sửa bộ test (ẩn bàn phím, đóng Alert, chạy tuần tự), bổ sung nguồn đối chiếu cho ma trận S1, thay mọi mục chưa kiểm chứng bằng lệnh và kết quả đã chạy, đọc lại số liệu Eyes từ log, sửa selector `productImage` và cờ server nhưng chưa chạy lại lượt đó, và căn worksheet theo deck in-class; log, CSV, ảnh Inspector, ảnh dashboard Applitools và số liệu đo do nhóm tự chạy và ghi nhận. AI Audit Report chi tiết ở mục 3. Chúng tôi cam đoan không dùng AI để tạo kết quả kiểm thử, bằng chứng hay phản hồi khán giả."
 
 ---
 
@@ -173,7 +178,7 @@ AI làm tốt phần việc có khuôn: tách test thành bảng dữ liệu, vi
 | Mọi prompt đã ghi vào `prompt_log.md` có timestamp | ✘ | Chưa làm; bổ sung ở Phụ lục A |
 | Mọi artifact AI đã gắn tag trong Audit | ✔ | Mục 3, trừ hàng TV2 |
 | Mọi trích dẫn đã xác minh nguồn thật | ✔ | Link hãng kiểm tra 28/09/2026; giá Starter kiểm lại trước khi nộp cuối |
-| Mọi code AI đã được chạy và test | ✔ | Appium 10/10 (A3), Detox PoC (A4) |
+| Mọi code AI đã được chạy và test | Một phần | Appium 10/10 (A3) và Detox PoC (A4) đã chạy. Sửa `productImage` và cờ `--allow-insecure` chiều 23/10 chưa có lượt chạy lại |
 | Sẵn sàng vấn đáp 5–7 phút | `[mỗi TV]` | Commit history cá nhân trên Git |
 
 ---

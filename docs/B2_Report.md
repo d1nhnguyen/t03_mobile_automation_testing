@@ -57,7 +57,8 @@ Các test đã dùng:
 | `Login data-driven` | Đăng nhập theo bảng dữ liệu (thành công và lỗi) |
 | `Search data-driven` | Tìm kiếm theo bảng dữ liệu |
 | `Cart add and total` | Thêm giỏ, kiểm tra thành tiền và tổng, xóa, giỏ trống |
-| `[điền nếu có]` | Luồng gộp `checkout-flow.test.js` dùng cho clip demo |
+
+Ba test trên đã phủ luồng đăng nhập → tìm → giỏ. Repo không có `checkout-flow.test.js`.
 
 ### 4.2. Checkpoint và quy tắc so sánh
 
@@ -76,7 +77,8 @@ Các checkpoint luôn được chụp **sau** bước chờ phần tử hiển t
 1. Chạy `base` lần 1 để tạo baseline, vào dashboard Applitools Accept toàn bộ ảnh và bấm Save.
 2. Chạy `base` lần 2, kỳ vọng Passed (đối chứng ổn định).
 3. Chạy `v1` và `v2` bằng cùng test, cùng tên Eyes test. **Không Save baseline** ở hai lần này.
-4. Với V1, chạy thêm một lần **không có layout region** để minh họa false positive.
+
+Log `src/appium/logs/20261023-065743/` chỉ có một lượt V1. Không có lượt V1 thứ hai bỏ layout region.
 
 Lệnh chạy (Git Bash, thư mục gốc repo):
 
@@ -93,9 +95,11 @@ Tên batch trên dashboard: `EShop - base`, `EShop - v1`, `EShop - v2` (đặt b
 
 | Lần chạy | Functional (assert) | Visual (Eyes) | Checkpoint lệch | Thời gian chạy | Kết luận |
 |---|---|---|---|---|---|
-| Base lần 2 | Pass (8/8) | Pass 3/3 | 0/10 | 19.1297 s | Đối chứng |
-| V1 | Pass (8/8) | Unresolved (3/3) | 5/10 | 20.9672 s | false positive vì thay đổi ảnh là tính năng đổi ảnh sản phẩm |
-| V2 | Pass (8/8) | Unresolved (3/3) | 6/10 | 19.2640 s | true regression: Giao diện web bị lệch, các nút bấm bị đổi chỗ, màu, vị trí của 1 số thành phần web bị thay đổi |
+| Base lần 2 | Pass (8/8) | Pass 3/3 | 0/10 | 191,297 s | Đối chứng |
+| V1 | Pass (8/8) | Unresolved (3/3) | 5/10 | 209,672 s | Ảnh sản phẩm đổi có chủ đích; Eyes vẫn báo lệch vì layout region không được gắn (mục 7) |
+| V2 | Pass (8/8) | Unresolved (3/3) | 6/10 | 192,640 s | True regression: màu, vị trí nút và căn lề tổng tiền lệch; Appium vẫn pass |
+
+Thời gian lấy từ `duration_ms` trong log (`base-2-verify.log` 191297, `v1.log` 209672, `v2.log` 192640). Bản trước ghi 19,1297 s, 20,9672 s và 19,2640 s, lệch đúng một dấu thập phân. Base lần 1 (tạo baseline) mất 198,578 s và cũng `# pass 8` `# fail 0`.
 
 ### 6.2. Kết quả theo checkpoint
 
@@ -117,8 +121,8 @@ Tên batch trên dashboard: `EShop - base`, `EShop - v1`, `EShop - v2` (đặt b
 
 **False positive** là trường hợp công cụ báo khác biệt nhưng đó **không phải lỗi**.
 
-- Ca trong thực nghiệm: V1 khi bỏ layout region. Eyes báo Unresolved ở vùng ảnh sản phẩm 1, trong khi đó là thay đổi nội dung hình ảnh hợp lệ, khung ảnh không đổi.
-- Cách xử lý: Accept nếu thay đổi là chủ ý; hoặc đặt vùng đó ở mức Layout để các lần sau không báo nữa nhưng vẫn bắt được lỗi bố cục.
+- Ca trong thực nghiệm: V1. Ảnh sản phẩm 1 đổi, khung giữ nguyên, nhưng Eyes vẫn Unresolved ở các bước có sản phẩm đó. `checkpoints.js` có `layoutRegions`, nhưng `productImage()` tìm bằng `id=product-image-1`. Chiến lược `id` của UiAutomator2 thêm tiền tố package (`com.eshop.sut:id/...`) và không khớp `testID` của React Native, nên `isExisting()` trả về sai và vùng Layout không được gửi lên Eyes. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước trên dashboard (cùng URL step), chụp trong step editor, không phải hai lượt chạy.
+- Cách xử lý: selector đã đổi sang `byTestId` (cùng `UiSelector().resourceId` với các `testID` khác). Lượt chạy lại để xác nhận V1 hết lệch ở vùng ảnh **chưa có**. Trước lượt đó, cách xử lý đã kiểm chứng chỉ là Accept thủ công nếu thay đổi là chủ ý.
 - Các nguồn false positive thường gặp khác: giờ ở status bar, dữ liệu động, ảnh chưa tải xong lúc chụp, bàn phím ảo che màn hình, animation đang chạy.
 
 **True regression** là trường hợp khác biệt được báo **là lỗi thật** do thay đổi code.
@@ -148,15 +152,16 @@ Tên batch trên dashboard: `EShop - base`, `EShop - v1`, `EShop - v2` (đặt b
 
 ## 9. Kết luận
 
-`[điền sau khi có số liệu]` Gợi ý các ý cần nêu: (1) functional và visual bổ sung cho nhau, V2 là ca functional bỏ sót mà visual bắt được; (2) V1 cho thấy visual có thể báo thừa và cách giảm bằng Layout region; (3) giá trị của visual phụ thuộc vào chất lượng baseline và cấu hình match/ignore.
+Bốn lượt hợp lệ ngày 23/10/2026 cho thấy hai lớp trả lời hai câu khác nhau. Appium pass 8/8 trên cả base, V1 và V2, vì chữ, số và `testID` không đổi. Eyes pass 10/10 checkpoint ở base lần 2, rồi báo 5/10 lệch ở V1 và 6/10 ở V2, đúng các màn có ảnh hoặc style đã sửa. V2 là ca Appium bỏ sót và Eyes bắt được. V1 là ca Eyes báo thừa: đổi ảnh là chủ ý, nhưng vùng Layout khai báo trong code không được gắn vì selector `id=` sai, nên chưa có lượt nào chứng minh Layout khử được báo thừa đó. Giá trị của Eyes vì vậy phụ thuộc vào baseline đã Accept và vào việc vùng ignore/layout thực sự được gửi, không chỉ được viết trong mã.
 
 ## 10. Phụ lục bằng chứng
 
-- [ ] `diffs/variant-v1.diff`, `diffs/variant-v2.diff`
-- [ ] `assets/product-v1.png`
-- [ ] Ảnh dashboard: `EShop - base` ở trạng thái New (lần 1) và Passed (lần 2)
-- [ ] Ảnh dashboard: `EShop - v1` (cả hai cấu hình layout region)
-- [ ] Ảnh dashboard: `EShop - v2` kèm ảnh so sánh Baseline vs Checkpoint có vùng khác biệt được tô
-- [ ] Log terminal từng lần chạy (`src/appium/logs/<timestamp>/`)
-- [ ] Clip demo luồng phức tạp: chạy base, V1, V2 liên tiếp, thể hiện cả terminal lẫn dashboard
-- [ ] Link/đường dẫn clip trong `Demo_Video_Links.md`
+| Mục | Trạng thái |
+|---|---|
+| `eshop-sut-main/frontend-mobile/assets/product-v1.png` | Có |
+| Ảnh dashboard base / V1 / V2 trong `docs/evidence/B1_B2_applitools-dashboard/` | Có. `batch_history_4_runs.png` cho thấy các lượt base Passed và V1/V2 Unresolved. Không có ảnh riêng của trạng thái New lúc vừa tạo baseline |
+| Ảnh so sánh V2 (`v2_home_step.png`, `v2_cart_with_item_step.png`, `v2_search_step.png`) | Có |
+| Hai ảnh "có / không layout region" | Có file, nhưng là cùng một bước dashboard, không phải hai lượt chạy |
+| Log `src/appium/logs/20261023-065743/` (`base-1`, `base-2`, `v1`, `v2`) | Có. Thư mục `20261023-065159` là lượt hỏng `ECONNREFUSED`, không tính |
+| `diffs/variant-v1.diff`, `diffs/variant-v2.diff` | Không có trong repo |
+| Clip demo và `Demo_Video_Links.md` | Chưa có |

@@ -181,7 +181,7 @@ Eyes gắn vào chính bộ test Appium ở chương 2, không có bộ test ri�
 | API key | Đọc từ `APPLITOOLS_API_KEY` (biến môi trường hoặc `src/appium/.env`, file đã nằm trong `.gitignore`) |
 | Khóa baseline | Tên test cố định: `Login data-driven`, `Search data-driven`, `Cart add and total` |
 | Batch | `EShop - base`, `EShop - v1`, `EShop - v2`, đặt bằng `VARIANT_LABEL`; chỉ để nhóm lượt chạy, không đổi baseline |
-| Vùng | `src/appium/config/checkpoints.js`: ignore status bar (`0, 0, 1080, 80`); layout region trên phần tử `product-image-1` ở các bước Home và Search |
+| Vùng | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận chưa chạy |
 | Đóng phiên | `eyes.close(false)`: diff không làm test đỏ trong terminal, kết quả visual xem trên dashboard |
 | Chạy | `run-variants.sh` ở gốc repo: mở AVD nếu chưa có emulator (mặc định `eshop_api34`; lần B2 dùng emulator `Medium_Phone_API_37.0` đang chạy sẵn), tắt animation, khởi động lại backend mỗi lượt, build APK lần đầu rồi đổi bản UI bằng cách khởi động lại Metro với `EXPO_PUBLIC_UI_VARIANT`, chạy base hai lần rồi V1, V2 |
 
@@ -215,7 +215,7 @@ Lượt đo hợp lệ nằm trong `src/appium/logs/20261023-065743/`. Lượt t
 | V1 | `# pass 8` `# fail 0` | 3/3 Unresolved | 5/10 | 209,672 s |
 | V2 | `# pass 8` `# fail 0` | 3/3 Unresolved | 6/10 | 192,640 s |
 
-Cột thời gian của bảng 6.1 trong `docs/B2_Report.md` ghi 19,1297 s, 20,9672 s và 19,2640 s. Các số đó nhỏ hơn log đúng 10 lần, tức đặt sai dấu thập phân. Bảng trên dùng số của log.
+Bản đầu của `docs/B2_Report.md` ghi 19,1297 s, 20,9672 s và 19,2640 s, nhỏ hơn log đúng 10 lần. File đó đã sửa theo `duration_ms`. Bảng trên dùng số của log.
 
 **Đọc "3/3 Unresolved" cho đúng.** Dashboard gắn trạng thái cho cả **test**, không cho từng màn. Test `Login data-driven` ở V1 bị Unresolved, nhưng ảnh `login_v1.png` cho thấy hai bước Login vẫn khớp (dấu `=`). Bước lệch là bước thứ ba, Home sau đăng nhập, nơi có ảnh sản phẩm 1. Đếm theo checkpoint:
 
@@ -224,7 +224,7 @@ Cột thời gian của bảng 6.1 trong `docs/B2_Report.md` ghi 19,1297 s, 20,9
 
 Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không báo checkpoint nào nằm ngoài vùng đã sửa.
 
-**Layout region chưa được chứng minh có tác dụng.** `checkpoints.js` khai báo layout region trên `product-image-1` cho mọi bước Home và Search, nhưng lượt V1 duy nhất trong log vẫn lệch đúng ở các bước đó. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước của cùng một lượt chạy (cùng URL step trên dashboard), chụp trước và sau khi vẽ vùng Layout trong step editor. Chúng không phải hai lượt chạy. Repo chưa có lượt V1 nào Passed nhờ layout region, nên câu "layout region khử được false positive V1" vẫn là giả thuyết. Nguyên nhân có thể là vùng không khớp phần tử, hoặc khác đơn vị tọa độ giữa ảnh thiết bị (1080 px) và viewport dashboard (411); nhóm chưa xác định.
+**Layout region không được gửi trong lượt V1.** `checkpoints.js` chỉ gọi `layoutRegions` khi `productImage(1)` tồn tại. Hàm đó tìm bằng `id=product-image-1`, trong khi mọi `testID` khác dùng `UiSelector().resourceId(...)`. Trên UiAutomator2, chiến lược `id` thêm tiền tố package (`com.eshop.sut:id/product-image-1`) và không khớp `resource-id` mà React Native ghi ra, nên `isExisting()` sai và nhánh gắn vùng không chạy. Vì vậy V1 vẫn so Strict cả ảnh sản phẩm. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước dashboard, chụp trong step editor, không phải hai lượt chạy. Selector đã đổi sang `byTestId` và thêm cảnh báo khi không thấy phần tử. Lượt chạy lại để xác nhận V1 hết lệch ở vùng ảnh chưa có, nên chưa được ghi là Passed.
 
 ### 3.5 Ma trận functional × visual
 
@@ -254,7 +254,7 @@ Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không b
 
 1. **Terminal xanh, dashboard vàng.** `eyes.close(false)` không ném lỗi khi có diff. Lượt V2 có `# fail 0` và exit 0, trong khi dashboard báo 6/10 checkpoint lệch. Ai chỉ đọc CI hoặc terminal sẽ cho rằng V2 không có vấn đề.
 2. **Trạng thái theo test che vị trí lệch.** "Login data-driven: Unresolved" ở V1 khiến người đọc nghĩ màn Login đổi, trong khi lệch nằm ở bước Home cuối test. Phải mở từng bước mới biết.
-3. **Vùng khai báo trong code chưa chắc đã có tác dụng.** Layout region trên `product-image-1` có trong `checkpoints.js` nhưng V1 vẫn lệch ở vùng ảnh. Cấu hình vùng phải được kiểm chứng bằng một lượt chạy, không chỉ bằng việc đọc code.
+3. **Vùng viết trong code chưa chắc đã được gửi.** Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng selector `id=` không tìm thấy phần tử, nên Eyes không nhận vùng đó và V1 vẫn lệch ở ảnh sản phẩm. Phải xem log của lượt chạy, không chỉ đọc khai báo.
 
 **Đã quan sát với Appium và Detox**
 
@@ -275,24 +275,34 @@ Bốn nhãn: Accept, Reject, Nhiễu, Chưa đủ thông tin. Phân bố đáp �
 
 Chính sách mẫu cho vùng thay banner là **Layout** trên `product-image-1`, không Ignore, và không phủ giá, tên hay nút. Ignore chỉ dùng cho status bar.
 
-Giới hạn hiện tại của bộ thẻ, ghi theo chính các file trên:
+Đã đối chiếu với deck mẫu `T03_Mobile_Automation_Testing_InClass.pptx` (8 slide). Khớp deck: 10 thẻ, 25 phút, đúng năm mốc của slide 6, nhóm 3–4 người. Ba nhãn của deck (*true bug*, *intentional update*, *false positive*) map sang Reject, Accept và Nhiễu; phiếu giữ thêm **Chưa đủ thông tin** vì thẻ 5 và 9 không quyết được. Minute paper lấy bốn câu debrief của slide 7, cộng thang 1–5 của Seminar Guide, và nộp sau 25 phút chứ không chiếm suất cuối.
+
+Còn lại, và không làm được từ repo:
 
 - Chỉ có một thẻ nhiễu, và đó là nhiễu dây chuyền. Chưa có thẻ nhiễu thuần do render (giờ status bar, ảnh chưa tải xong, khử răng cưa).
-- Ảnh diff của thẻ 7 chụp ở trạng thái form khác ảnh câu hỏi; cần chụp lại trước khi in.
-- Thời lượng, tên nhãn, thang điểm và câu hỏi minute paper còn đánh dấu "khớp deck", chưa đối chiếu với deck in-class `T03_Mobile_Automation_Testing_InClass.pptx` của giảng viên.
-- Chưa có dry-run với người ngoài nhóm, nên chưa có số đo chứng minh hoạt động xong trong 25 phút.
+- Ảnh diff thẻ 7 chụp form đã nhập và có lỗi đăng nhập, trong khi ảnh câu hỏi là form trống. Phải chụp lại trên dashboard trước khi in.
+- Chưa có dry-run với người ngoài nhóm, nên chưa có số đo chứng minh 10 thẻ xong trong 10 phút của slide 6.
 
 ### 3.9 Việc còn lại
 
-| Việc | Ảnh hưởng |
-|------|-----------|
-| Chạy lại V1 sau khi sửa layout region, ghi lượt Passed hoặc giải thích vì sao vẫn lệch | Mục 3.4 và failure mode 3 |
-| Sửa cột thời gian và điền mục 9 "Kết luận", dòng `[điền nếu có]` ở mục 4.1 của `docs/B2_Report.md` | Số liệu B2 khớp log và báo cáo này |
-| Chọn một AVD cho buổi demo: Appium/Detox đo trên `eshop_api34`, Eyes đo trên `Medium_Phone_API_37.0` | Baseline Eyes không dùng lại được nếu đổi AVD |
-| Log V1/V2 có lỗi `Potentially insecure feature 'adb_shell' has not been enabled` và `Method is not implemented` lặp lại ở mỗi phiên. Test vẫn pass. Mã trong `src/appium` không gọi lệnh shell, nên nguồn gọi chưa xác định | Tìm nguồn gọi, rồi bật `--allow-insecure=adb_shell` cho server hoặc ghi rõ là nhiễu vô hại |
-| Dry-run workshop, đối chiếu deck của giảng viên, chụp lại ảnh diff thẻ 7 | Mục 3.8 |
-| Đánh dấu các mục bằng chứng ở `docs/B2_Report.md` mục 10 (diff mã nguồn variant, ảnh batch base ở trạng thái New) | Bằng chứng S3 |
-| Video demo và `Demo_Video_Links.md` | Yêu cầu nộp |
+Đã xử lý trong repo, chưa cần chạy lại:
+
+| Việc | Kết quả |
+|------|---------|
+| Vì sao layout region không ăn | Selector `id=` không khớp `testID`. Đã đổi `productImage()` sang `byTestId` và thêm cảnh báo khi không thấy phần tử (`home.page.js`, `checkpoints.js`). Lượt xác nhận vẫn chưa chạy |
+| Số liệu và chỗ trống trong `docs/B2_Report.md` | Thời gian lấy từ log (191,297 s / 209,672 s / 192,640 s). Bỏ dòng `checkout-flow.test.js` vì file không tồn tại. Mục 9 đã điền từ bốn lượt đã chạy. Mục 10 ghi có/không theo file thật |
+| Nguồn lỗi `adb_shell` và `Method is not implemented` | Cả hai do SDK Eyes, không do test của nhóm. `mobile:shell` hỏi `dumpsys window ... mCurrentRotation`; Appium chặn vì chưa bật insecure feature. Lệnh `execute/sync` còn lại là đoạn JS dò DOM trình duyệt (`applitools-marker`), UiAutomator2 trả 405 vì app là native. Checkpoint vẫn được chụp, base lần 2 vẫn Passed. `npm run server` đã thêm `--allow-insecure=uiautomator2:adb_shell` để lần sau hết lỗi xoay màn hình. Lỗi 405 trên app native là nhiễu, không sửa bằng cờ đó |
+| Đối chiếu deck và bằng chứng B2 | Worksheet căn theo slide 6 và slide 7. Phụ lục B2 không còn ô trống |
+
+Chưa làm được ở máy này:
+
+| Việc | Vì sao còn lại |
+|------|----------------|
+| Chạy lại V1 sau khi sửa selector, rồi mới ghi Passed hoặc vẫn lệch | Cần AVD, `APPLITOOLS_API_KEY` và dashboard để Accept. Máy biên tập báo cáo không có lần chạy đó |
+| Chốt AVD buổi demo | Baseline Eyes đang gắn `Medium_Phone_API_37.0` (viewport dashboard 411×866). Appium/Detox đo trên `eshop_api34`. `run-variants.sh` mặc định mở `eshop_api34`, tức một baseline mới. Demo Eyes phải dùng đúng AVD đã Accept, hoặc Accept lại trên AVD mới. Đây là quyết định của nhóm trước buổi chạy |
+| Chụp lại ảnh diff thẻ 7 và thêm thẻ nhiễu thuần | Cần dashboard hoặc một lượt chụp mới |
+| Dry-run 25 phút với người ngoài nhóm | Cần một người không soạn thẻ và đồng hồ thật. Mẫu biên bản ở `docs/B4_Activity_Worksheet.md` mục 6 vẫn trống |
+| Video demo và `Demo_Video_Links.md` | Chưa có file hay link YouTube trong repo |
 
 ---
 

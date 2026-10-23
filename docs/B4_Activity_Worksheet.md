@@ -1,8 +1,8 @@
 # Visual Diff Triage Workshop — Activity Worksheet
 
-Hoạt động trong lớp: 25 phút, 10 thẻ diff, làm cá nhân rồi chấm chéo.
+Hoạt động trong lớp: 25 phút, 10 thẻ diff, làm theo nhóm 3–4 người.
 
-> **Cần đối chiếu với deck của giảng viên.** File này được soạn theo yêu cầu B4, chưa dựa trên deck in-class của GV. Trước khi in, đối chiếu và sửa các mục sau cho khớp deck: (1) tên các nhãn phân loại, (2) thời lượng từng phần, (3) thang điểm chấm chéo, (4) câu hỏi minute paper, (5) thứ tự và số thẻ. Các chỗ này được đánh dấu **[khớp deck]** bên dưới.
+Đã đối chiếu ngày 23/10/2026 với `T03_Mobile_Automation_Testing_InClass.pptx` (8 slide, bản mẫu trong gói seminar). Khớp deck: 10 thẻ, 25 phút, đúng các mốc slide 6, làm theo nhóm 3–4 người, một người ghi. Ba nhãn của deck map sang phiếu ở mục 1. Giữ thêm nhãn **Chưa đủ thông tin** vì thẻ 5 và 9 không quyết được nếu thiếu spec; deck không có nhãn này. Rubric chấm chéo (mục 5) không nằm trong 25 phút của deck; dùng khi có thời gian, không thay phần công bố đáp án. Dry-run với người ngoài nhóm chưa làm. Ảnh diff thẻ 7 vẫn lệch trạng thái form so với ảnh câu hỏi.
 
 **Cấu trúc file**
 
@@ -27,31 +27,37 @@ Học cách **phân loại kết quả so sánh hình ảnh** thay vì bấm Acc
 ### Bộ thẻ
 10 thẻ, mỗi thẻ gồm: một ảnh (**trái là baseline, phải là bản mới**), 1–2 dòng ngữ cảnh release. Ảnh nằm trong `diff-cards/questions/card1.png` đến `card10.png`. Toast "Open debugger to view warnings." có ở cả hai bên mọi thẻ, hãy bỏ qua.
 
-### Bốn nhãn phân loại **[khớp deck]**
+### Nhãn phân loại
 
-| Nhãn | Dùng khi |
-|---|---|
-| **Accept** | Thay đổi **có chủ đích**, khớp với ngữ cảnh release. Cập nhật baseline |
-| **Reject** | **Lỗi thật**: thay đổi không nằm trong phạm vi release, hoặc làm hỏng giao diện hay dữ liệu |
-| **Nhiễu** | Không phải thay đổi của sản phẩm, hoặc chỉ là hệ quả dây chuyền của một thay đổi khác đã duyệt |
-| **Chưa đủ thông tin** | Không thể quyết định nếu chưa hỏi thêm. **Phải nêu rõ cần hỏi gì** |
+Deck gọi ba nhóm: *true bug*, *intentional update*, *false positive*. Phiếu dùng tên ngắn, và thêm một nhãn deck không có.
+
+| Trên phiếu | Trong deck | Dùng khi |
+|---|---|---|
+| **Accept** | intentional update | Thay đổi có chủ đích, khớp ngữ cảnh release. Cập nhật baseline |
+| **Reject** | true bug | Không nằm trong phạm vi release, hoặc làm hỏng giao diện hay dữ liệu |
+| **Nhiễu** | một dạng false positive | Không phải thay đổi của sản phẩm, hoặc chỉ là hệ quả của một thay đổi khác đã duyệt |
+| **Chưa đủ thông tin** | không có trong deck | Không quyết được nếu chưa hỏi thêm. **Phải nêu rõ cần hỏi gì** |
+
+False positive còn lại của deck, tức công cụ báo khác biệt nhưng thay đổi là chủ ý (thẻ 3, 4), chọn **Accept**, không chọn Nhiễu.
 
 ### Quy tắc
-1. Làm **một mình**, không trao đổi, không tra cứu.
-2. Mỗi thẻ: chọn **một** nhãn và viết **một dòng lý do** dẫn chứng cụ thể (nhìn thấy gì trong ảnh, khớp hay không khớp với ngữ cảnh release).
-3. Không biết thì chọn "Chưa đủ thông tin" nhưng phải ghi câu hỏi cần hỏi. Chọn nhãn này mà không ghi câu hỏi thì không có điểm lý do.
-4. Quyết định dựa vào **ngữ cảnh release**, không dựa vào lượng vùng bị tô màu: một thay đổi nhỏ có thể làm cả trang bị tô.
-5. Không sửa đáp án sau khi vào phần chấm chéo.
+1. Làm **theo nhóm 3–4 người**, một người ghi. Được dùng AI, nhưng dòng lý do phải dẫn chứng từ ảnh hoặc ngữ cảnh release, không chép nguyên câu AI.
+2. Mỗi thẻ: chọn **một** nhãn và viết **một dòng lý do**.
+3. Không biết thì chọn "Chưa đủ thông tin" nhưng phải ghi câu hỏi cần hỏi.
+4. Quyết định dựa vào **ngữ cảnh release**, không dựa vào lượng vùng bị tô: một thay đổi nhỏ có thể làm cả trang bị tô.
+5. Không sửa phiếu sau khi người điều phối công bố đáp án.
 
-### Phân bổ 25 phút **[khớp deck]**
+### Phân bổ 25 phút (slide 6 của deck)
 
 | Thời gian | Hoạt động |
 |---|---|
-| 0:00–2:00 | Giới thiệu luật chơi và 4 nhãn |
-| 2:00–14:00 | Phân loại 10 thẻ cá nhân (khoảng 70 giây một thẻ) |
-| 14:00–18:00 | Chấm chéo theo đáp án và rubric (phần 5) |
-| 18:00–21:00 | Thảo luận các thẻ mơ hồ; điền mẫu policy ignore region (phần 3) |
-| 21:00–25:00 | Minute paper (phần 4) |
+| 0:00–0:03 | Người điều phối chiếu 10 thẻ (in hoặc PDF) |
+| 0:03–0:13 | Nhóm phân loại từng thẻ, mỗi thẻ một dòng lý do |
+| 0:13–0:18 | Công bố đáp án và thảo luận thẻ mơ hồ (5, 8, 9) |
+| 0:18–0:23 | Nhóm điền policy ignore region cho banner Home (phần 3) |
+| 0:23–0:25 | Mỗi nhóm đọc một quy tắc của policy |
+
+Minute paper (phần 4) nộp ở cuối buổi, không nằm trong 25 phút này. Rubric chấm chéo (phần 5) là tài liệu của nhóm tổ chức, không chiếm suất của khán giả.
 
 ---
 
@@ -125,20 +131,21 @@ Lưu ý: policy **không** che giá, tên sản phẩm hay nút. Vùng này ch�
 
 ---
 
-## 4. Minute paper (phát cho người chơi, nộp ẩn danh)
+## 4. Minute paper (một tờ mỗi nhóm, nộp cuối buổi)
 
-Viết ngắn, 1–2 câu mỗi mục. Không cần ghi tên.
+Bốn câu là debrief của slide 7. Câu 5 lấy từ Seminar Guide (S7) vì deck không có thang điểm. Mỗi mục một hoặc hai câu.
 
-1. Điều quan trọng nhất bạn học được hôm nay là gì?
-   ______________________________
-2. Điều gì bạn vẫn còn mơ hồ hoặc muốn hỏi thêm?
-   ______________________________
-3. Thẻ nào khó nhất với bạn, và vì sao?
-   ______________________________
-4. Nếu được đổi một điều trong buổi này, bạn sẽ đổi gì? (tùy chọn)
-   ______________________________
+Nhóm: ______________________
 
-**[khớp deck]** Thay bằng câu hỏi minute paper trong deck của GV nếu khác. Giữ nguyên số lượng và nội dung câu hỏi khi thu thập để B5 tổng hợp được thống nhất.
+1. Điều gì làm nhóm ngạc nhiên nhất?
+   ______________________________
+2. AI giúp nhóm chỗ nào, và thêm việc cho nhóm chỗ nào?
+   ______________________________
+3. Một failure mode nhóm sẽ chặn ở lần sau là gì?
+   ______________________________
+4. Nếu có thêm một giờ, nhóm sẽ kiểm tra gì tiếp?
+   ______________________________
+5. Mức hữu ích của buổi (1–5): ______
 
 ---
 
@@ -171,7 +178,9 @@ Viết ngắn, 1–2 câu mỗi mục. Không cần ghi tên.
 | 8 | Nhiễu hoặc Accept | Lý do nêu được nguyên nhân gốc là thanh điều hướng ở thẻ 7 |
 | 9 | Reject | Lý do nêu rõ nút chồng lấn là phần nghi lỗi |
 
-### 5.3. Rubric chấm chéo (mỗi thẻ tối đa 2 điểm, cả phiếu 20 điểm) **[khớp deck]**
+### 5.3. Rubric chấm chéo (mỗi thẻ tối đa 2 điểm, cả phiếu 20 điểm)
+
+Deck không có thang điểm. Rubric này là của nhóm, dùng khi chấm lại phiếu sau buổi, không nằm trong 25 phút.
 
 | Tiêu chí | 0 điểm | 1 điểm | (thêm) 1 điểm |
 |---|---|---|---|
@@ -193,8 +202,8 @@ Quy tắc chấm:
 | 7–11 | Cần đọc lại ngữ cảnh release trước khi quyết định |
 | 0–6 | Đang quyết định theo cảm giác hình ảnh; xem lại luật 4 |
 
-### 5.5. Quy trình chấm chéo (4 phút)
-1. Đổi phiếu với bạn bên cạnh.
+### 5.5. Quy trình chấm chéo (sau buổi, không nằm trong 25 phút)
+1. Đổi phiếu với nhóm bên cạnh.
 2. Người chấm đọc đáp án ở 5.1 và chấm từng thẻ theo 5.3.
 3. Ghi điểm từng thẻ và tổng điểm trên phiếu, rồi trả lại.
 4. Mọi thắc mắc về điểm hỏi GV, không tự thương lượng.

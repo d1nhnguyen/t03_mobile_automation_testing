@@ -14,6 +14,7 @@ async function targetWithProductImage(ctx) {
   if (ctx && ctx.home) {
     const img = await ctx.home.productImage(1);
     if (await img.isExisting()) target = target.layoutRegions(img);
+    else console.warn("Eyes: không thấy product-image-1, layout region không được gắn");
   }
   return target;
 }

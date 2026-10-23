@@ -625,7 +625,7 @@ Các fail Appium/Detox sau đã tái lập, đã sửa trong test, và không t�
 
 Sau các sửa đó, chiến dịch 2 của A3 ghi 10/10 lượt với `# fail 0`. A3 cũng nói mười lượt không ước lượng tỷ lệ flake dài hạn.
 
-Phía Eyes, V1 Unresolved khi đổi ảnh sản phẩm là **false positive** nếu coi đó là lỗi: thay đổi có chủ đích, khung giữ nguyên. Chạy thêm không có layout region làm vùng ảnh báo thừa rõ hơn (`v1_home_without_layout_region.png`). Cách xử lý: Accept nếu chủ ý, hoặc giữ layout region trên `product-image-1`. Ignore cả cửa sổ để Eyes xanh sẽ che regression kiểu V2 sau này.
+Phía Eyes, V1 Unresolved khi đổi ảnh sản phẩm là **false positive** nếu coi đó là lỗi: thay đổi có chủ đích, khung giữ nguyên. `checkpoints.js` có gọi `layoutRegions`, nhưng `productImage()` lúc chạy B2 tìm bằng `id=product-image-1`. Chiến lược `id` của UiAutomator2 thêm tiền tố package và không khớp `testID`, nên vùng Layout không được gửi. Hai ảnh `v1_home_with_layout_region.png` và `v1_home_without_layout_region.png` là cùng một bước trên dashboard, không phải hai lượt chạy. Selector đã đổi sang `byTestId`; lượt xác nhận chưa chạy. Ignore cả cửa sổ để Eyes xanh sẽ che regression kiểu V2.
 
 ### 6.3 Câu trên màn hình, hoặc ảnh “đẹp”, là oracle yếu hơn
 
