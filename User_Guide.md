@@ -5,7 +5,7 @@
 **SUT:** client EShop React Native Expo (`eshop-sut-main/frontend-mobile`)  
 **Lớp công cụ:** Appium 2 + UiAutomator2 (chức năng) · Applitools Eyes (giao diện) · Maestro CLI + AI assertions (dự phòng)
 
-**Trạng thái (23/10/2026):** mục 1–7 viết bằng tiếng Việt theo repo hiện tại, `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md` và `Demo_Scenario.md`. Lệnh đã chạy lấy từ A1 trên Ubuntu, AVD `eshop_api34`. Ảnh Inspector nằm ở mục 3 và mục 4. Eyes và Maestro chưa có lần chạy trong repo.
+**Trạng thái (23/10/2026):** mục 1–7 viết bằng tiếng Việt theo repo hiện tại. Appium: `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md` (AVD `eshop_api34`). Eyes: `src/appium/config/eyes.js`, `docs/B2_Report.md`, ảnh dashboard ở `docs/evidence/B1_B2_applitools-dashboard/` (AVD `Medium_Phone_API_37.0`, cùng độ phân giải 1080×2400). Maestro vẫn chưa có file flow.
 
 **Thông điệp:** Appium kiểm tra việc người dùng làm được và dữ liệu trên màn hình. Applitools kiểm tra thứ người dùng nhìn thấy. Hai lớp bổ sung cho nhau.
 
@@ -21,7 +21,7 @@ Người làm lại bài cần:
 2. Cài JDK, Android SDK, emulator, Appium 2 và driver UiAutomator2 khi máy chưa có các công cụ đó.
 3. Chạy bộ test trong `src/appium/` trên bản debug Android sau khi thư mục đó có trong cây mã.
 4. Đọc checkpoint chức năng đầu: đăng nhập, tìm `iPhone`, thấy tên `iPhone 15 Pro Max`.
-5. Thêm checkpoint Applitools Eyes sau khi mục 4 có lần chạy TV2. Repo chưa có lần chạy đó.
+5. Đặt `APPLITOOLS_API_KEY`, chạy cùng `npm test` để Eyes chụp checkpoint, rồi so batch `base` / `v1` / `v2` trên dashboard (mục 2.5 và 4.5).
 6. Chuyển sang Maestro khi trial Applitools không dùng được và giảng viên đã chấp thuận.
 
 ### 1.2 Vì sao tự động hoá mobile khó hơn web
@@ -33,11 +33,11 @@ Cùng một kịch bản có thể đạt trên ảnh Android này và trượt 
 | Lớp | Công cụ | Câu hỏi | Trong repo này |
 |-----|---------|---------|----------------|
 | Chức năng | Appium 2 + UiAutomator2 | Đăng nhập và tìm kiếm có trả dữ liệu đúng không? | `src/appium/`, lệnh `npm test` |
-| Visual AI | Applitools Eyes | Màn hình có lệch baseline đã duyệt không? | Chưa tích hợp (TV2) |
+| Visual AI | Applitools Eyes | Màn hình có lệch baseline đã duyệt không? | SDK trong `src/appium`, checkpoint trong test, bằng chứng B2 |
 | Dự phòng | Maestro + AI assertions | Cùng luồng có chạy được với một kiểm tra AI nhẹ hơn không? | Chưa có file flow |
-| Chính sách | Quy tắc nhóm | Diff nào là lỗi, nhiễu, hay cập nhật có chủ đích? | Mục 4, sau khi có batch Eyes |
+| Chính sách | Quy tắc nhóm | Diff nào là lỗi, nhiễu, hay cập nhật có chủ đích? | Mục 4.5–4.6 và `docs/B4_Activity_Worksheet.md` |
 
-Quy tắc demo (Seminar Guide): buổi trình bày có ít nhất một tính năng truyền thống và một tính năng có AI. Tính năng truyền thống là bộ Appium. Tính năng AI chờ TV2.
+Quy tắc demo (Seminar Guide): buổi trình bày có ít nhất một tính năng truyền thống và một tính năng có AI. Tính năng truyền thống là bộ Appium. Tính năng AI là Eyes trên batch `base` / `v1` / `v2`.
 
 ### 1.4 Kịch bản trong phạm vi
 
@@ -47,7 +47,7 @@ Bộ test chạy được nằm ở `src/appium/data/cases.js`:
 2. Tìm `iPhone` (1 sản phẩm), `Pro M` (2 sản phẩm), `Nokia 3310` (0 sản phẩm).
 3. Kiểm tra tên, dòng đếm kết quả, và sản phẩm không được xuất hiện.
 4. Cùng lệnh `npm test` còn thêm iPhone 15 Pro Max vào giỏ hai lần và kiểm tra tổng tiền. Luồng giỏ nằm sau bài test đầu; mục 3 dừng ở kết quả tìm kiếm.
-5. Checkpoint giao diện, và so sánh banner với màu, thuộc mục 4.
+5. Checkpoint giao diện Eyes, và so sánh bản đổi ảnh sản phẩm (`v1`) với bản đổi màu/bố cục (`v2`), thuộc mục 4.
 
 Bài test đầu không gồm thanh toán, coupon, trang admin, iOS và device farm.
 
@@ -277,7 +277,30 @@ Inspector dùng khi cần xem cây giao diện. Quit Session trước `npm test`
 
 ### 2.5 Applitools Eyes
 
-Bỏ qua cho bài test đầu. Repo seminar chưa có SDK Eyes hay batch dashboard. Khi có lần chạy, giữ khoá trong `APPLITOOLS_API_KEY` và không commit khoá đó. Test Appium viết bằng JavaScript (WebdriverIO), nên SDK Eyes phải là bản JavaScript.
+SDK đã nằm trong `src/appium/package.json` (`@applitools/eyes-webdriverio`). `npm ci` ở mục 2.4 đã kéo SDK. Bộ test gọi `createEyes()` trong mọi file test, nên **`npm test` cần khoá API** kể cả khi chỉ muốn nhìn assertion chức năng.
+
+Trong `src/appium`, tạo file `.env` (đã nằm trong `.gitignore`, không commit):
+
+```text
+APPLITOOLS_API_KEY=...
+```
+
+Hoặc export cùng tên biến trong terminal. Thiếu khoá thì `createEyes` ném lỗi `Missing APPLITOOLS_API_KEY`.
+
+Cấu hình đã khóa trong `src/appium/config/eyes.js` và `config/checkpoints.js`:
+
+| Mục | Giá trị trong repo |
+|-----|--------------------|
+| App name | `EShop` |
+| Tên test (khóa baseline) | `Login data-driven`, `Search data-driven`, `Cart add and total` |
+| Match level mặc định | Strict |
+| Ignore | thanh trạng thái, vùng `1080×80` ở đỉnh (đổi theo độ phân giải AVD) |
+| Layout | ảnh sản phẩm id 1 (`product-image-1`) trên Home và Search |
+| Batch | `EShop - ${VARIANT_LABEL}`; mặc định `VARIANT_LABEL=base` |
+
+`eyes.close(false)` không làm terminal đỏ khi có diff visual. Kết quả Passed / Unresolved xem trên [dashboard Applitools](https://eyes.applitools.com). Ảnh batch `EShop - base` đã Passed nằm ở `docs/evidence/B1_B2_applitools-dashboard/login_base.png`.
+
+Baseline gắn với viewport và thiết bị đã duyệt. Lần B2 dùng AVD `Medium_Phone_API_37.0`, 1080×2400, viewport dashboard khoảng 411×866. Đổi AVD hoặc độ phân giải sẽ tạo baseline mới, không so được với batch đã Accept.
 
 ### 2.6 Maestro (chỉ phương án dự phòng)
 
@@ -287,7 +310,7 @@ Bỏ qua, trừ khi giảng viên chấp nhận Maestro thay trial Applitools đ
 
 ## 3. Bài test đầu
 
-Mục tiêu: một đường chức năng. Visual AI để ở mục 4. Làm xong mục 2 trước. Nếu đĩa chỉ có `eshop-sut-main`, chép `src/appium` rồi làm mục 2.4 trước bước 6. Kết quả cả bộ đã ghi nằm ở `docs/A3_Metrics.md`: 3 test, 8 kiểm tra, 10/10 lượt trên AVD `eshop_api34`.
+Mục tiêu: một đường chức năng. Visual AI đi sâu ở mục 4, nhưng `npm test` hiện tại đã mở Eyes và chụp checkpoint, nên bước 6 cần `APPLITOOLS_API_KEY` (mục 2.5). Làm xong mục 2 trước. Nếu đĩa chỉ có `eshop-sut-main`, chép `src/appium` rồi làm mục 2.4 trước bước 6. Kết quả chức năng cả bộ đã ghi nằm ở `docs/A3_Metrics.md`: 3 test, 8 kiểm tra, 10/10 lượt trên AVD `eshop_api34`.
 
 Một lượt đạt của đường đầu trông như sau:
 
@@ -310,11 +333,11 @@ Phiên Inspector vừa mở có thể vẫn hiện màn hình Android trống ch
 3. Khởi động AVD `eshop_api34` và đợi `adb devices -l` báo trạng thái `device`.
 4. Chạy `adb reverse tcp:8081 tcp:8081`.
 5. Nếu app debug chưa được cài, chạy `npm ci` rồi `npx expo run:android` từ `$SUT/frontend-mobile`. Giữ Metro.
-6. Trong `src/appium`, đặt `APPIUM_HOME` tới thư mục `.appium` của thư mục đó (mục 2.4). Đặt `ANDROID_HOME` và `JAVA_HOME` như mục 2.1. Nếu APK không nằm ở đường mặc định của seminar, đặt `ESHOP_APK_PATH` thành đường tuyệt đối của file APK.
+6. Trong `src/appium`, đặt `APPIUM_HOME` tới thư mục `.appium` của thư mục đó (mục 2.4). Đặt `ANDROID_HOME` và `JAVA_HOME` như mục 2.1. Đặt `APPLITOOLS_API_KEY` (file `.env` hoặc export, mục 2.5). Nếu APK không nằm ở đường mặc định của seminar, đặt `ESHOP_APK_PATH` thành đường tuyệt đối của file APK.
 7. Bật server bằng `npm run server`.
 8. Mở `http://127.0.0.1:4723/status`. Chỉ tiếp tục khi `ready` là `true`.
 9. Quit mọi phiên Inspector. Một instrumentation UiAutomator2 cho một thiết bị. `npm test` thất bại nếu Inspector còn giữ phiên.
-10. Từ terminal thứ hai trong `src/appium`, cùng `APPIUM_HOME`, chạy `npm test`. Đó là `node --test --test-concurrency=1`.
+10. Từ terminal thứ hai trong `src/appium`, cùng `APPIUM_HOME` và `APPLITOOLS_API_KEY`, chạy `npm test`. Đó là `node --test --test-concurrency=1`. Assertion chức năng in ra terminal; kết quả Eyes xem trên dashboard.
 11. Ở test đăng nhập, `L1` còn màn Đăng nhập, có dòng `Đăng nhập thất bại`, và chưa có lời chào `Test User`. `L2` có lời chào `Chào, Test User` và không còn dòng lỗi.
 12. Ở test tìm kiếm, từ khoá `iPhone` tới `Hiển thị 1 sản phẩm` và tên `iPhone 15 Pro Max`. Các sản phẩm còn lại không còn trên màn hình. Đây là checkpoint của bài test đầu.
 13. Không nhập mật khẩu sai lần thứ hai khi tiến trình backend này còn chạy. Mỗi lần sai cộng 2 vào `login_attempts`, và tài khoản khoá 3 phút khi đạt 3. Nếu một lượt chết sau `L1` và trước `L2`, dừng backend rồi khởi động lại để seed sạch, sau đó chạy lại `npm test`.
@@ -345,9 +368,9 @@ Workflow Briefing giữ video 5–8 phút. Lệnh và giải thích dài nằm �
 
 | Mức | Appium | Eyes |
 |-----|--------|------|
-| Cài đặt | Mục 2. `GET http://127.0.0.1:4723/status` có `ready: true`. Phạm vi đã chạy là Linux, AVD `eshop_api34` (A1). | Cài SDK và cấu hình thật của TV2. Repo chưa có. |
-| Chức năng cơ bản | Inspector trên màn Đăng nhập, chọn ô email, bật Recorder (mục 4.3). | Một checkpoint so với baseline đã duyệt. Chưa chạy. |
-| Luồng phức tạp | `npm test`: bảng đăng nhập, bảng tìm kiếm, giỏ hai lần và tổng tiền (mục 4.4). | Cùng luồng trên bản đổi banner và bản đổi màu hoặc bố cục. Chưa có hai bản UI. |
+| Cài đặt | Mục 2. `GET http://127.0.0.1:4723/status` có `ready: true`. Phạm vi đã chạy là Linux, AVD `eshop_api34` (A1). | Mục 2.5: SDK qua `npm ci`, `APPLITOOLS_API_KEY`, app name `EShop`. |
+| Chức năng cơ bản | Inspector trên màn Đăng nhập, chọn ô email, bật Recorder (mục 4.3). | Một batch `EShop - base` so với baseline đã Accept (mục 4.5). Ảnh: `docs/evidence/B1_B2_applitools-dashboard/login_base.png`. |
+| Luồng phức tạp | `npm test`: bảng đăng nhập, bảng tìm kiếm, giỏ hai lần và tổng tiền (mục 4.4). | Cùng luồng trên `v1` (đổi ảnh sản phẩm) và `v2` (đổi màu/bố cục). Báo cáo: `docs/B2_Report.md`. |
 
 Phần live 10 phút không mở Inspector. Nếu cần nhắc Recorder, chiếu đoạn video của mức cơ bản. Backend, Metro, emulator và Appium được bật trước.
 
@@ -357,9 +380,9 @@ Phần live 10 phút không mở Inspector. Nếu cần nhắc Recorder, chiếu
 |------|------------|---------------------|
 | Record & Playback | Plugin Inspector trong trình duyệt. Ảnh và file Recorder ngày 23/10/2026 ở `docs/evidence/`. | Khám phá cây giao diện. Code sinh ra là bản nháp. |
 | Data-driven | `src/appium/data/cases.js`: `LOGIN_CASES`, `SEARCH_CASES`, `CART_CASE`. Thêm dòng không sửa assertion. | Demo phức tạp đọc bảng, không đọc số viết cứng trong test. |
-| Checkpoint | Assertion trong `tests/login-search.test.js` và `tests/cart-total.test.js`: câu lỗi, lời chào, số kết quả, tên sản phẩm, chữ số tổng tiền. | TAP xanh chỉ có giá trị khi các câu này đúng. |
+| Checkpoint | Assertion chức năng trong `tests/*.test.js`, cộng visual checkpoint qua `config/checkpoints.js` (Login, Home, Search, Cart). | TAP xanh cho dữ liệu; dashboard Eyes cho giao diện. |
 
-Eyes thêm visual checkpoint khi có baseline. Maestro không có file flow, nên không thay khối nào ở trên.
+Maestro không có file flow, nên không thay khối nào ở trên.
 
 ### 4.3 Record và Playback — demo cơ bản
 
@@ -418,32 +441,65 @@ Hai hành vi của EShop mà test giỏ đã né (A2, mục 5):
 
 Bằng chứng cả bộ: chiến dịch 2 của A3, 22–23/10/2026, 10 lượt, mỗi lượt `# pass 8` và `# fail 0`, trung bình 102,284 s, trung vị 102,238 s. Mười lượt này bắt đầu sau khi đã xử lý bàn phím và Alert. Mười lượt không phải xác suất flaky dài hạn. Log ở `docs/evidence/A3_runs_2026-10-22_data-driven.log`.
 
-### 4.5 Eyes — ba mức chưa có lần chạy
+### 4.5 Eyes — cài đặt, một checkpoint, hai bản UI
 
-TV2 chưa đưa SDK, khoá API, tên app, viewport hay batch dashboard. Chưa có những thứ đó thì không trình bày baseline hay ảnh diff.
+Thứ tự trong mã: `eyes.open(driver, "EShop", "<tên test cố định>")` → `checkpoint` / `checkpointAs` sau khi assert xong → `eyes.close(false)`. Tên test cố định là khóa baseline. Batch tên `EShop - base` (hoặc `v1` / `v2`) chỉ nhóm lần chạy trên dashboard, không đổi khóa baseline.
 
-Thứ tự dự kiến, sau khi danh sách sản phẩm đã hiện (bước 12 của mục 3): `Eyes.open` (tên app, tên test, viewport emulator) → `Eyes.check` → `Eyes.close`. Lần check được chấp nhận đầu tiên tạo baseline. Chấp nhận nghĩa là UI đó thành chuẩn mới. Match level và vùng bỏ qua ghi trong phiếu của batch đó. Lý thuyết: `Ly_Thuyet_T03_Mobile_Automation.md`, mục C2 và A4.2–A4.5.
+**Mức cơ bản — batch `base` đã duyệt.** Chạy `npm test` với `VARIANT_LABEL=base` (mặc định) và Metro ở bản gốc. Lần đầu trên dashboard: Accept toàn bộ ảnh rồi Save. Lần hai kỳ vọng Passed. Bằng chứng ngày 23/10/2026: test `Login data-driven` Passed, ba bước Login initial / L1 error / Home logged in (`docs/evidence/B1_B2_applitools-dashboard/login_base.png`).
 
-Repo chưa có bản đổi banner và chưa có bản đổi màu. Câu bảo trì seminar vẫn chờ một cặp lần chạy thật:
+![Batch EShop - base Passed trên dashboard Applitools](docs/evidence/B1_B2_applitools-dashboard/login_base.png)
 
-| Thay đổi | Test chức năng | Test giao diện | Cách xử lý khi đã có diff |
-|----------|----------------|----------------|---------------------------|
-| Ảnh banner hoặc ảnh sản phẩm đổi, bố cục giữ | Thường pass nếu script không assert ảnh | Thường fail | Ứng viên vùng bỏ qua, và chỉ cho đúng ảnh đó |
-| Màu, khoảng cách hoặc bố cục đổi ngoài yêu cầu | Thường vẫn pass | Phải fail | Regression thật. Không bỏ qua |
+**Hai bản UI có kiểm soát** (`EXPO_PUBLIC_UI_VARIANT` trong Metro; `testID` và chữ không đổi):
 
-Đổi banner rẻ với Appium và đắt với Eyes. Đổi màu thì ngược lại. Câu này là dự đoán từ hai oracle cho tới khi TV2 gắn cả hai kết quả.
+| | V1 | V2 |
+|--|----|----|
+| Thay đổi | Đổi ảnh sản phẩm id 1 (`assets/product-v1.png`), khung giữ nguyên | Giá tím và to hơn; nút lệch; nút thêm giỏ đỏ; tổng tiền lệch trái; nút thanh toán cam |
+| Bản chất | Đổi nội dung ảnh có chủ đích | Regression giao diện thật |
+| Cách bật | `EXPO_PUBLIC_UI_VARIANT=v1` | `EXPO_PUBLIC_UI_VARIANT=v2` |
+
+**Kết quả đã đo** (`docs/B2_Report.md`, cùng ngày, AVD `Medium_Phone_API_37.0`):
+
+| Lần chạy | Functional | Visual (Eyes) | Kết luận |
+|----------|------------|---------------|----------|
+| Base lần 2 | Pass 8/8 | Pass 3/3 test | Đối chứng ổn định |
+| V1 | Pass 8/8 | Unresolved 3/3 (5/10 checkpoint lệch) | False positive nếu coi đổi ảnh là lỗi; giảm bằng layout region trên ảnh sản phẩm |
+| V2 | Pass 8/8 | Unresolved 3/3 (6/10 checkpoint lệch) | True regression: Appium bỏ sót, Eyes bắt màu và lệch bố cục |
+
+Ảnh so sánh: `v1_home_with_layout_region.png`, `v1_home_without_layout_region.png`, `v2_home_step.png`, `v2_cart_with_item_step.png` trong `docs/evidence/B1_B2_applitools-dashboard/`.
+
+Chạy cả ba bản từ gốc repo (Git Bash), sau khi mục 2 đã xong:
+
+```bash
+export APPLITOOLS_API_KEY="..."
+# hoặc ghi vào src/appium/.env
+./run-variants.sh            # base (tạo + kiểm baseline) -> v1 -> v2
+# hoặc: ./run-variants.sh base|v1|v2
+```
+
+Script mở emulator mặc định `eshop_api34`, tắt animation, restart backend mỗi lần, đặt `EXPO_PUBLIC_UI_VARIANT` và `VARIANT_LABEL`. **Không Accept/Save** trên lần chạy `v1` hoặc `v2`; làm vậy sẽ ghi đè baseline.
+
+| Thay đổi | Test chức năng | Test giao diện | Cách xử lý sau khi có diff |
+|----------|----------------|----------------|----------------------------|
+| Ảnh sản phẩm đổi, khung giữ (V1) | Pass | Unresolved nếu so Strict toàn vùng ảnh | Accept nếu chủ ý; hoặc layout region trên `product-image-1` |
+| Màu / vị trí nút / tổng tiền lệch (V2) | Pass | Unresolved | Reject, sửa app. Không bỏ qua vùng giá và nút |
 
 ### 4.6 Vùng bỏ qua và người được cập nhật baseline
 
-Chỉ dùng sau một diff Eyes thật. Đây là quy tắc, chưa phải vùng đã vẽ trên baseline.
+Đã cấu hình trong mã (`config/checkpoints.js`):
 
-| Có thể bỏ qua | Không bỏ qua |
-|---------------|--------------|
-| Banner hoặc ảnh sản phẩm khi bố cục không đổi | Giá và tổng đơn |
-| Mốc thời gian hoặc avatar ngẫu nhiên ngoài kịch bản | Nút đăng nhập, thêm vào giỏ, thanh toán |
-| Vùng marketing nhóm đã thống nhất là nội dung xoay | Dòng lỗi đăng nhập và form đăng nhập |
+| Vùng | Cách so |
+|------|---------|
+| Thanh trạng thái (`STATUS_BAR` 1080×80) | Ignore |
+| Ảnh sản phẩm id 1 trên Home / Search | Layout (bỏ nội dung ảnh, vẫn bắt lệch khung) |
+| Giá, tổng tiền, nút đăng nhập / thêm giỏ / thanh toán, form lỗi | Strict — không ignore |
 
-Người cập nhật baseline phải có chấp thuận của giảng viên hoặc người QA được chỉ định. Phiếu ghi lý do, vùng đã bỏ qua, và bản build áp dụng. Cập nhật baseline để che một lỗi làm hỏng oracle.
+| Có thể bỏ qua hoặc Layout | Không bỏ qua |
+|---------------------------|--------------|
+| Thanh trạng thái, ảnh sản phẩm khi chỉ đổi nội dung ảnh | Giá và tổng đơn |
+| Mốc thời gian ngoài kịch bản | Nút đăng nhập, thêm vào giỏ, thanh toán |
+| Vùng marketing đã thống nhất xoay | Dòng lỗi đăng nhập và form đăng nhập |
+
+Người cập nhật baseline phải có chấp thuận của giảng viên hoặc người QA được chỉ định. Chỉ Accept trên batch `base` khi UI gốc đổi có chủ đích. Phiếu ghi lý do, vùng đã bỏ qua, và bản build. Cập nhật baseline để che lỗi V2 làm hỏng oracle. Worksheet phân loại diff: `docs/B4_Activity_Worksheet.md` và `docs/diff-cards/`.
 
 ### 4.7 Maestro — chỉ khi được chấp thuận
 
@@ -484,7 +540,7 @@ Kiểm tra đĩa trống trước khi mở emulator. Lần trên máy TV1, emula
 
 ## 5. Xử lý sự cố
 
-Một lỗi lặp lại trên mọi lượt là defect hoặc môi trường hỏng. Một lỗi lúc có lúc không trên cùng bản build, cùng test và cùng AVD là flake. Sáu mục 5.1–5.6 đã gặp trên AVD Linux khi viết A2, A3 và A4. Mục 5.7 là máy chưa xong mục 2.1. Eyes và Maestro không có log trong hướng dẫn này.
+Một lỗi lặp lại trên mọi lượt là defect hoặc môi trường hỏng. Một lỗi lúc có lúc không trên cùng bản build, cùng test và cùng AVD là flake. Sáu mục 5.1–5.6 đã gặp trên AVD Linux khi viết A2, A3 và A4. Mục 5.7 là máy chưa xong mục 2.1. Mục 5.8 gồm cả lỗi Eyes đã gặp khi chạy B2.
 
 Quy tắc reset: một backend, một emulator, một bản app. Mỗi lần chỉ đổi một trong ba.
 
@@ -532,30 +588,33 @@ Các việc này hiện trên máy chưa xong mục 2.1. Chúng là lỗ hổng 
 | `appium driver doctor uiautomator2` thoát mã 1 | Thiếu `apkanalyzer` vì chưa cài cmdline-tools. `adb` và `emulator` vẫn thấy được khi `ANDROID_HOME` đã đặt | Cài cmdline-tools. Khi `adb` đã chạy, dòng doctor bảo cài lại cả SDK rộng hơn chỗ đang thiếu |
 | `GET /` cổng 4723 trả 404 | Appium 2 không có route ở `/`. Sẵn sàng là `GET /status` | Đọc `/status` và kỳ vọng `ready: true` |
 
-### 5.8 Chưa có log để gỡ theo hướng dẫn này
+### 5.8 Mạng, seed, Eyes và Maestro
 
-| Triệu chứng có thể gặp sau | Chỗ xem khi nó xảy ra thật |
-|----------------------------|----------------------------|
-| Đăng nhập xoay mãi hoặc báo lỗi mạng | Backend phải ở cổng 3000. Trên emulator, client dùng địa chỉ mặc định trong mã; `localhost` bên trong emulator là chính emulator. A1 ghi địa chỉ đó |
+| Triệu chứng | Nguyên nhân / chỗ xem |
+|-------------|------------------------|
+| Đăng nhập xoay mãi hoặc báo lỗi mạng | Backend phải ở cổng 3000. Trên emulator, client dùng địa chỉ mặc định trong mã; `localhost` bên trong emulator là chính emulator |
 | Tìm `iPhone` không ra gì | Khởi động lại `npm start` để nạp seed, rồi bấm nút tìm |
-| Eyes không tải lên, hoặc fail mọi lượt | Repo chưa có batch. Khi TV2 có: `APPLITOOLS_API_KEY`, `Eyes.close`, cùng AVD và viewport với baseline |
+| `Missing APPLITOOLS_API_KEY` khi `npm test` | Tạo `src/appium/.env` hoặc export biến (mục 2.5) |
+| Terminal xanh nhưng dashboard Unresolved | Đúng với `eyes.close(false)`. Functional và visual tách nhau; xem batch `EShop - <variant>` |
+| Diff trên mọi checkpoint sau khi đổi AVD | Baseline gắn viewport/thiết bị. B2 dùng `Medium_Phone_API_37.0`; A1 dùng `eshop_api34`. Cùng độ phân giải 1080×2400 vẫn có thể lệch nếu mật độ khác — Accept lại trên đúng AVD demo |
+| Lỡ Accept trên batch `v1` hoặc `v2` | Baseline bị ghi đè. Tạo lại từ `base` (`./run-variants.sh base`) rồi Accept chỉ batch `base` |
 | Maestro không thấy app | Chưa có file flow. Một thiết bị, APK debug đã cài, không phải Expo Go |
 
 ---
 
 ## 6. Các cách công cụ gây hiểu sai
 
-Brief yêu cầu ba cách các công cụ này làm người đọc kết luận sai. Ba mục dưới đã quan sát trên EShop. Cặp Eyes trong lý thuyết mục A4.4 vẫn là chính sách: chưa có batch dashboard để gắn.
+Brief yêu cầu ít nhất ba cách các công cụ này làm người đọc kết luận sai. Ba mục dưới đã quan sát trên EShop, gồm cả cặp Appium × Eyes từ B2.
 
-### 6.1 Cú bấm trả về chưa phải giỏ đúng
+### 6.1 Cú bấm trả về, hoặc assert xanh, chưa phải màn hình đúng
 
-Ở các lần giỏ đầu, Appium giao cú bấm thứ hai. Cú bấm rơi vào Alert thành công, nên số lượng dòng vẫn là 1 và tổng vẫn 30000000 thay vì 60000000. Script chỉ kiểm tra `click` đã trả về thì vẫn xanh. Lớp gây hiểu sai là kết quả thao tác của Appium. Assertion chữ số trên giỏ mới làm test đỏ.
+Ở các lần giỏ đầu, Appium giao cú bấm thứ hai. Cú bấm rơi vào Alert thành công, nên số lượng dòng vẫn là 1 và tổng vẫn 30000000 thay vì 60000000. Script chỉ kiểm tra `click` đã trả về thì vẫn xanh. Assertion chữ số trên giỏ mới làm test đỏ.
 
-Cùng hình dạng đó được dự đoán khi màu hoặc khoảng cách đổi mà mọi `testID` còn đủ: Appium có thể pass trong khi màn hình sai. Nửa đó cần checkpoint Eyes. Chưa chạy. Không trích thành kết quả.
+Cùng hình dạng đã đo trên V2 (`docs/B2_Report.md`): functional Pass 8/8 trong khi Eyes Unresolved vì màu giá, nút lệch và tổng tiền lệch trái. `testID` và chữ không đổi nên Appium không thấy lỗi. Checkpoint Eyes trên Home và Cart bắt được. Không bỏ qua vùng giá hay nút để “cho xanh”.
 
-### 6.2 Lượt đỏ là lỗi test, không phải lỗi sản phẩm
+### 6.2 Lượt đỏ hoặc Unresolved chưa chắc là lỗi sản phẩm
 
-Các fail sau đã tái lập, đã sửa trong test, và không tính vào tỷ lệ pass của A3:
+Các fail Appium/Detox sau đã tái lập, đã sửa trong test, và không tính vào tỷ lệ pass của A3:
 
 | Cái đã đỏ | Cái thực sự sai |
 |-----------|-----------------|
@@ -564,17 +623,17 @@ Các fail sau đã tái lập, đã sửa trong test, và không tính vào tỷ
 | Không thấy nút đăng nhập sau phiên mới | APK debug không ở foreground (mục 5.4) |
 | Activity đăng nhập của Detox mất sau mật khẩu | `pressBack()` đóng nó (mục 5.5) |
 
-Sau các sửa đó, chiến dịch 2 của A3 ghi 10/10 lượt với `# fail 0`. A3 cũng nói mười lượt không ước lượng tỷ lệ flake dài hạn. Ghi bốn dòng trên thành defect của EShop là chọn nhầm oracle.
+Sau các sửa đó, chiến dịch 2 của A3 ghi 10/10 lượt với `# fail 0`. A3 cũng nói mười lượt không ước lượng tỷ lệ flake dài hạn.
 
-Đổi banner có thể làm Eyes đỏ trong khi giá vẫn đúng. Đó là dạng giao diện của mode này. Repo không có ảnh diff. Bỏ qua cả cửa sổ để Eyes xanh sẽ che một lỗi bố cục sau này (mục 4.6).
+Phía Eyes, V1 Unresolved khi đổi ảnh sản phẩm là **false positive** nếu coi đó là lỗi: thay đổi có chủ đích, khung giữ nguyên. Chạy thêm không có layout region làm vùng ảnh báo thừa rõ hơn (`v1_home_without_layout_region.png`). Cách xử lý: Accept nếu chủ ý, hoặc giữ layout region trên `product-image-1`. Ignore cả cửa sổ để Eyes xanh sẽ che regression kiểu V2 sau này.
 
-### 6.3 Câu trên màn hình là oracle yếu hơn
+### 6.3 Câu trên màn hình, hoặc ảnh “đẹp”, là oracle yếu hơn
 
-`handleLogin` trong `App.js` luôn gán `Đăng nhập thất bại. Vui lòng kiểm tra lại.` API trả `Invalid email or password` hoặc `Tài khoản đã bị khóa. Vui lòng thử lại sau.` Test chỉ assert dòng lỗi không tách được mật khẩu sai khỏi tài khoản bị khoá. Cả hai đều “đỏ” vì cùng một chuỗi. A2 ghi UI gộp hai nguyên nhân. Một lần đăng nhập sai trả HTTP 401 với `Invalid email or password`. Vì vậy mỗi đời backend chỉ được một mật khẩu sai, và server được khởi động lại nếu `L1` không được nối bằng `L2`.
+`handleLogin` trong `App.js` luôn gán `Đăng nhập thất bại. Vui lòng kiểm tra lại.` API trả `Invalid email or password` hoặc `Tài khoản đã bị khóa. Vui lòng thử lại sau.` Test chỉ assert dòng lỗi không tách được mật khẩu sai khỏi tài khoản bị khoá. A2 ghi UI gộp hai nguyên nhân. Mỗi đời backend chỉ được một mật khẩu sai.
 
-File `docs/evidence/A2_inspector_recorder_2026-10-23.js` là oracle yếu thứ hai. Nó bấm đăng nhập và gõ email qua `$$(...)[0]`, không có wait và không có assertion. Phát lại file đó không kiểm tra tên sản phẩm hay giá.
+File `docs/evidence/A2_inspector_recorder_2026-10-23.js` là oracle yếu thứ hai: `$$(...)[0]`, không wait, không assertion. Phát lại file đó không kiểm tra tên sản phẩm hay giá.
 
-Eyes xanh cộng giá sai là cặp thứ ba trong ghi chú lý thuyết. Chưa quan sát được. Giữ assertion tên và assertion chữ số của tổng giỏ kể cả khi một kiểm tra giao diện sau này xanh. Applitools không đọc quyền truy cập, và `assertWithAI` có thể bỏ sót hoặc bịa một defect.
+Cặp thứ ba: Eyes Pass trên Cart Empty ở cả V1 và V2 trong khi Home/Search/Cart-with-item Unresolved trên V2. Một bước visual xanh không chứng minh cả luồng. Giữ assertion chữ số `60000000` và assertion tên kể cả khi một checkpoint Eyes xanh. Applitools không đọc quyền truy cập; `assertWithAI` (Maestro) có thể bỏ sót hoặc bịa defect.
 
 ---
 
@@ -586,7 +645,7 @@ Eyes xanh cộng giá sai là cặp thứ ba trong ghi chú lý thuyết. Chưa 
 4. [Appium](https://appium.io/). [Kiến trúc UiAutomator2](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/architecture.md). [Capability và tiền tố `appium:`](https://appium.io/docs/en/2.19/guides/caps/) — trang này khớp server khóa trong `src/appium`. [UiAutomator2 driver quickstart](https://appium.io/docs/en/2.5/quickstart/uiauto2-driver/).
 5. [Applitools mobile testing](https://applitools.com/solutions/mobile-testing/). [Pricing](https://support.applitools.com/platform-pricing/). Khảo sát S1 ghi Starter 667 USD/tháng khi trả theo năm và trial 14 ngày; đối chiếu lại trang giá trước khi nộp.
 6. [Maestro — React Native](https://docs.maestro.dev/get-started/supported-platform/react-native). [assertWithAI](https://docs.maestro.dev/reference/commands-available/assertwithai). [assertNoDefectsWithAI](https://docs.maestro.dev/reference/commands-available/assertnodefectswithai).
-7. Tài liệu môn: `Ly_Thuyet_T03_Mobile_Automation.md`, `Demo_Scenario.md`, `Tool_Survey_Proposal.md`, `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`, `eshop-sut-main/setup_guide.md`. Brief seminar: `T03_Mobile_Automation_Testing.docx`, `Seminar_Guide.docx`, `Seminar_Scenario_Draft.md`.
+7. Tài liệu môn: `Ly_Thuyet_T03_Mobile_Automation.md`, `Demo_Scenario.md`, `Tool_Survey_Proposal.md`, `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`, `docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `eshop-sut-main/setup_guide.md`. Brief seminar: `T03_Mobile_Automation_Testing.docx`, `Seminar_Guide.docx`, `Seminar_Scenario_Draft.md`.
 
 ---
 
@@ -594,21 +653,21 @@ Eyes xanh cộng giá sai là cặp thứ ba trong ghi chú lý thuyết. Chưa 
 
 The S1 tool survey used OpenAI Codex to extract criteria and draft the comparison matrix. Licence, price, React Native support, AI features, and community size were checked against vendor docs and repositories on 28/09/2026.
 
-Sections 1–7 were revised with Cursor (Grok) on 23/10/2026 from `Ly_Thuyet_T03_Mobile_Automation.md`, `Demo_Scenario.md`, `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`, and the current `eshop-sut-main` / `src/appium` source. The same day they were rewritten in Vietnamese. Sections 4–7 cover the three demo levels, record/playback, the data-driven suite, and checkpoints. Failures in sections 5 and 6 come from the A2/A3/A4 logs. Eyes has no recorded batch.
+Sections 1–7 were revised with Cursor (Grok) on 23/10/2026 from `Ly_Thuyet_T03_Mobile_Automation.md`, `Demo_Scenario.md`, `docs/A1`–`A4`, and `eshop-sut-main` / `src/appium`. Cùng ngày chúng được viết lại tiếng Việt. Sau khi TV2 giao Eyes (SDK, `run-variants.sh`, B2, ảnh dashboard), mục 2.5, 4.1, 4.5–4.6, 5.8, 6 và 9 được cập nhật theo `docs/B2_Report.md` và bằng chứng `docs/evidence/B1_B2_applitools-dashboard/`. Failures Appium/Detox lấy từ A2/A3/A4; false positive V1 và true regression V2 lấy từ B2.
 
 ---
 
-## 9. Open items
+## 9. Mục còn mở
 
-Closed from the SUT and the seminar test project: Appium 2.19.0 and UiAutomator2 4.2.9, package `com.eshop.sut`, default API `http://10.0.2.2:3000/api`, `testID` locators, the JavaScript suite in `src/appium/`, the login error string, the empty-search check (result count disappears), and the admin seed password `Admin123!`.
+Đã đóng từ SUT và dự án test: Appium 2.19.0 và UiAutomator2 4.2.9, package `com.eshop.sut`, API mặc định emulator, `testID`, bộ `src/appium/`, Eyes SDK + checkpoint + hai bản UI `v1`/`v2`, báo cáo B2 và ảnh dashboard.
 
-Still open:
+Còn mở:
 
-| # | Gap | Why it blocks a peer | Where to look |
-|---|-----|----------------------|---------------|
-| 1 | A new machine has not finished section 2.1 (no AVD, no Platform 36, no cmdline-tools, `ANDROID_HOME` unset) | The emulator build and `npm test` cannot start. Doctor exits 1 | Section 2.1. The recorded UI run stays in A1/A3 |
-| 2 | `android/` and the debug APK are not in git | `npx expo run:android` has to be run locally. Node for that build is 20.19 or newer (22.13+ only for Detox) | Mục 2.3 |
-| 3 | Eyes SDK, app name, viewport, and match level are undecided | Mục 4.5–4.6 cannot be repeated as a run | TV2, after the first dashboard batch. Mục 4.4 và 4.8 đã có bằng chứng Linux |
-| 4 | Banner and colour builds are not in the repo | Mục 4.5 has no build to switch | TV2 UI variants |
-| 5 | Maestro flow file does not exist | Backup demo has no file | Only after instructor approval |
-| 6 | Mục 6.1–6.3 have an observed Appium/Detox half and no Eyes screenshot | The banner-versus-colour pair and a green Eyes check over a wrong price are still a policy | TV2. Keyboard, alert, cold start, `pressBack`, and the collapsed login error are already in A2/A3/A4 |
+| # | Khoảng trống | Vì sao chặn người làm lại | Chỗ xem |
+|---|--------------|---------------------------|---------|
+| 1 | Máy mới chưa xong mục 2.1 | Không build APK / không `npm test` | Mục 2.1; bằng chứng UI Appium ở A1/A3 |
+| 2 | `android/` và APK debug không nằm trong git | Phải `npx expo run:android` local | Mục 2.3 |
+| 3 | `APPLITOOLS_API_KEY` không commit | Peer phải tự lấy khoá trial/đội | Mục 2.5; không copy khoá vào repo |
+| 4 | Baseline Eyes gắn AVD/viewport của lần Accept | Đổi thiết bị tạo baseline mới; A1 và B2 dùng hai tên AVD khác nhau | Mục 2.5 và 5.8; Accept lại trên AVD demo |
+| 5 | Chưa có file flow Maestro | Backup demo không có file | Chỉ sau khi giảng viên chấp thuận |
+| 6 | `Demo_Screencast.mp4` / `Demo_Video_Links.md` chưa thấy trong repo | Video seminar và mốc thời gian chưa gắn vào guide | `Demo_Scenario.md` |
