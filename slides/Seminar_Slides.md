@@ -358,7 +358,7 @@ Eyes là **lớp cộng thêm**: hết trial hay mất mạng thì 8 kiểm tra 
 <div>
 
 ![w:430](assets/eyes_dashboard_v2.png)
-<span class="small">V2 trên dashboard: baseline (trái) – checkpoint (phải), vùng khác biệt được tô. Clip demo: <b>[link + mốc thời gian]</b></span>
+<span class="small">V2 trên dashboard: baseline (trái) – checkpoint (phải), vùng khác biệt được tô. Clip demo: <b><a href="https://youtu.be/N3cN5d2LSG4?t=246">youtu.be/N3cN5d2LSG4 (4:06)</a></b></span>
 
 </div>
 </div>
