@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 24/10/2026, tính đến commit `9f46d48`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 24/10/2026, tính đến commit `275b333`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -8,10 +8,10 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
 | Thành viên | Họ tên | Tài khoản Git | Commit (không tính merge) | Commit merge | Commit có trailer AI | Từ | Đến |
 |---|---|---|---:|---:|---:|---|---|
-| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 27 | 0 | 16 | 28/09/2026 22:06 | 24/10/2026 10:27 |
+| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 31 | 0 | 20 | 28/09/2026 22:06 | 24/10/2026 11:25 |
 | TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 7 | 1 | 0 | 23/10/2026 02:05 | 23/10/2026 15:49 |
 | TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 10 | 2 | 8 | 19/10/2026 09:54 | 23/10/2026 17:09 |
-| **Tổng** | | | **44** | **3** | **24** | | |
+| **Tổng** | | | **48** | **3** | **28** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -66,3 +66,7 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 45 | `1c54459` | 24/10/2026 00:13 | d1nhnguyen | TV1 | docs: add the Git commit log generated from main | AI: Claude Opus 5.5 |
 | 46 | `062103b` | 24/10/2026 00:15 | d1nhnguyen | TV1 | docs: keep only the video link in Demo_Video_Links.md | AI: Claude Opus 5.5 |
 | 47 | `9f46d48` | 24/10/2026 10:27 | d1nhnguyen | TV1 | docs: switch to the narrated demo video and link it from the slides | AI: Claude Opus 5.5 |
+| 48 | `822786c` | 24/10/2026 10:27 | d1nhnguyen | TV1 | docs: refresh the Git commit log up to 9f46d48 | AI: Claude Opus 5.5 |
+| 49 | `2431bfd` | 24/10/2026 10:33 | d1nhnguyen | TV1 | docs(AI usage): declare the TTS narration of the demo video | AI: Claude Opus 5.5 |
+| 50 | `9bb980b` | 24/10/2026 10:52 | d1nhnguyen | TV1 | docs(slides): replace the clip placeholder on slide 11 with the timed video link | AI: Claude Opus 5.5 |
+| 51 | `275b333` | 24/10/2026 11:25 | d1nhnguyen | TV1 | docs(report): set the class on the cover to CQ2023/3 | AI: Claude Opus 5.5 |
