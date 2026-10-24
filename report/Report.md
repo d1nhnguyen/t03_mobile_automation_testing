@@ -22,7 +22,7 @@
 <tr><td><b>Sinh viên thực hiện</b></td><td>Nguyễn Phú Dinh — 23120031</td></tr>
 <tr><td></td><td>Nguyễn Hải Đăng — 23120027</td></tr>
 <tr><td></td><td>Ứng Thị Thùy Dương — 23120034</td></tr>
-<tr><td><b>Lớp</b></td><td>CS423 / CSC15003</td></tr>
+<tr><td><b>Lớp</b></td><td>CQ2023/3</td></tr>
 </table>
 <br/>
 <p><b>Thành phố Hồ Chí Minh — 2026</b></p>
