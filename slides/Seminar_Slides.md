@@ -57,6 +57,8 @@ style: |
   section.divider h1 { color: #C00000; font-size: 54px; }
   section.qa h1 { font-size: 150px; margin: 0; }
   .shot img { width: 100%; border: 1px solid #ccc; }
+  .vlink { font-size: 20px; color: #1F4E79; font-weight: bold; margin-top: 12px; }
+  .vlink a { color: #1F4E79; }
   .codeshot { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
   section.test .codeshot pre { font-size: 16px; line-height: 1.32; }
   section.test pre .c-step { color: #1F4E79 !important; font-weight: bold; }
@@ -79,6 +81,7 @@ style: |
 <h1>Mobile Automation Testing với Appium 2 và Applitools Eyes</h1>
 <div class="logos"><img src="assets/logo_appium.png" height="60"><img src="assets/logo_applitools.png" height="76"></div>
 <div class="band light">DEMO: Appium 2 + UiAutomator2 (truyền thống) · Applitools Eyes (AI visual)</div>
+<div class="vlink">Video demo: <a href="https://youtu.be/N3cN5d2LSG4">https://youtu.be/N3cN5d2LSG4</a></div>
 </div>
 
 ---
@@ -395,3 +398,5 @@ Eyes là **lớp cộng thêm**: hết trial hay mất mạng thì 8 kiểm tra 
 <!-- _class: qa -->
 <!-- _footer: "14 · Q&A" -->
 # Q&A
+
+<div class="vlink">Video demo: <a href="https://youtu.be/N3cN5d2LSG4">https://youtu.be/N3cN5d2LSG4</a></div>

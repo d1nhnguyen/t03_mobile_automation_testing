@@ -71,6 +71,7 @@
 # Báo cáo T03 — Mobile Automation Testing
 
 **Môn:** CS423 / CSC15003 Kiểm thử phần mềm  
+**Video demo:** https://youtu.be/N3cN5d2LSG4  
 **SUT:** EShop React Native Expo (`eshop-sut-main/frontend-mobile`), package Android `com.eshop.sut`  
 **Phạm vi đã đo:** Appium và Detox trên Ubuntu/Linux, AVD `eshop_api34` (Android 14, 1080×2400), 22–23/10/2026. Applitools Eyes trên Windows (Git Bash), AVD `Medium_Phone_API_37.0` (1080×2400), sáng 23/10/2026  
 **Nguồn chương này:** phần A, B, C của `Ly_Thuyet_T03_Mobile_Automation.md`; kết quả TV1 ở `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`; kết quả TV2 ở `docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, log `src/appium/logs/` và ảnh `docs/evidence/B1_B2_applitools-dashboard/`; ma trận S1 ở `Tool_Survey_Proposal.md`
@@ -382,7 +383,7 @@ Chưa làm được ở máy này:
 | Chốt AVD buổi demo                                                 | Baseline Eyes đang gắn `Medium_Phone_API_37.0` (viewport dashboard 411×866). Appium/Detox đo trên `eshop_api34`. `run-variants.sh` mặc định mở `eshop_api34`, tức một baseline mới. Demo Eyes phải dùng đúng AVD đã Accept, hoặc Accept lại trên AVD mới. Đây là quyết định của nhóm trước buổi chạy |
 | Chụp lại ảnh diff thẻ 7 và thêm thẻ nhiễu thuần                    | Cần dashboard hoặc một lượt chụp mới                                                                                                                                                                                                                                                                 |
 | Dry-run 25 phút với người ngoài nhóm                               | Cần một người không soạn thẻ và đồng hồ thật. Mẫu biên bản ở `docs/B4_Activity_Worksheet.md` mục 6 vẫn trống                                                                                                                                                                                         |
-| Video demo và `Demo_Video_Links.md`                                | https://youtu.be/J20ZP5IAsuc                                                                                                                                                                                                                                                                         |
+| Video demo và `Demo_Video_Links.md`                                | Đã có: https://youtu.be/N3cN5d2LSG4 (6:51, thuyết minh tiếng Anh)                                                                                                                                                                                                                                                                         |
 
 ---
 
