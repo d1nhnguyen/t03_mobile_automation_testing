@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 24/10/2026, tính đến commit `275b333`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 26/10/2026, tính đến commit `874837c`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -8,10 +8,10 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
 | Thành viên | Họ tên | Tài khoản Git | Commit (không tính merge) | Commit merge | Commit có trailer AI | Từ | Đến |
 |---|---|---|---:|---:|---:|---|---|
-| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 31 | 0 | 20 | 28/09/2026 22:06 | 24/10/2026 11:25 |
+| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 32 | 0 | 21 | 28/09/2026 22:06 | 24/10/2026 11:25 |
 | TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 7 | 1 | 0 | 23/10/2026 02:05 | 23/10/2026 15:49 |
-| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 10 | 2 | 8 | 19/10/2026 09:54 | 23/10/2026 17:09 |
-| **Tổng** | | | **48** | **3** | **28** | | |
+| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 11 | 2 | 9 | 19/10/2026 09:54 | 26/10/2026 15:30 |
+| **Tổng** | | | **50** | **3** | **30** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -70,3 +70,5 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 49 | `2431bfd` | 24/10/2026 10:33 | d1nhnguyen | TV1 | docs(AI usage): declare the TTS narration of the demo video | AI: Claude Opus 5.5 |
 | 50 | `9bb980b` | 24/10/2026 10:52 | d1nhnguyen | TV1 | docs(slides): replace the clip placeholder on slide 11 with the timed video link | AI: Claude Opus 5.5 |
 | 51 | `275b333` | 24/10/2026 11:25 | d1nhnguyen | TV1 | docs(report): set the class on the cover to CQ2023/3 | AI: Claude Opus 5.5 |
+| 52 | `c49f96f` | 24/10/2026 11:25 | d1nhnguyen | TV1 | docs: refresh the Git commit log | AI: Claude Opus 5.5 |
+| 53 | `874837c` | 26/10/2026 15:30 | UngDuong125 | TV3 | docs: record the measured Eyes runs in the theory and demo scenario | AI: Cursor |
