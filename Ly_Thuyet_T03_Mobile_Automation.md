@@ -254,7 +254,7 @@ Ba cách so sánh, từ cứng đến có ngữ cảnh:
 | **Ngưỡng pixel** | Cho phép một tỉ lệ pixel lệch | Ngưỡng là số tùy ý: thấp thì nhiễu, cao thì nuốt lỗi thật (nút lệch vài pixel, chữ bị cắt). |
 | **Visual AI (layout-aware)** | So theo vùng, bố cục và nội dung; bỏ khác biệt kết xuất mà mắt người không thấy | Vẫn cần người triage và chính sách ignore. Không tự biết một diff là bug hay redesign. |
 
-Nhiễu đặc thù trên mobile: mật độ màn hình, font, thanh trạng thái (giờ, pin), animation chưa kết thúc, ảnh banner xoay, và khác biệt render giữa máy thật với emulator. Vì vậy baseline nên gắn với một cấu hình thiết bị cố định; EShop dùng AVD `eshop_api34`, 1080×2400.
+Nhiễu đặc thù trên mobile: mật độ màn hình, font, thanh trạng thái (giờ, pin), animation chưa kết thúc, ảnh sản phẩm đổi, và khác biệt render giữa máy thật với emulator. Vì vậy baseline nên gắn với một cấu hình thiết bị cố định. Lượt Eyes của EShop gắn với AVD `Medium_Phone_API_37.0`, 1080×2400. Lượt Appium A3 dùng AVD `eshop_api34`, cùng độ phân giải; đổi AVD là một baseline mới.
 
 ### b. Thuật ngữ then chốt
 
@@ -286,8 +286,10 @@ Ignore quá rộng → che regression. Ignore quá hẹp → triage mệt, mất
 
 ### e. Minh họa trên EShop
 
-- **Đổi ảnh động, giữ bố cục** → dễ false positive; ignore region hoặc match level Layout trên đúng vùng banner có thể chấp nhận.  
-- **Đổi màu / bố cục ngoài yêu cầu** → regression visual ở match level Strict dù functional test vẫn pass.
+Màn Home không có banner riêng. Lượt B2 dùng ảnh sản phẩm id 1 cho ca đổi ảnh, và bản V2 cho ca đổi màu.
+
+- **V1 — đổi ảnh sản phẩm 1, khung giữ** → Eyes Unresolved 5/10 trong khi Appium pass 8/8. Đây là báo thừa: vùng Layout khai báo trong code không có hiệu lực ở lượt đó.
+- **V2 — đổi màu và bố cục** → Eyes Unresolved 6/10 ở match level Strict dù Appium vẫn pass 8/8. Đây là regression giao diện thật.
 
 ### f. Hai hướng AI trong kiểm thử GUI: Applitools và Maestro
 
@@ -314,7 +316,7 @@ Ignore quá rộng → che regression. Ignore quá hẹp → triage mệt, mất
 | **Dynamic** | Sai *dạng* dữ liệu (ngày, email, số không còn đúng pattern) | Đúng pattern nhưng đổi giá trị |
 | **Exact** | Từng pixel | Không bỏ nhiễu render. Không dùng cho kiểm thử thường ngày |
 
-Trên EShop: banner xoay ảnh nên là **vùng** Layout hoặc ignore, không phải cả màn hình. Giá, nút Đăng nhập và thông báo lỗi giữ Strict. Đổi colour token ngoài yêu cầu là true positive ở Strict; đổi ảnh banner mà giữ khung là nhiễu nếu cả màn hình để Strict và không có chính sách vùng.
+Trên EShop: ảnh sản phẩm 1 là vùng nội dung động, nên là **vùng** Layout, không phải cả màn hình và không phải Ignore. Giá, nút và thông báo lỗi giữ Strict. V2 (đổi màu và bố cục) là true positive ở Strict: 6/10 checkpoint lệch. V1 (đổi ảnh, khung giữ) lẽ ra là nhiễu nếu vùng Layout có hiệu lực; lượt B2 vẫn Unresolved 5/10 vì vùng đó không được gửi.
 
 **Maestro có hai lớp, đừng trộn:**
 
@@ -362,11 +364,11 @@ Hai chiến dịch A3 trên cùng máy Linux, AVD `eshop_api34`, Appium 2.19.0 v
 
 | Loại thay đổi UI | Functional (Appium) | Visual AI (Eyes) |
 |------------------|---------------------|------------------|
-| Banner đổi ảnh, layout giữ nguyên | Ít ảnh hưởng nếu không assert ảnh | Có thể fail → triage / ignore region |
-| Đổi màu / spacing / typography | Thường vẫn pass | Thường fail → phát hiện regression |
-| Đổi hierarchy / bỏ `testID` | Script gãy | Checkpoint vẫn có thể bắt lệch layout |
+| Ảnh sản phẩm đổi, khung giữ nguyên (V1) | Đã đo: pass 8/8 | Đã đo: Unresolved 5/10. Báo thừa cho tới khi người duyệt Accept, vì vùng Layout trong code không có hiệu lực ở lượt B2 |
+| Đổi màu / vị trí nút / căn lề (V2) | Đã đo: pass 8/8 | Đã đo: Unresolved 6/10, đúng các vùng đã sửa |
+| Đổi hierarchy / bỏ `testID` | Script gãy nếu `resourceId` không còn khớp. Chưa có lượt cố ý gỡ id | Chưa đo |
 
-Learning objective T03: **đo và giải thích** chi phí bảo trì khi home banner đổi ảnh so với đổi colour token. Đến 23/10/2026 repo chưa có batch Eyes và chưa có hai bản UI biến thể, nên bảng trên vẫn là dự đoán từ cơ chế hai oracle. Cột Appium đã có lần chạy; cột Eyes chưa đo.
+Learning objective T03: **đo và giải thích** chi phí bảo trì khi ảnh đổi so với đổi colour token. Màn Home của EShop mobile không có banner riêng, nên lượt B2 sáng 23/10/2026 (AVD `Medium_Phone_API_37.0`) dùng ảnh sản phẩm id 1 làm vùng thay thế. Hai hàng đầu của bảng là kết quả đã chạy; hàng bỏ `testID` vẫn là suy từ locator. Số và ảnh dashboard ở [B2](docs/B2_Report.md) và III.2.e.
 
 ### c. Ghép cặp hai lớp kiểm thử
 
@@ -382,13 +384,13 @@ Learning objective T03: **đo và giải thích** chi phí bảo trì khi home b
 - Visual giảm rủi ro script “pass” nhưng UI hỏng.  
 - Policy giảm rủi ro ignore bừa hoặc cập nhật baseline không kiểm soát.
 
-### d. Failure modes (khung lý thuyết — chi tiết worksheet thuộc TV2)
+### d. Failure modes
 
-Đến 23/10/2026 TV2 chưa giao SDK, baseline, batch dashboard hay ảnh diff. Ba mục dưới giữ làm khung cho worksheet đó. Những lần fail đã tái lập thuộc Appium và Detox, không phải Eyes: bàn phím che nút, Alert nuốt cú bấm thứ hai, cold start không lên foreground, `pressBack()` đóng activity Detox, và thông báo đăng nhập gộp hai nguyên nhân thành một chuỗi. Chúng nằm ở I.4.a, [A2](docs/A2_Test_Design.md) mục 5 và [A4](docs/A4_Detox.md).
+Lượt Eyes sáng 23/10/2026 (AVD `Medium_Phone_API_37.0`, log `src/appium/logs/20261023-065743/`, ảnh `docs/evidence/B1_B2_applitools-dashboard/`) đã quan sát được cả ba kiểu dưới. Số và ảnh ở [B2](docs/B2_Report.md). Những lần fail Appium và Detox nằm riêng ở I.4.a, [A2](docs/A2_Test_Design.md) mục 5 và [A4](docs/A4_Detox.md): bàn phím che nút, Alert nuốt cú bấm thứ hai, cold start không lên foreground, `pressBack()` đóng activity Detox, và thông báo đăng nhập gộp hai nguyên nhân thành một chuỗi.
 
-1. **Locator / đồng bộ** — không tìm thấy element; timeout do animation hoặc mạng.  
-2. **Visual nhiễu** — Eyes báo fail vì nội dung động; ignore region che mất lỗi thật. Chưa có diff để gắn vào mục này.  
-3. **Oracle lệch** — functional pass + visual fail (hoặc ngược lại); cần quy trình triage rõ. Cặp này vẫn là chính sách, chưa quan sát trên dashboard.
+1. **Locator / đồng bộ** — không tìm thấy element; timeout do animation hoặc mạng. Trên Eyes, `productImage()` tìm bằng `id=product-image-1`. Chiến lược `id` thêm tiền tố package và không khớp `resource-id` của React Native, nên vùng Layout không được gửi trong lượt B2.
+2. **Visual nhiễu** — V1 đổi ảnh sản phẩm 1, khung giữ nguyên, Eyes vẫn Unresolved 5/10. Lượt xác nhận sau khi đổi selector vẫn không trùng vị trí ảnh trên ảnh chụp của Eyes; chỉ vùng phủ toàn ảnh thì Passed. Ignore hoặc Layout quá rộng sẽ che regression thật.
+3. **Oracle lệch** — V2: Appium `# pass 8` `# fail 0` trong khi Eyes Unresolved 6/10 (màu giá, vị trí nút, căn lề tổng tiền). `eyes.close(false)` giữ exit code 0; dashboard mới là nơi thấy diff. V2 thì Reject. V1 chỉ Accept khi đổi ảnh là chủ ý.
 
 ### e. Ai được cập nhật baseline?
 
@@ -572,9 +574,9 @@ Thứ tự này là thứ tự máy TV1 đã chạy trên Ubuntu với AVD `esho
 4. Giảm nhiễu so với pixel-diff thuần.  
 5. Ignore region theo chính sách (banner động…).  
 6. Dashboard triage: accept baseline hoặc mở defect.  
-7. Minh họa trade-off: đổi ảnh banner vs đổi colour token.
+7. Minh họa trade-off đã đo: V1 đổi ảnh sản phẩm 1, V2 đổi màu và bố cục.
 
-**Vai trò demo T03:** functional **pass** nhưng visual có thể **fail** (và ngược lại với false positive).
+**Vai trò demo T03:** trên V2, functional pass 8/8 nhưng visual Unresolved 6/10. Trên V1, functional cùng pass 8/8 nhưng visual báo thừa 5/10.
 
 ### d. Nguyên lý hoạt động
 
@@ -601,36 +603,38 @@ Thứ tự này là thứ tự máy TV1 đã chạy trên Ubuntu với AVD `esho
 
 ### e. Ba kịch bản demo
 
-Hai công cụ trong video và phần live là Appium và Eyes. Cả ba mức Eyes chỉ được trình bày khi TV2 đã chạy thật (B1/B2). Chưa có lệnh, kết quả hoặc ảnh thì để trống đoạn đó; không dựng ảnh thay cho lần chạy.
+Hai công cụ trong video và phần live là Appium và Eyes. Ba mức dưới đây lấy từ lượt TV2 đã chạy sáng 23/10/2026. Chỉ trình bày số và ảnh của lượt đó; không dựng ảnh thay cho lần chạy. Chi tiết ở [B2](docs/B2_Report.md).
+
+Môi trường lượt này khác lượt Appium A3: Windows (Git Bash), AVD `Medium_Phone_API_37.0` (Android 17, 1080×2400), SDK `@applitools/eyes-webdriverio@5.61.14`, match level Strict, ignore status bar `(0, 0, 1080, 80)`. Appium trên máy này vẫn là 2.19.0 và UiAutomator2 4.2.9. Baseline đã Accept gắn với AVD này.
 
 #### Demo 1 — Cài đặt SDK và cấu hình
 
 | Bước | Nội dung |
 |------|----------|
 | Mục tiêu | Cho thấy Eyes gắn được vào stack Appium của nhóm |
-| Việc làm | Trình bày lệnh cài SDK, API key (biến môi trường, không commit) và cấu hình thật của TV2, kèm kết quả lệnh đã chạy |
-| Kết quả kỳ vọng | Cấu hình và output trùng với những gì TV2 đã ghi |
-| Trạng thái | Chờ TV2 làm B1/B2 |
+| Việc làm | Trình bày SDK, API key qua `APPLITOOLS_API_KEY` (không commit), cấu hình `src/appium/config/eyes.js` (app `EShop`, host `com.eshop.sut`, Strict, `setSaveNewTests(true)`) và lệnh `run-variants.sh` |
+| Kết quả kỳ vọng | Cấu hình trùng B2. Lượt hợp lệ nằm ở `src/appium/logs/20261023-065743/`. Thư mục `20261023-065159` hỏng `ECONNREFUSED` vì server Appium chưa chạy, không tính |
+| Bằng chứng | Ảnh dashboard `docs/evidence/B1_B2_applitools-dashboard/` |
 
 #### Demo 2 — Chức năng cơ bản (một checkpoint)
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Một visual checkpoint so với baseline đã duyệt |
-| Việc làm | Chạy checkpoint đó và giải thích kết quả trên dashboard: khớp baseline, hoặc diff cần triage |
-| Kết quả kỳ vọng | Baseline đã có người duyệt. Lần chạy này được giải thích từ kết quả thật, không từ ảnh dựng |
+| Mục tiêu | Một bộ checkpoint so với baseline đã duyệt |
+| Việc làm | Base lần 1 tạo baseline, Accept và Save trên dashboard. Base lần 2 chạy lại cùng mười checkpoint, sau khi assertion chức năng đã qua |
+| Kết quả kỳ vọng | Base lần 2: functional `# pass 8` `# fail 0`; Eyes 3/3 Passed; 0/10 checkpoint lệch; 191,297 s. Mười checkpoint: Login initial, Login L1 error, Home sau L2; Home trước tìm; Search S1, S2, S3; danh sách sản phẩm; Cart có hàng; Cart trống |
 | Khối FIT | Checkpoint (visual) |
-| Trạng thái | Chờ TV2 làm B1/B2 |
+| Bằng chứng | `batch_history_4_runs.png` và ảnh `search_base.png` trong thư mục dashboard |
 
 #### Demo 3 — Luồng phức tạp (hai bản UI có kiểm soát)
 
 | Bước | Nội dung |
 |------|----------|
-| Mục tiêu | Phân biệt khác biệt ảnh có chủ đích với regression giao diện thật |
-| Việc làm | Chạy cùng luồng trên bản đổi ảnh banner (giữ layout) và bản đổi màu hoặc bố cục. Video chiếu cả hai bản. Phần live chỉ chiếu một bản biến thể đã kiểm chứng, cạnh kết quả Appium |
-| Kết quả kỳ vọng | Đổi ảnh banner, layout giữ nguyên: ứng viên ignore region. Đổi màu hoặc bố cục ngoài yêu cầu: true positive dù assertion Appium vẫn pass. Ghi quyết định triage |
-| Case study | Learning objective “banner images vs colour tokens”. Hai bản này cũng là đầu vào cho hoạt động phân loại diff của lớp |
-| Trạng thái | Chờ TV2 làm B1/B2. Live chưa đủ điều kiện trình bày là hoàn chỉnh khi tích hợp Eyes hoặc bản UI biến thể chưa sẵn sàng |
+| Mục tiêu | Phân biệt đổi ảnh có chủ đích với regression giao diện thật |
+| Việc làm | Cùng luồng trên V1 (`EXPO_PUBLIC_UI_VARIANT=v1`, đổi ảnh sản phẩm id 1, khung giữ) và V2 (`v2`, đổi màu giá, đẩy nút, lệch tổng tiền, đổi màu nút thanh toán). Video chiếu cả hai bản. Phần live chỉ chiếu V2 cạnh kết quả Appium |
+| Kết quả kỳ vọng | V1: Appium 8/8, Eyes 3/3 Unresolved, 5/10 checkpoint (209,672 s). Lệch đúng các bước có sản phẩm 1. Đây là báo thừa: vùng Layout khai báo trong code không được gửi vì selector `id=` không khớp `resource-id`. V2: Appium 8/8, Eyes 3/3 Unresolved, 6/10 (192,640 s), thêm Cart có hàng. Đây là lỗi giao diện thật. Cart trống khớp ở cả hai bản |
+| Case study | Learning objective ảnh đổi so với colour token. EShop mobile không có banner Home, nên ảnh sản phẩm 1 đứng vai vùng nội dung động. Hai bản này cũng là đầu vào cho hoạt động phân loại diff của lớp |
+| Ràng buộc live | Dùng AVD `Medium_Phone_API_37.0`. Nếu 10 phút không kịp cả hai công cụ, giữ V2: Appium pass, Eyes bắt lệch màu và bố cục |
 
 ### f. Điểm yếu / giới hạn
 
@@ -790,14 +794,14 @@ Ba mức dưới đây là phương án thay Eyes, không phải mức thứ ba 
 
 ## 3. Map sang buổi seminar 45 phút
 
-Ba mức của từng công cụ nằm trong một video 5–8 phút (`Demo_Screencast.mp4`) đã chia sẻ trước, không phải sáu lần chạy live. Đề cương video: cài đặt A1 và `/status` (0:35–1:15), Inspector trên màn Login rồi Quit Session (1:15–2:05), `npm test` bộ A2 (2:05–3:25), một failure mode đã quan sát và số liệu A3 đúng phiên bản (3:25–4:00), cài Eyes và một checkpoint (4:00–4:40), cả hai bản UI biến thể (4:40–6:30). Đoạn Eyes để trống cho tới khi B1/B2 có kết quả thật.
+Ba mức của từng công cụ nằm trong một video 5–8 phút (`Demo_Screencast.mp4`, https://youtu.be/N3cN5d2LSG4) đã chia sẻ trước, không phải sáu lần chạy live. Đề cương video: cài đặt A1 và `/status` (0:35–1:15), Inspector trên màn Login rồi Quit Session (1:15–2:05), `npm test` bộ A2 (2:05–3:25), một failure mode đã quan sát và số liệu A3 đúng phiên bản (3:25–4:00), cài Eyes và checkpoint base lần 2 (4:00–4:40), V1 và V2 (4:40–6:30). Số Eyes lấy từ lượt 23/10 trong [B2](docs/B2_Report.md): base lần 2 là 0/10 lệch, V1 là 5/10, V2 là 6/10, Appium 8/8 ở cả ba bản.
 
 Phần live 10 phút không dùng slide. Backend, Metro, emulator và Appium được bật trước. Không mở Inspector trong lúc này.
 
 | Thời gian | Nội dung | Mục lý thuyết |
 |-----------|----------|---------------|
 | 0–10 phút | Pitch: khó khăn mobile, kiến trúc Appium, Visual AI, lý do chọn tool | I.1–I.3, III.1–III.2, I.1.e |
-| 10–20 phút | Live: chạy bộ Appium đã kiểm chứng, rồi một checkpoint Eyes trên một bản UI biến thể. Cả hai bản biến thể nằm ở video | III.1.e Demo 3, III.2.e Demo 2–3, I.4.c |
+| 10–20 phút | Live: chạy bộ Appium đã kiểm chứng, rồi checkpoint Eyes trên V2. V1 nằm ở video | III.1.e Demo 3, III.2.e Demo 2–3, I.4.c |
 | 20–40 phút | Hoạt động phân loại 10 diff; quy tắc ignore/baseline | I.3.c–I.3.d, I.4 |
 | 40–45 phút | Tổng kết, Q&A | I.2.c, I.4.c |
 | Ngoài kịch bản demo | Maestro AI chỉ khi hết trial Applitools và giảng viên chấp thuận | III.3 |
@@ -808,7 +812,7 @@ Phần live 10 phút không dùng slide. Backend, Metro, emulator và Appium đ�
 |------------|----------------------------------|
 | **TV3** | Sở hữu Phần I–IV; kiểm chứng cài đặt (log theo Demo 1); báo cáo / User Guide / slide mở đầu |
 | **TV1** | Thực thi demo Appium (+ Detox PoC); lấy khung III.1.e làm checklist |
-| **TV2** | Thực thi Eyes (B1/B2); 10 diff cards, worksheet, Failure Modes chi tiết; khung I.4.d + III.2.e. Chưa có lần chạy thì không đưa kết quả Eyes vào video hay live |
+| **TV2** | Đã chạy Eyes (B1/B2) sáng 23/10/2026; 10 diff cards, worksheet, failure mode ở I.4.d và III.2.e. Video và live dùng số và ảnh dashboard đã có |
 
 ---
 
