@@ -234,7 +234,14 @@ npx expo run:android
 
 Giữ Metro chạy. Thay đổi chỉ có JavaScript có thể nạp lại qua Metro. Thay đổi native cần `npx expo run:android` lần nữa.
 
-`npx expo start` và Expo Go là phiên làm tay. Appium mở APK debug đã cài. Trỏ bộ test vào APK đó.
+**Những lần sau**, khi APK debug đã cài trên máy ảo, không cần build lại. Bản debug tải giao diện (JavaScript) từ Metro, nên chỉ cần bật Metro:
+
+```bash
+cd "$SUT/frontend-mobile"
+npx expo start --localhost --port 8081
+```
+
+`--localhost` để Metro nhận kết nối qua `adb reverse` ở trên. Đừng mở app bằng Expo Go: Appium mở APK debug đã cài (đường dẫn ở `src/appium/config/session.js`).
 
 ### 2.4 Cài Appium 2 và driver UiAutomator2
 
@@ -288,7 +295,7 @@ Inspector dùng khi cần xem cây giao diện. Quit Session trước `npm test`
 
 ### 2.5 Applitools Eyes
 
-SDK đã nằm trong `src/appium/package.json` (`@applitools/eyes-webdriverio`). `npm ci` ở mục 2.4 đã kéo SDK. Bộ test gọi `createEyes()` trong mọi file test, nên **`npm test` cần khoá API** kể cả khi chỉ muốn nhìn assertion chức năng.
+SDK đã nằm trong `src/appium/package.json` (`@applitools/eyes-webdriverio`). `npm ci` ở mục 2.4 đã kéo SDK. Bộ test gọi `createEyes()` trong mọi file test, nhưng **khoá API là tuỳ chọn**: có khoá thì Eyes chụp checkpoint, không có khoá thì chỉ chạy phần chức năng.
 
 Trong `src/appium`, tạo file `.env` (đã nằm trong `.gitignore`, không commit):
 
@@ -317,11 +324,41 @@ Baseline gắn với viewport và thiết bị đã duyệt. Lần B2 dùng AVD 
 
 Bỏ qua, trừ khi giảng viên chấp nhận Maestro thay trial Applitools đã hết. Checkout SUT không có file flow Maestro.
 
+### 2.7 Mỗi lần làm việc: bật lại môi trường
+
+Mục 2.1–2.5 làm một lần. Những lần sau (tắt máy, mở lại), chỉ cần bật lại môi trường theo thứ tự dưới. Máy ảo, backend, Metro và Appium mỗi thứ chạy trong một terminal riêng. Mọi terminal phải có `ANDROID_HOME`, `JAVA_HOME` và `PATH` của mục 2.1; lưu chúng vào hồ sơ shell (`~/.bashrc`, hoặc biến môi trường người dùng trên Windows) để khỏi đặt lại.
+
+| # | Thành phần | Làm gì | Lệnh (từ gốc seminar) | Kiểm tra |
+|---|------------|--------|------------------------|----------|
+| 1 | Máy ảo | Điện thoại Android chạy app EShop | `emulator -avd eshop_api34` | `adb devices` hiện `device` |
+| 2 | Cổng Metro | Cho app trong máy ảo gọi Metro trên máy tính | `adb reverse tcp:8081 tcp:8081` (chạy lại sau mỗi lần máy ảo khởi động) | Lệnh in `8081` |
+| 3 | Backend | API sản phẩm, đăng nhập, giỏ; mỗi lần `npm start` tạo lại dữ liệu mẫu | `cd eshop-sut-main/backend` rồi `npm start` | `http://localhost:3000/api/products` trả 5 sản phẩm |
+| 4 | Metro | Cung cấp giao diện cho APK debug | `cd eshop-sut-main/frontend-mobile` rồi `npx expo start --localhost --port 8081` | `http://localhost:8081/status` trả `packager-status:running` |
+| 5 | Appium server | Nhận lệnh từ test hoặc Inspector | `cd src/appium`, đặt `APPIUM_HOME` (mục 2.4), rồi `npm run server` | `http://127.0.0.1:4723/status` có `"ready":true` |
+
+Sau đó, ở một terminal khác trong `src/appium` (cùng `APPIUM_HOME`): `npm test`. Không cần `npx expo run:android` nữa, trừ khi đổi mã native hoặc máy ảo đã bị xoá app.
+
+Muốn dùng cả Inspector (mục 4.3) lẫn `npm test` trên cùng một server, thay bước 5 bằng lệnh có plugin Inspector:
+
+```bash
+npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors --allow-insecure=uiautomator2:adb_shell
+```
+
+Gõ lệnh `npx appium` khi đang đứng trong `src/appium`; ở thư mục khác, npx sẽ đòi tải Appium 3 (mục 5.9).
+
+Nếu chạy Eyes, tắt animation của máy ảo một lần sau khi khởi động để ảnh chụp ổn định (`run-variants.sh` tự làm bước này):
+
+```bash
+adb shell settings put global window_animation_scale 0
+adb shell settings put global transition_animation_scale 0
+adb shell settings put global animator_duration_scale 0
+```
+
 ---
 
 ## 3. Bài test đầu
 
-Mục tiêu: một đường chức năng. Visual AI đi sâu ở mục 4, nhưng `npm test` sẽ mở Eyes và chụp checkpoint khi có khoá (không có khoá thì Eyes tắt, chỉ còn functional), nên bước 6 cần `APPLITOOLS_API_KEY` (mục 2.5). Làm xong mục 2 trước. Nếu đĩa chỉ có `eshop-sut-main`, chép `src/appium` rồi làm mục 2.4 trước bước 6. Kết quả chức năng cả bộ đã ghi nằm ở `docs/A3_Metrics.md`: 3 test, 8 kiểm tra, 10/10 lượt trên AVD `eshop_api34`.
+Mục tiêu: một đường chức năng. Visual AI đi sâu ở mục 4, nhưng `npm test` sẽ mở Eyes và chụp checkpoint khi có khoá (không có khoá thì Eyes tắt, chỉ còn functional), nên muốn có checkpoint Eyes thì đặt `APPLITOOLS_API_KEY` ở bước 6 (mục 2.5). Không có khoá, bộ test vẫn chạy đủ phần chức năng. Làm xong mục 2 trước. Nếu đĩa chỉ có `eshop-sut-main`, chép `src/appium` rồi làm mục 2.4 trước bước 6. Kết quả chức năng cả bộ đã ghi nằm ở `docs/A3_Metrics.md`: 3 test, 8 kiểm tra, 10/10 lượt trên AVD `eshop_api34`.
 
 Một lượt đạt của đường đầu trông như sau:
 
@@ -343,8 +380,8 @@ Phiên Inspector vừa mở có thể vẫn hiện màn hình Android trống ch
 2. Mở `http://localhost:3000/api/products`. Kỳ vọng 5 sản phẩm. Mở `http://localhost:3000/api/products?search=iPhone`. Kỳ vọng một dòng, `iPhone 15 Pro Max`.
 3. Khởi động AVD `eshop_api34` và đợi `adb devices -l` báo trạng thái `device`.
 4. Chạy `adb reverse tcp:8081 tcp:8081`.
-5. Nếu app debug chưa được cài, chạy `npm ci` rồi `npx expo run:android` từ `$SUT/frontend-mobile`. Giữ Metro.
-6. Trong `src/appium`, đặt `APPIUM_HOME` tới thư mục `.appium` của thư mục đó (mục 2.4). Đặt `ANDROID_HOME` và `JAVA_HOME` như mục 2.1. Đặt `APPLITOOLS_API_KEY` (file `.env` hoặc export, mục 2.5). Nếu APK không nằm ở đường mặc định của seminar, đặt `ESHOP_APK_PATH` thành đường tuyệt đối của file APK.
+5. Nếu app debug chưa được cài, chạy `npm ci` rồi `npx expo run:android` từ `$SUT/frontend-mobile`. Giữ Metro. Nếu app đã cài từ lần trước, chỉ bật Metro: `npx expo start --localhost --port 8081` (mục 2.3, 2.7).
+6. Trong `src/appium`, đặt `APPIUM_HOME` tới thư mục `.appium` của thư mục đó (mục 2.4). Đặt `ANDROID_HOME` và `JAVA_HOME` như mục 2.1. Muốn bật Eyes thì đặt `APPLITOOLS_API_KEY` (file `.env` hoặc export, mục 2.5); không có khoá thì Eyes tự tắt. Nếu APK không nằm ở đường mặc định của seminar, đặt `ESHOP_APK_PATH` thành đường tuyệt đối của file APK.
 7. Bật server bằng `npm run server`.
 8. Mở `http://127.0.0.1:4723/status`. Chỉ tiếp tục khi `ready` là `true`.
 9. Quit mọi phiên Inspector. Một instrumentation UiAutomator2 cho một thiết bị. `npm test` thất bại nếu Inspector còn giữ phiên.
@@ -397,7 +434,7 @@ Muốn thấy data-driven hoạt động, thêm một dòng vào bảng `SEARCH_
 
 Mục 2–3 là mức cài đặt và bài test đầu (đăng nhập rồi tìm `iPhone`). Mục này là phần còn lại của buổi demo: Inspector và Recorder, cả bộ dữ liệu, tổng giỏ, và khung Eyes. Detox là đối sánh DX, không phải công cụ demo thứ ba.
 
-Workflow Briefing giữ video 5–8 phút. Lệnh và giải thích dài nằm ở đây. Một mức chỉ được gọi là đã trình bày khi mức đó có trong video hoặc trong bằng chứng của nhóm. Đề cương thời gian nằm ở `Demo_Scenario.md`. Repo chưa có file `Demo_Screencast.mp4`.
+Workflow Briefing giữ video 5–8 phút. Lệnh và giải thích dài nằm ở đây. Một mức chỉ được gọi là đã trình bày khi mức đó có trong video hoặc trong bằng chứng của nhóm. Đề cương thời gian nằm ở `Demo_Scenario.md`. Video demo (6:51, thuyết minh tiếng Anh): link trong `Demo_Video_Links.md`.
 
 ### 4.1 Ba mức demo
 
@@ -429,7 +466,7 @@ Linux:
 cd src/appium
 export APPIUM_HOME="$PWD/.appium"
 npx appium plugin install --source=npm appium-inspector-plugin@2025.3.1
-npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors
+npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors --allow-insecure=uiautomator2:adb_shell
 ```
 
 Windows PowerShell:
@@ -438,16 +475,31 @@ Windows PowerShell:
 Set-Location src/appium
 $env:APPIUM_HOME = Join-Path (Get-Location) ".appium"
 npx appium plugin install --source=npm appium-inspector-plugin@2025.3.1
-npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors
+npx appium --address 127.0.0.1 --port 4723 --use-plugins=inspector --allow-cors --allow-insecure=uiautomator2:adb_shell
 ```
 
-Mở `http://127.0.0.1:4723/inspector`. Capability lấy từ `src/appium/config/session.js`: `platformName` là `Android`, automation là `UiAutomator2`, app là APK debug. Start Session.
+Cờ `--allow-insecure=uiautomator2:adb_shell` giống `npm run server`, để cùng một server dùng được cho cả Inspector lẫn `npm test` có Eyes. Nếu cổng 4723 đang có server khác chạy, tắt server đó trước (mục 5.9).
+
+Mở `http://127.0.0.1:4723/inspector`. Capability lấy từ `src/appium/config/session.js`. Bấm biểu tượng bút ở khung *JSON Representation*, dán đoạn dưới (đổi `appium:app` thành đường dẫn tuyệt đối tới APK debug trên máy bạn), rồi bấm **nút lưu (💾)** ở góc khung. Cột *Capability Builder* bên trái phải hiện đủ 6 dòng; dòng trống nào còn sót thì xoá. Bỏ bước lưu, Inspector báo `Invalid or unsupported WebDriver capabilities found ("undefined")`.
+
+```json
+{
+  "platformName": "Android",
+  "appium:automationName": "UiAutomator2",
+  "appium:deviceName": "Android Emulator",
+  "appium:app": "<đường dẫn tuyệt đối>/eshop-sut-main/frontend-mobile/android/app/build/outputs/apk/debug/app-debug.apk",
+  "appium:appPackage": "com.eshop.sut",
+  "appium:noReset": false
+}
+```
+
+Bấm **Start Session** và đợi khoảng 25 giây để app được cài lại. Nếu ảnh trong Inspector còn trắng và cây giao diện chỉ có vài `FrameLayout` rỗng, app chưa tải xong giao diện: đợi máy ảo hiện danh sách sản phẩm, rồi bấm **Refresh (⟳)** trên thanh công cụ của Inspector.
 
 `testID` trong `eshop-sut-main/frontend-mobile/App.js` hiện trên Android thành `resource-id`. Phiên ngày 23/10/2026 chọn ô email: `resource-id` = `login-email`, chữ trong ô là `test@eshop.com`. Chiến lược Id của Inspector tự thêm tiền tố package nên không khớp các id này. Chiến lược dùng được là UIAutomator: `new UiSelector().resourceId("login-email")`.
 
 ![Ô email được chọn trong Inspector, resource-id login-email](docs/evidence/A2_inspector_03_login_email_selected.png)
 
-Bật Recorder, bấm Đăng nhập trên cây giao diện, gửi email một lần, rồi xem code **JS - WebdriverIO**. File đã lưu là `docs/evidence/A2_inspector_recorder_2026-10-23.js`. Đoạn đó tìm `nav-login` và `login-email` bằng `$$(...)[0]`, không có wait và không có assertion.
+Bật Recorder bằng nút **máy quay** (*Start Recording*) trên thanh công cụ, cạnh kính lúp. Chỉ thao tác làm **qua Inspector** mới được ghi (chọn phần tử trên ảnh rồi bấm *Tap* hoặc *Send Keys* ở khung *Selected Element*); bấm trực tiếp trên cửa sổ máy ảo thì không được ghi. Bấm Đăng nhập, gửi email một lần, rồi mở tab **Recorder** và chọn **JS - WebdriverIO** để xem code. File đã lưu là `docs/evidence/A2_inspector_recorder_2026-10-23.js`. Đoạn đó tìm `nav-login` và `login-email` bằng `$$(...)[0]`, không có wait và không có assertion.
 
 ![Recorder sinh code WebdriverIO cho nút Đăng nhập và ô email](docs/evidence/A2_inspector_04_recorder_code.png)
 
@@ -511,7 +563,28 @@ export APPLITOOLS_API_KEY="..."
 # hoặc: ./run-variants.sh base|v1|v2
 ```
 
-Script mở emulator mặc định `eshop_api34`, tắt animation, restart backend mỗi lần, đặt `EXPO_PUBLIC_UI_VARIANT` và `VARIANT_LABEL`. **Không Accept/Save** trên lần chạy `v1` hoặc `v2`; làm vậy sẽ ghi đè baseline.
+Script mở emulator mặc định `eshop_api34`, tắt animation, restart backend mỗi lần, đặt `EXPO_PUBLIC_UI_VARIANT` và `VARIANT_LABEL`. Mỗi lần gọi, script build lại APK ở bản đầu tiên và khởi động lại Appium không kèm plugin Inspector, nên chậm hơn đổi tay. **Không Accept/Save** trên lần chạy `v1` hoặc `v2`; làm vậy sẽ ghi đè baseline.
+
+**Đổi bản giao diện bằng tay** (nhanh hơn, dùng khi demo). Bản giao diện do Metro quyết định; `VARIANT_LABEL` chỉ đặt tên batch trên dashboard, không đổi giao diện. Hai biến phải khớp nhau.
+
+1. Ở terminal Metro, bấm `Ctrl+C`, rồi bật lại với bản muốn chạy. Phải có `--clear`: giá trị biến được ghi vào mã lúc đóng gói, không xoá bộ nhớ đệm thì app vẫn giữ bản cũ.
+
+   ```bash
+   cd eshop-sut-main/frontend-mobile
+   EXPO_PUBLIC_UI_VARIANT=v2 npx expo start --clear --localhost --port 8081
+   ```
+
+   PowerShell: `$env:EXPO_PUBLIC_UI_VARIANT = "v2"; npx expo start --clear --localhost --port 8081`.
+2. Mở lại app để nạp bản mới, đợi Metro in `Android Bundled` (khoảng 25 giây sau `--clear`):
+
+   ```bash
+   adb shell am force-stop com.eshop.sut
+   adb shell monkey -p com.eshop.sut -c android.intent.category.LAUNCHER 1
+   ```
+
+   Màn hình V2: giá tím và to hơn, nút "Thêm vào giỏ" đỏ.
+3. Từ `src/appium`: `VARIANT_LABEL=v2 npm test`. PowerShell: `$env:VARIANT_LABEL = "v2"; npm test`. Trên PowerShell biến còn giữ cho các lệnh sau, nhớ đặt lại `base`.
+4. Về bản gốc: lặp lại bước 1–2 với `base` (hoặc bỏ biến `EXPO_PUBLIC_UI_VARIANT`).
 
 | Thay đổi | Test chức năng | Test giao diện | Cách xử lý sau khi có diff |
 |----------|----------------|----------------|----------------------------|
@@ -575,7 +648,7 @@ Kiểm tra đĩa trống trước khi mở emulator. Lần trên máy TV1, emula
 
 ## 5. Xử lý sự cố
 
-Một lỗi lặp lại trên mọi lượt là defect hoặc môi trường hỏng. Một lỗi lúc có lúc không trên cùng bản build, cùng test và cùng AVD là flake. Sáu mục 5.1–5.6 đã gặp trên AVD Linux khi viết A2, A3 và A4. Mục 5.7 là máy chưa xong mục 2.1. Mục 5.8 gồm cả lỗi Eyes đã gặp khi chạy B2.
+Một lỗi lặp lại trên mọi lượt là defect hoặc môi trường hỏng. Một lỗi lúc có lúc không trên cùng bản build, cùng test và cùng AVD là flake. Sáu mục 5.1–5.6 đã gặp trên AVD Linux khi viết A2, A3 và A4. Mục 5.7 là máy chưa xong mục 2.1. Mục 5.8 gồm cả lỗi Eyes đã gặp khi chạy B2. Mục 5.9 là các lỗi khi tự bật môi trường, gặp trên Ubuntu ngày 23–27/10/2026.
 
 Quy tắc reset: một backend, một emulator, một bản app. Mỗi lần chỉ đổi một trong ba.
 
@@ -639,6 +712,20 @@ Các việc này hiện trên máy chưa xong mục 2.1. Chúng là lỗ hổng 
 | Lỡ Accept trên batch `v1` hoặc `v2` | Baseline bị ghi đè. Tạo lại từ `base` (`./run-variants.sh base`) rồi Accept chỉ batch `base` |
 | Maestro không thấy app | Chưa có file flow. Một thiết bị, APK debug đã cài, không phải Expo Go |
 
+### 5.9 Lỗi khi tự bật môi trường
+
+| Thấy | Nguyên nhân | Cách sửa |
+|------|-------------|----------|
+| `EADDRINUSE ... 127.0.0.1:4723` (hoặc cổng 8081, 3000) | Server cũ (Appium, Metro hoặc backend) vẫn đang chạy | Linux: `lsof -ti tcp:4723 -sTCP:LISTEN \| xargs -r kill`. Windows: `netstat -ano \| findstr :4723` rồi `taskkill /PID <số PID> /F`. Bật lại |
+| Tạo phiên báo `Neither ANDROID_HOME nor ANDROID_SDK_ROOT environment variable was exported` | Server Appium được bật ở terminal chưa có biến của mục 2.1 | Tắt server, mở terminal có đủ biến (hoặc lưu biến vào hồ sơ shell), bật lại server |
+| `npx appium ...` hỏi `Need to install the following packages: appium@3...` | Đang đứng ngoài `src/appium`, npx không thấy Appium của dự án | Trả lời `n`; `cd src/appium` rồi chạy lại. Appium 3 không dùng được với driver 4.2.9 và plugin Inspector của dự án |
+| `appium: command not found` | Appium cài trong dự án, không cài cho toàn máy | Dùng `npm run server` hoặc `npx appium ...` trong `src/appium` |
+| App trên máy ảo màn đỏ, trắng, hoặc không tải được giao diện | Metro chưa chạy, hoặc thiếu `adb reverse tcp:8081 tcp:8081` sau khi máy ảo khởi động lại | Bật Metro (mục 2.7), chạy lại `adb reverse`, mở lại app |
+| Đổi `EXPO_PUBLIC_UI_VARIANT` mà giao diện không đổi | Metro bật lại thiếu `--clear`, hoặc app chưa được mở lại | Làm lại bước 1–2 của phần đổi tay ở mục 4.5 |
+| Inspector báo `Invalid or unsupported WebDriver capabilities found ("undefined")` | Chưa bấm lưu (💾) sau khi dán JSON, hoặc còn một dòng capability trống | Mục 4.3 |
+| Inspector mở phiên nhưng ảnh trắng, cây chỉ có `FrameLayout` | App vừa cài lại, chưa tải xong giao diện | Đợi máy ảo hiện danh sách sản phẩm rồi bấm Refresh (⟳) |
+| Bật Eyes thấy nhiều dòng `ERROR webdriver: Method is not implemented ... execute/sync` | SDK Eyes thử lệnh dành cho web; app native không hỗ trợ | Bỏ qua: checkpoint vẫn chụp, kết quả test không đổi |
+
 ---
 
 ## 6. Các cách công cụ gây hiểu sai
@@ -692,13 +779,13 @@ Cặp thứ ba: Eyes Pass trên Cart Empty ở cả V1 và V2 trong khi Home/Sea
 
 The S1 tool survey used OpenAI Codex to extract criteria and draft the comparison matrix. Licence, price, React Native support, AI features, and community size were checked against vendor docs and repositories on 28/09/2026.
 
-Sections 1–7 were revised with Cursor (Grok) on 23/10/2026 from `Ly_Thuyet_T03_Mobile_Automation.md`, `Demo_Scenario.md`, `docs/A1`–`A4`, and `eshop-sut-main` / `src/appium`. Cùng ngày chúng được viết lại tiếng Việt. Sau khi TV2 giao Eyes (SDK, `run-variants.sh`, B2, ảnh dashboard), mục 2.5, 4.1, 4.5–4.6, 5.8, 6 và 9 được cập nhật theo `docs/B2_Report.md` và bằng chứng `docs/evidence/B1_B2_applitools-dashboard/`. Failures Appium/Detox lấy từ A2/A3/A4; false positive V1 và true regression V2 lấy từ B2.
+Sections 1–7 were revised with Cursor (Grok) on 23/10/2026 from `Ly_Thuyet_T03_Mobile_Automation.md`, `Demo_Scenario.md`, `docs/A1`–`A4`, and `eshop-sut-main` / `src/appium`. Cùng ngày chúng được viết lại tiếng Việt. Sau khi TV2 giao Eyes (SDK, `run-variants.sh`, B2, ảnh dashboard), mục 2.5, 4.1, 4.5–4.6, 5.8, 6 và 9 được cập nhật theo `docs/B2_Report.md` và bằng chứng `docs/evidence/B1_B2_applitools-dashboard/`. Failures Appium/Detox lấy từ A2/A3/A4; false positive V1 và true regression V2 lấy từ B2. Ngày 27/10/2026, TV1 bổ sung với Claude Code các phần giúp người đọc tự bật và chạy: mục 2.7, 3.3, phần đổi giao diện bằng tay ở 4.5, chi tiết Inspector ở 4.3 và mục 5.9. Mọi lệnh và lỗi trong các phần này đã chạy hoặc đã gặp trên Ubuntu, AVD `eshop_api34`.
 
 ---
 
 ## 9. Mục còn mở
 
-Đã đóng từ SUT và dự án test: Appium 2.19.0 và UiAutomator2 4.2.9, package `com.eshop.sut`, API mặc định emulator, `testID`, bộ `src/appium/`, Eyes SDK + checkpoint + hai bản UI `v1`/`v2`, báo cáo B2 và ảnh dashboard.
+Đã đóng từ SUT và dự án test: Appium 2.19.0 và UiAutomator2 4.2.9, package `com.eshop.sut`, API mặc định emulator, `testID`, bộ `src/appium/`, Eyes SDK + checkpoint + hai bản UI `v1`/`v2`, báo cáo B2 và ảnh dashboard, video demo (`Demo_Video_Links.md`).
 
 Còn mở:
 
@@ -709,4 +796,3 @@ Còn mở:
 | 3 | `APPLITOOLS_API_KEY` không commit | Peer phải tự lấy khoá trial/đội | Mục 2.5; không copy khoá vào repo |
 | 4 | Baseline Eyes gắn AVD/viewport của lần Accept | Đổi thiết bị tạo baseline mới; A1 và B2 dùng hai tên AVD khác nhau | Mục 2.5 và 5.8; Accept lại trên AVD demo |
 | 5 | Chưa có file flow Maestro | Backup demo không có file | Chỉ sau khi giảng viên chấp thuận |
-| 6 | `Demo_Screencast.mp4` / `Demo_Video_Links.md` chưa thấy trong repo | Video seminar và mốc thời gian chưa gắn vào guide | `Demo_Scenario.md` |

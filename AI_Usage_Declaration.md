@@ -88,6 +88,7 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 | P12 | TV1        | Claude Code     | Dựng slide theo template của lớp; sửa slide "Viết test" theo góp ý; đồng bộ bản Marp với file PowerPoint TV1 tự chỉnh                                  |
 | P13 | TV1        | Claude Code     | Lồng tiếng Anh cho video demo 10 phút của TV1: viết lời dẫn khớp với hình, đọc bằng TTS, tua các đoạn chờ để video còn dưới 8 phút |
 | P14 | TV1        | Claude Code     | Viết một file test Appium mẫu tự chứa, đủ các phần cấu trúc, để bạn cùng lớp nắm nhanh cách một test được ghép lại |
+| P15 | TV1        | Claude Code     | Bổ sung `User_Guide.md` để người đọc tự bật và chạy đầy đủ: bật lại môi trường mỗi lần, đổi giao diện bằng tay, chi tiết Inspector, bảng lỗi khi tự bật môi trường |
 
 ### 2.5 Phần AI đóng góp và phần không có AI
 
@@ -101,6 +102,7 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 - Làm cùng Claude Code (TV1, 23/10/2026): `config/eyes.js`, `config/checkpoints.js` và hai file test gọi Eyes (`4cb9736`, `0a8cbbc`); `README.md` (`e8f6e76`, `d385309`); phần nền tảng và hệ đánh số của `Ly_Thuyet_T03_Mobile_Automation.md` (`aa604fc`); đoạn kiểm chứng vùng trong `docs/B2_Report.md`, `report/Report.md`, `User_Guide.md` (`0973b28`); ảnh so pixel `home_base_vs_v1_diffmask.png`, sinh bằng script PIL do AI viết từ hai ảnh chụp thật; slide trong `slides/` (`ce3ad9c`) gồm bản Marp, PDF và các chỉnh sửa trên file PowerPoint của TV1; kế hoạch `Task_Plan.md` và bảng `Project_Contribution_T03.xlsx` (ngoài repo).
 - Video demo có thuyết minh https://youtu.be/N3cN5d2LSG4 (TV1, 24/10/2026): kịch bản lời dẫn tiếng Anh, file phụ đề `.srt`, thẻ mở đầu và tổng kết, nhãn chương và nhãn tốc độ do Claude Code viết; giọng đọc do Piper TTS tạo; cắt và tua bằng script ffmpeg do Claude Code viết. Toàn bộ hình trong video là bản quay màn hình thật của TV1.
 - File test mẫu `src/appium/examples/search-example.js`, lệnh `npm run example` và mục 3.3 của `User_Guide.md` (TV1, 27/10/2026), viết cùng Claude Code.
+- Mục 2.7, phần đổi giao diện bằng tay ở 4.5, chi tiết Inspector ở 4.3 và mục 5.9 của `User_Guide.md` (TV1, 27/10/2026), viết cùng Claude Code từ các lỗi gặp khi chạy thật.
 - Sửa chiều 23/10/2026, cũng với Cursor (Claude), và đã đối chiếu log trước khi giữ: `home.page.js` (`productImage` dùng `byTestId`), cảnh báo trong `checkpoints.js`, cờ server trong `package.json`, số liệu và mục 9–10 của `docs/B2_Report.md`, đồng hồ và nhãn của `docs/B4_Activity_Worksheet.md`, câu mục 6.2 của `User_Guide.md`.
 - Bản gốc của TV2 (`docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`): **chờ TV2 xác nhận** có dùng AI hay không. Các sửa của TV3 liệt kê ở gạch đầu dòng trên không thay cho khai báo đó.
 
@@ -169,15 +171,16 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 22  | Claude Code, 23/10/2026 — đổi tên tài liệu từ mã task (A1, B2…) sang tên mô tả (TV1)                                         | Đổi tên file và sửa liên kết                                                                                                                                                         |   INVALID   | Nhóm quyết định giữ mã task, thay bằng bảng chú giải ký hiệu trong README và `docs/B2_Report.md`                                                                | Hoàn tác; script đổi tên (`seminar/rename_docs_layer2.sh`) không dùng                                                                          |
 | 23  | Claude Code + Piper TTS, 24/10/2026 — lời dẫn và bản dựng video demo (TV1) | Video 6:51 có thuyết minh tiếng Anh, thẻ mở đầu/tổng kết, nhãn chương và nhãn tốc độ, phụ đề `.srt`; bản tải lên https://youtu.be/N3cN5d2LSG4 | INCOMPLETE | Lời dẫn đối chiếu với khung hình, nhưng giọng là TTS và lời có thể lệch hình vài giây; chưa nghe soát toàn bộ sau khi tải lên | TV1 chọn video nguồn và giọng đọc, đồng ý dùng TTS, tải bản dựng lên YouTube; cần nghe soát và đổi tiêu đề video (đang ghi "draft") trước bản nộp cuối |
 | 24  | Claude Code, 27/10/2026 — file test mẫu `src/appium/examples/search-example.js` và mục 3.3 `User_Guide.md` (TV1) | Một test tự chứa, đánh số 7 phần: session, locator, Page Object, bảng dữ liệu, Eyes tuỳ chọn, action → wait → assertion, teardown | VALID | Chạy trên AVD `eshop_api34`: tắt Eyes `pass 3`; bật Eyes `Passed`; thêm dòng "Samsung" vào bảng thì `pass 4`; `npm test` vẫn chạy đúng 3 test, `pass 8` | TV1 đề xuất mục đích (giúp bạn cùng lớp nắm cấu trúc nhanh) và duyệt; file đặt ngoài bộ test chính để con số `pass 8` không đổi |
+| 25  | Claude Code, 27/10/2026 — bổ sung `User_Guide.md` để tự bật và chạy (TV1, file do TV3 phụ trách) | Mục 2.7 (bật lại môi trường mỗi lần), đổi giao diện bằng tay ở 4.5, chi tiết Inspector ở 4.3, bảng 9 lỗi ở 5.9; sửa hai câu ghi `npm test` bắt buộc có khoá API | INCOMPLETE | Lệnh Linux và các lỗi trong bảng đều đã chạy hoặc đã gặp trên Ubuntu, AVD `eshop_api34`; lệnh Windows (PowerShell, `netstat` / `taskkill`) chưa chạy thử | TV1 yêu cầu User Guide tự đủ để người đọc setup và chạy được mà không cần script riêng của TV1; bản trước khi sửa lưu ở `seminar/drafts/User_Guide.before-2026-10-27.md` (ngoài repo) |
 
-### 3.1 Tổng kết độ chính xác (artifact #1–#24)
+### 3.1 Tổng kết độ chính xác (artifact #1–#25)
 
 | Chỉ số                                           | Số lượng | Tỉ lệ |
 | ------------------------------------------------ | :------: | :---: |
-| Tổng artifact AI đã audit                        |    24    | 100%  |
-| VALID (dùng nguyên)                              |    5     |  21%  |
+| Tổng artifact AI đã audit                        |    25    | 100%  |
+| VALID (dùng nguyên)                              |    5     |  20%  |
 | INVALID (loại bỏ)                                |    2     |  8%   |
-| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    17    |  71%  |
+| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    18    |  72%  |
 
 Hai ca INVALID (#21, #22) là đề xuất TV1 đã loại trong phiên Claude Code. Đề xuất bị từ chối ngay trong chat mà không để lại file thì không đếm được, nên số INVALID thực tế có thể cao hơn. Thành viên bổ sung nếu nhớ ca cụ thể.
 
