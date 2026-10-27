@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `a4579d4`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `1485766`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -8,10 +8,10 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
 | Thành viên | Họ tên | Tài khoản Git | Commit (không tính merge) | Commit merge | Commit có trailer AI | Từ | Đến |
 |---|---|---|---:|---:|---:|---|---|
-| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 36 | 0 | 25 | 28/09/2026 22:06 | 27/10/2026 10:16 |
+| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 38 | 0 | 27 | 28/09/2026 22:06 | 27/10/2026 22:33 |
 | TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 7 | 1 | 0 | 23/10/2026 02:05 | 23/10/2026 15:49 |
-| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 17 | 2 | 15 | 19/10/2026 09:54 | 27/10/2026 22:12 |
-| **Tổng** | | | **60** | **3** | **40** | | |
+| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 18 | 2 | 16 | 19/10/2026 09:54 | 27/10/2026 22:12 |
+| **Tổng** | | | **63** | **3** | **43** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -82,3 +82,6 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 61 | `3fc18a2` | 27/10/2026 17:28 | UngDuong125 | TV3 | docs(slides): revise seminar deck and drop the short homework slide | AI: Cursor |
 | 62 | `dacf416` | 27/10/2026 17:28 | UngDuong125 | TV3 | docs: refresh the Git commit log up to 3fc18a2 | AI: Cursor |
 | 63 | `a4579d4` | 27/10/2026 22:12 | UngDuong125 | TV3 | docs(slides): reorder Appium deck and clarify data-driven Pass/Fail | AI: Cursor |
+| 64 | `cfe2b59` | 27/10/2026 22:12 | UngDuong125 | TV3 | docs: refresh the Git commit log up to a4579d4 | AI: Cursor |
+| 65 | `e4c0db5` | 27/10/2026 22:33 | d1nhnguyen | TV1 | docs(user-guide): add step-by-step Ubuntu setup from a clean machine | AI: Claude Opus 5.5 |
+| 66 | `1485766` | 27/10/2026 22:33 | d1nhnguyen | TV1 | style(example): reformat search-example.js | AI: Claude Opus 5.5 |
