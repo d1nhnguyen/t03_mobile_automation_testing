@@ -181,118 +181,88 @@ Eyes gắn vào **cùng một session** Appium: assert chức năng và checkpoi
 
 ---
 
-<!-- _footer: "5 · Quy trình và ba khối" -->
-# Quy trình tự động hoá và ba khối nền tảng
+<!-- _footer: "5 · Ba khối nền tảng" -->
+# Ba khối nền tảng trong demo Appium
 
-<div class="two">
-<div>
-<div class="band">Một vòng với EShop</div>
-
-<div class="steps">
-
-1. Chuẩn bị môi trường (SDK, AVD, APK, backend)
-2. Làm app kiểm thử được (`testID`, seed, reset)
-3. Thiết kế ca + bảng dữ liệu + oracle
-4. Viết script (Page Object, wait, assert, Eyes)
-5. Chạy lặp → đọc log → phân biệt lỗi test / môi trường / app
-6. Triage visual → Accept / Reject baseline
-7. Bảo trì khi app đổi (locator, data, baseline)
-
-</div>
-</div>
-<div>
-<div class="band red">Ba khối trong demo</div>
-
-<div class="three" style="grid-template-columns: 1fr; gap: 10px;">
-<div class="box"><b><span class="n">1</span> Record & Playback</b>Inspector khám phá cây UI và ghi thao tác. Code Recorder là bản nháp.</div>
-<div class="box"><b><span class="n">2</span> Data-driven</b>Cùng một kịch bản, nhiều bộ dữ liệu trong <code>data/cases.js</code>.</div>
+<div class="three">
+<div class="box"><b><span class="n">1</span> Record & Playback</b>Inspector khám phá UI và ghi thao tác. Code Recorder là bản nháp.</div>
+<div class="box"><b><span class="n">2</span> Data-driven</b>Cùng một kịch bản, nhiều bộ dữ liệu.</div>
 <div class="box"><b><span class="n">3</span> Checkpoints</b>Assert nghiệp vụ (Appium) và checkpoint giao diện (Eyes).</div>
 </div>
 
-</div>
-</div>
-
 ---
 
-<!-- _footer: "6 · Tổng quan bộ code" -->
-# Cấu trúc bộ test Appium
+<!-- _footer: "6 · Appium là gì" -->
+# Appium là gì?
 
-Bộ test nằm ở `src/appium/`. Code Recorder từ Inspector giữ trong `docs/evidence/` để đối chiếu với Page Object.
+**Appium** là framework mã nguồn mở dùng để tự động hóa kiểm thử giao diện ứng dụng mobile thông qua các test script.
 
-<div class="two w60">
-<div>
+## Có thể làm gì?
 
-<div class="tree">
-src/appium/<br>
-&nbsp;&nbsp;config/&nbsp;&nbsp; session, locators, eyes, checkpoints<br>
-&nbsp;&nbsp;pages/&nbsp;&nbsp;&nbsp; Page Object theo màn hình<br>
-&nbsp;&nbsp;data/&nbsp;&nbsp;&nbsp;&nbsp; cases.js — bảng dữ liệu<br>
-&nbsp;&nbsp;tests/&nbsp;&nbsp;&nbsp; login-search, cart-total<br>
-&nbsp;&nbsp;examples/ search-example.js — file mẫu gom đủ phần<br>
-docs/evidence/<br>
-&nbsp;&nbsp;A2_inspector_recorder_….js — code Recorder
-</div>
+- Tự động mở ứng dụng, nhập dữ liệu, nhấn nút.
+- Tìm các thành phần giao diện và kiểm tra kết quả.
+- Hỗ trợ Android và iOS thông qua các driver tương ứng.
 
-</div>
-<div>
-
-<div class="band">Recorder so với Page Object</div>
-
-| Recorder | Page Object |
-|---|---|
-| `$$(...)[0].click()` | `waitForDisplayed` + `click` |
-| Không assertion | Assert text / số / trạng thái |
-| Locator rải trong bước ghi | Locator gom theo màn hình |
-
-Diff hai file cho thấy Recorder thiếu wait và assert — đủ để khám phá locator, chưa đủ để chạy ổn định trên CI.
-
-<span class="small"><code>docs/evidence/A2_inspector_recorder_2026-10-23.js</code> · <code>pages/login.page.js</code></span>
-
-</div>
-</div>
-
----
-
-<!-- _footer: "7 · File mẫu search-example" -->
-# Nhìn toàn bộ một test — `search-example.js`
-
-File mẫu gom đủ các phần trong một chỗ. Bộ test chính thức tách cùng cấu trúc ra nhiều file.
+## Hoạt động thế nào?
 
 <div class="flow">
-<div class="box"><b>1 · Session</b>capabilities, mở phiên</div>
+<div class="box"><b>Test Script (JavaScript)</b>Nhập "iPhone" → Nhấn Search → Kiểm tra kết quả</div>
+<div class="arr">➜<small>Gửi lệnh WebDriver</small></div>
+<div class="box"><b>Appium server</b>Nhận và chuyển lệnh cho driver</div>
 <div class="arr">➜</div>
-<div class="box"><b>2 · Locator</b><code>resource-id</code> từ testID</div>
+<div class="box"><b>Android Emulator</b>Thực hiện thao tác và trả kết quả</div>
+</div>
+
+---
+
+<!-- _footer: "7 · Cấu trúc một file test" -->
+# Một file test Appium thường gồm những phần nào?
+
+Không phụ thuộc app cụ thể: hầu hết script WebdriverIO + Appium xếp theo cùng khung dưới đây. Có thể gom trong **một file** hoặc tách ra nhiều file — vẫn là các phần này.
+
+<div class="flow">
+<div class="box"><b>1 · Môi trường</b>host, port, capabilities</div>
 <div class="arr">➜</div>
-<div class="box"><b>3 · Page Object</b>gom thao tác màn Home</div>
+<div class="box"><b>2 · Locator</b>cách tìm phần tử</div>
 <div class="arr">➜</div>
-<div class="box"><b>4 · Data</b>bảng SEARCH_CASES</div>
+<div class="box"><b>3 · Thao tác màn hình</b>Page Object (tuỳ chọn)</div>
 <div class="arr">➜</div>
-<div class="box"><b>5 · Assert</b>action → wait → assert</div>
+<div class="box"><b>4 · Dữ liệu</b>bảng input / kỳ vọng</div>
 <div class="arr">➜</div>
-<div class="box"><b>6 · Eyes</b>tuỳ chọn, sau assert</div>
+<div class="box"><b>5 · Chạy &amp; kiểm tra</b>action → wait → assert</div>
+<div class="arr">➜</div>
+<div class="box"><b>6 · Đóng phiên</b>teardown</div>
 </div>
 
 ```js
-const SEARCH_CASES = [
-  { keyword: "iPhone", count: 1, names: { 1: "iPhone 15 Pro Max" } },
-  { keyword: "Pro M",  count: 2, names: { 1: "…", 3: "MacBook Pro M3" } },
-];
-for (const row of SEARCH_CASES) {
-  await t.test(`tìm "${row.keyword}" → ${row.count}`, async () => {
-    await home.search(row.keyword);
-    await driver.waitUntil(/* … count … */);
-    assert.equal(/* tên sản phẩm */, row.names[…]);
-  });
+// 1. Môi trường — nói Appium dùng máy nào, driver nào, app nào
+const capabilities = { platformName: "Android", "appium:automationName": "UiAutomator2", /* app, … */ };
+const driver = await remote({ hostname: "127.0.0.1", port: 4723, path: "/", capabilities });
+
+// 2. Locator — định nghĩa cách tìm phần tử (ổn định hơn text hiển thị)
+const byId = (id) => `android=new UiSelector().resourceId("${id}")`;
+
+// 3–4. Thao tác + dữ liệu — có thể tách class Page Object và bảng cases
+const cases = [{ keyword: "…", expected: 1 }, /* thêm dòng = thêm ca */];
+
+// 5. Chạy test — lặp dữ liệu: thao tác → chờ điều kiện → assert
+for (const row of cases) {
+  await driver.$(byId("search-input")).setValue(row.keyword);
+  await driver.waitUntil(/* kết quả đã hiện */);
+  assert.equal(/* giá trị trên UI */, row.expected);   // checkpoint chức năng
 }
+// (tuỳ chọn) Eyes.check(...) — checkpoint giao diện, sau assert
+
+// 6. Đóng phiên — luôn gọi, kể cả khi fail
+await driver.deleteSession();
 ```
 
-- Chạy riêng: `npm run example` (không nằm trong `npm test`).
-- Bộ thật: `config/`, `pages/`, `data/cases.js`, `tests/`.
+<span class="small">Các slide sau đi lần lượt từng phần trong khung này.</span>
 
 ---
 
 <!-- _footer: "8 · Appium Inspector — Record" -->
-# ① Record & Playback — Appium Inspector
+# Appium Inspector — Khám phá giao diện và tìm Locator
 
 <div class="two w60">
 <div>
@@ -314,65 +284,156 @@ Công cụ hỗ trợ quan sát cấu trúc giao diện, xem thuộc tính phầ
 
 `testID` trên React Native xuất hiện thành `resource-id` (ví dụ `login-email`).
 
-=> Inspector dùng để **tìm locator và thử thao tác**. Code Recorder là bản nháp; test nộp giữ Page Object kèm wait và assertion.
+=> Inspector giúp **tìm locator trước khi viết test**. Code Recorder là bản nháp; test nộp giữ Page Object kèm wait và assertion.
 
-<div class="band red" style="margin-top:10px">Quit Session trước khi chạy npm test</div>
+<div class="band red" style="margin-top:10px">Quit Session trước khi chạy test tự động</div>
 
 </div>
 </div>
 
 ---
 
-<!-- _footer: "9 · Data-driven" -->
-# ② Data-driven — cùng kịch bản, nhiều bộ dữ liệu
+<!-- _footer: "9 · Session & Capabilities" -->
+# Bắt đầu một Appium Test — Session & Capabilities
 
-Dữ liệu tách khỏi logic: thêm một trường hợp là thêm một dòng trong `data/cases.js`.
+```js
+const driver = await remote({
+  hostname: "127.0.0.1", port: 4723, path: "/",        // Appium 2: "/"; Appium 1: "/wd/hub"
+  capabilities: {
+    platformName: "Android",
+    "appium:automationName": "UiAutomator2",           // chọn driver
+    "appium:app": ".../app-debug.apk",                  // APK cần cài khi tạo session
+    "appium:appPackage": "com.example.app",
+    "appium:noReset": false,                            // mỗi lần chạy bắt đầu sạch
+  },
+});
+```
+
+- **Session:** Phiên làm việc giữa test script và Appium Server để điều khiển ứng dụng trên thiết bị.
+- **Capabilities:** Các thông tin cấu hình cho Appium biết cần sử dụng nền tảng, driver và ứng dụng nào.
+
+<div class="flow">
+<div class="box"><b>Create Session</b>Kết nối và chuẩn bị ứng dụng</div>
+<div class="arr">➜</div>
+<div class="box"><b>Execute Test</b>Tìm phần tử, thao tác, kiểm tra kết quả</div>
+<div class="arr">➜</div>
+<div class="box"><b>End Session</b>Giải phóng tài nguyên</div>
+</div>
+
+---
+
+<!-- _footer: "10 · Locator" -->
+# Locator — Appium tìm phần tử giao diện như thế nào?
+
+**Locator:** là cách xác định một phần tử trên giao diện ứng dụng để Appium có thể tương tác với nó.
+Ví dụ: Để Appium nhập email, trước tiên phải tìm đúng ô nhập email.
+
+```xml
+<android.widget.EditText resource-id="login-email" ... />
+```
+
+| Ưu tiên | Chiến lược | Cú pháp WebdriverIO | Ghi chú |
+|---|---|---|---|
+| 1 | `resource-id` | `android=new UiSelector().resourceId("login-email")` | Ổn định, do dev đặt (`testID`) |
+| 2 | accessibility id | `~Đăng nhập` | Từ `accessibilityLabel` |
+| 3 | text | `android=new UiSelector().text("Tìm")` | Gãy khi đổi chữ / ngôn ngữ |
+| 4 | XPath | `//android.widget.EditText[@resource-id="login-email"]` | Chậm, gãy khi đổi bố cục |
+
+**Best practice:** Ưu tiên Locator ổn định, ít phụ thuộc vào vị trí và cấu trúc giao diện để giảm chi phí bảo trì test.
+
+---
+
+<!-- _footer: "11 · Nhiều bộ dữ liệu" -->
+# Thao tác với nhiều bộ dữ liệu
+
+Cùng **một** chuỗi thao tác (tìm kiếm, đăng nhập, …), đổi **nhiều** bộ đầu vào. Dữ liệu để ở bảng; test chỉ việc lặp từng dòng.
+
+| Bước | Việc làm |
+|---|---|
+| 1 | Khai báo bảng: mỗi dòng = *(đầu vào → kỳ vọng)* |
+| 2 | `for` từng dòng → chạy lại cùng thao tác |
+| 3 | `assert` so UI với kỳ vọng của dòng đó |
 
 <div class="two">
 <div>
-<div class="band">Bảng dữ liệu</div>
+<div class="band">Ví dụ bảng</div>
 
-| ID | Đầu vào | Kỳ vọng |
-|---|---|---|
-| L1 | sai mật khẩu | còn Login + `login-error` |
-| L2 | đúng tài khoản | “Chào, Test User” |
-| S1 | `iPhone` | 1 kết quả |
-| S2 | `Pro M` | 2 kết quả |
-| S3 | `Nokia 3310` | 0 kết quả |
-| Cart | iPhone × 2 | tổng chữ số `60000000` |
+| Đầu vào | Kỳ vọng |
+|---|---|
+| từ khóa A | 1 kết quả |
+| từ khóa B | 2 kết quả |
+| không có trong catalogue | 0 kết quả |
 
 </div>
 <div>
-<div class="band red">Vòng lặp trong test</div>
+<div class="band red">Gắn vào script</div>
 
 ```js
-const { SEARCH_CASES } = require("../data/cases");
-
-for (const row of SEARCH_CASES) {
-  await t.test(
-    `${row.id} "${row.keyword}"`,
-    async () => {
-      await home.searchFor(row.keyword);
-      // assert theo row.expectedCount / row.expected
-    }
-  );
+for (const row of cases) {
+  await search(row.keyword);             // cùng thao tác
+  assert.equal(count(), row.expected); // kỳ vọng theo dòng
 }
 ```
 
-- Mỗi dòng bảng → một subtest  
-- Assertion lấy kỳ vọng từ dòng đó  
-- Mở rộng bộ dữ liệu: thêm object vào mảng
+Thêm ca mới = thêm một dòng vào bảng — không copy-paste cả test.
 
 </div>
 </div>
 
-<span class="small">LOGIN_CASES cùng kiểu; thứ tự L1→L2 cố định vì backend khoá tài khoản sau nhiều lần sai.</span>
+---
+<!-- _footer: "12 · Đọc kết quả Pass / Fail" -->
+# Sau khi chạy Appium — làm sao biết Pass / Fail?
+
+Appium **không** tự hiện “đúng/sai” trên emulator. Kết quả do **assertion trong script** quyết định; test runner in ra terminal.
+
+<div class="two">
+<div>
+<div class="band">Trong code</div>
+
+```js
+assert.equal(actual, expected);
+// khớp  → test / subtest Pass
+// lệch  → ném lỗi → Fail
+```
+
+| | Ý nghĩa |
+|---|---|
+| **Pass** | Mọi assert của ca đó đều khớp |
+| **Fail** | Có assert lệch (hoặc timeout / không thấy phần tử) |
+
+Với nhiều bộ dữ liệu: mỗi dòng bảng là một subtest — fail một dòng **không** dừng các dòng còn lại.
+
+</div>
+<div>
+<div class="band red">Trên terminal (sau khi chạy xong)</div>
+
+```text
+# Subtest … tìm "A"
+ok 1 - tìm "A"
+# Subtest … tìm "B"
+not ok 2 - tìm "B"
+  AssertionError: …
+
+# tests 2
+# pass 1
+# fail 1
+```
+
+- Nhìn dòng `ok` / `not ok` từng ca  
+- Cuối file: tổng `# pass` / `# fail`  
+- Exit code ≠ 0 nếu còn fail  
+
+<span class="small">Ví dụ demo: cả bộ xanh → <code># pass 8</code> <code># fail 0</code>.</span>
+
+</div>
+</div>
+
 
 ---
 
 <!-- _class: test -->
-<!-- _footer: "10 · Checkpoint chức năng — chi tiết code" -->
-# ③ Checkpoint chức năng — Locator, Action & Assertion
+<!-- _footer: "13 · Viết một Appium Test" -->
+# Viết một Appium Test — Locator, Action & Assertion
 
 **Kịch bản — Verify Cart Total:** thêm *iPhone 15 Pro Max* (30 000 000 ₫) vào giỏ 2 lần → tổng tạm tính phải là **60 000 000 ₫**.
 
@@ -415,42 +476,10 @@ assert.equal((await total.getText()).replace(/\D/g, ""), "60000000");  <span cla
 
 ---
 
-<!-- _footer: "11 · Kết quả Pass / Fail" -->
-# Đọc kết quả — Pass, Fail và nhiều bộ dữ liệu
-
-`npm test` chạy **3 test**, trong đó Login và Search lặp theo bảng. TAP đếm từng subtest.
-
-<div class="pair">
-<div class="col">
-<b>Pass</b>
-- L1: thấy `login-error`, vẫn ở màn Login  
-- L2: thấy “Chào, Test User”  
-- S1 / S2 / S3: đúng số kết quả (1 / 2 / 0)  
-- Cart: tổng chữ số = `60000000`  
-→ <code># pass 8</code> <code># fail 0</code>
-</div>
-<div class="col red">
-<b>Fail</b>
-- Sai mật khẩu mà không có thông báo lỗi  
-- Tìm `iPhone` mà số kết quả ≠ 1  
-- Tổng giỏ ≠ `60000000`  
-→ Chỉ subtest đó đỏ; các dòng còn lại vẫn chạy
-</div>
-</div>
-
-<div class="band light">Chạy theo bảng dữ liệu</div>
-
-| | |
-|---|---|
-| Trong session | Mỗi dòng `cases.js` thành một subtest, chạy tuần tự |
-| Trên TAP | Mỗi dòng có dòng `# Subtest …` riêng |
-| Thêm bộ dữ liệu | Thêm object → lần sau tăng số kiểm tra (ví dụ 8 → 9) |
-| Eyes | Mỗi bước quan trọng một checkpoint trong cùng batch |
-
----
-
-<!-- _footer: "12 · Eyes — Checkpoint và Baseline" -->
+<!-- _footer: "14 · Eyes — Checkpoint và Baseline" -->
 # Applitools Eyes — Checkpoint và Baseline
+
+Eyes gắn cùng session Appium: sau khi assert chức năng xong, Eyes sẽ chụp màn hình và so với ảnh chuẩn đã duyệt.
 
 <div class="two">
 <div>
@@ -495,7 +524,7 @@ await closeEyes(eyes);
 
 ---
 
-<!-- _footer: "13 · Eyes — Dashboard và kết quả" -->
+<!-- _footer: "15 · Eyes — Dashboard và kết quả" -->
 # Xem kết quả Eyes trên dashboard
 
 Sau khi chạy, terminal in trạng thái và link batch. Chi tiết so ảnh nằm trên **Eyes Cloud**.
@@ -536,7 +565,7 @@ Sau khi chạy, terminal in trạng thái và link batch. Chi tiết so ảnh n�
 
 ---
 
-<!-- _footer: "14 · Tính năng hai công cụ" -->
+<!-- _footer: "16 · Tính năng hai công cụ" -->
 # Tính năng của hai công cụ
 
 <div class="two">
@@ -567,13 +596,13 @@ Sau khi chạy, terminal in trạng thái và link batch. Chi tiết so ảnh n�
 ---
 
 <!-- _class: divider -->
-<!-- _footer: "15 · Hoạt động lớp" -->
+<!-- _footer: "17 · Hoạt động lớp" -->
 # Visual Diff Triage Workshop
 
 ---
 
 <!-- _class: qa -->
-<!-- _footer: "16 · Q&A" -->
+<!-- _footer: "18 · Q&A" -->
 # Q&A
 
 <div class="vlink">
