@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `3fc18a2`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `a4579d4`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -10,8 +10,8 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 |---|---|---|---:|---:|---:|---|---|
 | TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 36 | 0 | 25 | 28/09/2026 22:06 | 27/10/2026 10:16 |
 | TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 7 | 1 | 0 | 23/10/2026 02:05 | 23/10/2026 15:49 |
-| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 15 | 2 | 13 | 19/10/2026 09:54 | 27/10/2026 17:28 |
-| **Tổng** | | | **58** | **3** | **38** | | |
+| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 17 | 2 | 15 | 19/10/2026 09:54 | 27/10/2026 22:12 |
+| **Tổng** | | | **60** | **3** | **40** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -80,3 +80,5 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 59 | `4e14adb` | 27/10/2026 13:46 | UngDuong125 | TV3 | docs(theory): add mobile vs web vs desktop comparison in I.1 | AI: Cursor |
 | 60 | `8dfe2a8` | 27/10/2026 13:46 | UngDuong125 | TV3 | docs: refresh the Git commit log up to 4e14adb | AI: Cursor |
 | 61 | `3fc18a2` | 27/10/2026 17:28 | UngDuong125 | TV3 | docs(slides): revise seminar deck and drop the short homework slide | AI: Cursor |
+| 62 | `dacf416` | 27/10/2026 17:28 | UngDuong125 | TV3 | docs: refresh the Git commit log up to 3fc18a2 | AI: Cursor |
+| 63 | `a4579d4` | 27/10/2026 22:12 | UngDuong125 | TV3 | docs(slides): reorder Appium deck and clarify data-driven Pass/Fail | AI: Cursor |
