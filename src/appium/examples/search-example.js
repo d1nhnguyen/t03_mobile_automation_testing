@@ -15,7 +15,12 @@ const assert = require("node:assert/strict");
 const path = require("node:path");
 const test = require("node:test");
 const { remote } = require("webdriverio");
-const { Eyes, Target, Configuration, BatchInfo } = require("@applitools/eyes-webdriverio");
+const {
+  Eyes,
+  Target,
+  Configuration,
+  BatchInfo,
+} = require("@applitools/eyes-webdriverio");
 
 // ── 1. SESSION & CAPABILITIES ───────────────────────────────────────────────
 // Capabilities cho Appium biết dùng nền tảng nào, driver nào, cài app nào.
@@ -27,14 +32,23 @@ const capabilities = {
   "appium:deviceName": "Android Emulator",
   "appium:app":
     process.env.ESHOP_APK_PATH ||
-    path.resolve(__dirname, "../../../eshop-sut-main/frontend-mobile/android/app/build/outputs/apk/debug/app-debug.apk"),
+    path.resolve(
+      __dirname,
+      "../../../eshop-sut-main/frontend-mobile/android/app/build/outputs/apk/debug/app-debug.apk",
+    ),
   "appium:appPackage": APP_PACKAGE,
   "appium:noReset": false, // xoá dữ liệu app khi mở và đóng phiên → mỗi lần chạy bắt đầu sạch
 };
 
 // Mở phiên: test gửi capabilities tới Appium server (cổng 4723, đường gốc "/").
 function openSession() {
-  return remote({ hostname: "127.0.0.1", port: 4723, path: "/", logLevel: "error", capabilities });
+  return remote({
+    hostname: "127.0.0.1",
+    port: 4723,
+    path: "/",
+    logLevel: "error",
+    capabilities,
+  });
 }
 
 // ── 2. LOCATOR ──────────────────────────────────────────────────────────────
@@ -50,10 +64,18 @@ class HomeScreen {
     this.driver = driver;
   }
 
-  get searchInput() { return this.driver.$(byId("search-input")); }
-  get searchButton() { return this.driver.$(byId("search-submit")); }
-  get resultCount() { return this.driver.$(byId("search-result-count")); } // "Hiển thị N sản phẩm"
-  productName(id) { return this.driver.$(byId(`product-name-${id}`)); }
+  get searchInput() {
+    return this.driver.$(byId("search-input"));
+  }
+  get searchButton() {
+    return this.driver.$(byId("search-submit"));
+  }
+  get resultCount() {
+    return this.driver.$(byId("search-result-count"));
+  } // "Hiển thị N sản phẩm"
+  productName(id) {
+    return this.driver.$(byId(`product-name-${id}`));
+  }
 
   // Bản debug đôi khi không tự lên màn hình sau khi cài, nên chủ động mở lại app
   // rồi chờ một phần tử của màn chính.
@@ -73,10 +95,13 @@ class HomeScreen {
 
 // ── 4. DATA ─────────────────────────────────────────────────────────────────
 // Dữ liệu tách khỏi code test: thêm một trường hợp = thêm một dòng.
-// (Bộ test thật để bảng này trong data/cases.js.)
 const SEARCH_CASES = [
   { keyword: "iPhone", count: 1, names: { 1: "iPhone 15 Pro Max" } },
-  { keyword: "Pro M", count: 2, names: { 1: "iPhone 15 Pro Max", 3: "MacBook Pro M3" } },
+  {
+    keyword: "Pro M",
+    count: 2,
+    names: { 1: "iPhone 15 Pro Max", 3: "MacBook Pro M3" },
+  },
 ];
 
 // ── 5. EYES (tuỳ chọn) ──────────────────────────────────────────────────────
@@ -136,7 +161,11 @@ test("Ví dụ: tìm kiếm theo bảng dữ liệu", { timeout: 180_000 }, asyn
         }
 
         // Checkpoint Eyes: chụp SAU khi assertion đã qua, để ảnh ở đúng trạng thái.
-        if (eyes) await eyes.check(`Search "${row.keyword}"`, Target.window().ignoreRegions(STATUS_BAR));
+        if (eyes)
+          await eyes.check(
+            `Search "${row.keyword}"`,
+            Target.window().ignoreRegions(STATUS_BAR),
+          );
       });
     }
 
