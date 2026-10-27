@@ -10,7 +10,7 @@ function baseTarget() {
 
 // Home/Search: vùng ảnh sản phẩm 1 — IMAGE_REGION_MODE=layout (mặc định) | ignore.
 // Vùng khai báo ở đây chưa chắc có hiệu lực trên ảnh của Eyes; đã kiểm chứng 23/10, xem
-// docs/evidence/applitools-region-check-2026-10-23/README.md. TODO(nộp bài): xoá dòng này khi đã chốt.
+// docs/evidence/applitools-region-check-2026-10-23/README.md.
 const IMAGE_REGION_MODE = (process.env.IMAGE_REGION_MODE || "layout").toLowerCase();
 
 async function targetWithProductImage(ctx) {
@@ -39,8 +39,4 @@ async function checkpointAs(eyes, key, name, ctx) {
   await eyes.check(name, await CHECKPOINTS[key].target(ctx));
 }
 
-async function checkpoint(eyes, key, ctx) {
-  await checkpointAs(eyes, key, CHECKPOINTS[key].name, ctx);
-}
-
-module.exports = { CHECKPOINTS, checkpoint, checkpointAs, STATUS_BAR };
+module.exports = { CHECKPOINTS, checkpointAs, STATUS_BAR };

@@ -41,8 +41,8 @@ test("EShop: đăng nhập theo bảng dữ liệu", { timeout: 180_000 }, async
           );
           assert.equal(await (await login.errorMessage).isExisting(), false);
           // Checkpoint: Home sau đăng nhập thành công
-          await (await home.productCard(1)).waitForDisplayed({ timeout: 20_000 }); // ĐỔI: chờ danh sách tải xong
-          await checkpointAs(eyes, "homeLoggedIn", `Home - ${row.id} logged in`, { home, requireImage: true }); // ĐỔI
+          await (await home.productCard(1)).waitForDisplayed({ timeout: 20_000 }); // chờ danh sách tải xong
+          await checkpointAs(eyes, "homeLoggedIn", `Home - ${row.id} logged in`, { home });
         }
       });
     }
@@ -66,8 +66,8 @@ test("EShop: tìm kiếm theo bảng dữ liệu", { timeout: 240_000 }, async (
     await signInAs(home, login, DEMO_USER);
 
     // Checkpoint: Home sau đăng nhập, trước khi tìm kiếm
-    await (await home.productCard(1)).waitForDisplayed({ timeout: 20_000 }); // ĐỔI: chờ danh sách tải xong
-    await checkpointAs(eyes, "homeLoggedIn", "Home - before search", { home, requireImage: true }); // ĐỔI
+    await (await home.productCard(1)).waitForDisplayed({ timeout: 20_000 }); // chờ danh sách tải xong
+    await checkpointAs(eyes, "homeLoggedIn", "Home - before search", { home });
 
     for (const row of SEARCH_CASES) {
       await t.test(`${row.id} "${row.keyword}" → ${row.expectedCount} sản phẩm`, async () => {
@@ -98,7 +98,7 @@ test("EShop: tìm kiếm theo bảng dữ liệu", { timeout: 240_000 }, async (
           assert.equal(await (await home.productCard(id)).isExisting(), false, `product-card-${id} không được xuất hiện`);
         }
         // Checkpoint: kết quả tìm kiếm (hoặc trạng thái rỗng), chụp sau khi mọi assert đã qua
-        await checkpointAs(eyes, "searchResults", `Search - ${row.id} "${row.keyword}"`, { home }); // ĐỔI: không requireImage vì sản phẩm 1 có thể không có trong kết quả
+        await checkpointAs(eyes, "searchResults", `Search - ${row.id} "${row.keyword}"`, { home });
       });
     }
 

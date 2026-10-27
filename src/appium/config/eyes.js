@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const variant = process.env.VARIANT_LABEL || "base";
 
