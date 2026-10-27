@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `1485766`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `ab1d9b7`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -8,10 +8,10 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
 | Thành viên | Họ tên | Tài khoản Git | Commit (không tính merge) | Commit merge | Commit có trailer AI | Từ | Đến |
 |---|---|---|---:|---:|---:|---|---|
-| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 38 | 0 | 27 | 28/09/2026 22:06 | 27/10/2026 22:33 |
-| TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 7 | 1 | 0 | 23/10/2026 02:05 | 23/10/2026 15:49 |
+| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 42 | 1 | 31 | 28/09/2026 22:06 | 27/10/2026 23:55 |
+| TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 8 | 1 | 0 | 23/10/2026 02:05 | 27/10/2026 23:11 |
 | TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 18 | 2 | 16 | 19/10/2026 09:54 | 27/10/2026 22:12 |
-| **Tổng** | | | **63** | **3** | **43** | | |
+| **Tổng** | | | **68** | **4** | **47** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -85,3 +85,9 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 64 | `cfe2b59` | 27/10/2026 22:12 | UngDuong125 | TV3 | docs: refresh the Git commit log up to a4579d4 | AI: Cursor |
 | 65 | `e4c0db5` | 27/10/2026 22:33 | d1nhnguyen | TV1 | docs(user-guide): add step-by-step Ubuntu setup from a clean machine | AI: Claude Opus 5.5 |
 | 66 | `1485766` | 27/10/2026 22:33 | d1nhnguyen | TV1 | style(example): reformat search-example.js | AI: Claude Opus 5.5 |
+| 67 | `a0654f7` | 27/10/2026 22:33 | d1nhnguyen | TV1 | docs: refresh the Git commit log up to 1485766 | AI: Claude Opus 5.5 |
+| 68 | `94d8c43` | 27/10/2026 23:11 | Dang | TV2 | docs: Add inclass activity |  |
+| 69 | `c204a35` | 27/10/2026 23:53 | d1nhnguyen | TV1 | docs(demo): add topic playlist, Video 03 link and missing-video note | AI: Claude Opus 5.5 |
+| 70 | `53884ed` | 27/10/2026 23:54 | d1nhnguyen | TV1 | refactor(appium): drop leftover TODO, edit markers and dead code | AI: Claude Opus 5.5 |
+| 71 | `aa72017` | 27/10/2026 23:55 | d1nhnguyen | TV1 | docs(ai-usage): add audit rows #27-#28 and prompts P17-P18 | AI: Claude Opus 5.5 |
+| 72 | `ab1d9b7` | 27/10/2026 23:55 | d1nhnguyen | TV1 | Merge remote-tracking branch 'origin/main' | merge |
