@@ -367,6 +367,30 @@ Bộ test đã chờ màn Đăng nhập, lời chào và kết quả tìm kiếm
 
 Đoạn Recorder của Inspector là bản nháp. Test nộp là Page Object ở bảng trên. Bản ghi ngày 23/10/2026 nằm trong `docs/evidence/` của repo seminar.
 
+### 3.3 Một file mẫu đủ cấu trúc
+
+Bộ test thật chia ra nhiều file (bảng 3.2). Muốn xem cả cấu trúc của một test Appium trong một chỗ, đọc `src/appium/examples/search-example.js`. File tự chứa, không import từ bộ test, và đánh số bảy phần theo đúng thứ tự một test chạy:
+
+| Phần | Nội dung | Tương ứng trong bộ test thật |
+|------|----------|------------------------------|
+| 1. Session & Capabilities | Mở phiên với máy ảo | `config/session.js` |
+| 2. Locator | Tìm phần tử theo `resource-id` | `config/locators.js` |
+| 3. Page Object | Lớp `HomeScreen` gom locator và thao tác của màn chính | `pages/home.page.js` |
+| 4. Data | Bảng hai từ khoá và kết quả mong đợi | `data/cases.js` |
+| 5. Eyes (tuỳ chọn) | Chỉ bật khi có `APPLITOOLS_API_KEY` | `config/eyes.js`, `config/checkpoints.js` |
+| 6. Test | Action → wait → assertion, lặp theo bảng | `tests/login-search.test.js` |
+| 7. Teardown | Đóng phiên trong `finally`, kể cả khi test fail | Mọi file trong `tests/` |
+
+Chạy sau bước 1–9 của mục 3.1, từ `src/appium`:
+
+```bash
+npm run example
+```
+
+File mẫu chỉ tìm kiếm, không đăng nhập, nên không cộng vào bộ đếm sai mật khẩu của backend. Lượt chạy ngày 27/10/2026 trên AVD `eshop_api34`: `# pass 3`, `# fail 0` (1 test, 2 dòng dữ liệu), khoảng 30 giây. Có khoá Applitools thì in thêm dòng `Eyes: Passed`, batch `EShop - example`, khoảng 47 giây. `npm test` không chạy file này, nên bộ seminar vẫn là `# pass 8`.
+
+Muốn thấy data-driven hoạt động, thêm một dòng vào bảng `SEARCH_CASES` rồi chạy lại, ví dụ `{ keyword: "Samsung", count: 1, names: { 2: "Samsung Galaxy S24 Ultra" } }`. Lượt thử ngày 27/10/2026 cho `# pass 4` mà không sửa dòng code test nào.
+
 ---
 
 ## 4. Dùng nâng cao

@@ -6,7 +6,7 @@ Seminar môn CS423/CSC15003 Software Testing (FIT@HCMUS, 2026 AI-First). Nhóm k
 
 | Bạn là | Mở file |
 |---|---|
-| Giảng viên / người chấm | `report/Report.md` (báo cáo), `slides/` (khi có), `Demo_Video_Links.md` (khi có), `AI_Usage_Declaration.md` |
+| Giảng viên / người chấm | `report/Report.md` (báo cáo), `slides/`, `Demo_Video_Links.md`, `AI_Usage_Declaration.md` |
 | Bạn cùng lớp muốn làm lại | `User_Guide.md` (cài đặt → test đầu tiên ≤ 15 bước → nâng cao → xử lý sự cố), rồi `docs/B4_Activity_Worksheet.md` cho hoạt động lớp |
 | Người review code | `src/appium/` (Page Object, bảng dữ liệu, test), `src/detox/`, `docs/A2_Test_Design.md` |
 
@@ -29,6 +29,7 @@ docs/
   diff-cards/                  10 thẻ diff (md + PDF) và đáp án
   evidence/                    Log TAP, CSV đo, ảnh Inspector, ảnh dashboard Applitools
 src/appium/                    Appium 2 + WebdriverIO: config/, data/cases.js, pages/, tests/, scripts/
+  examples/search-example.js   Một test mẫu tự chứa, đủ 7 phần cấu trúc (npm run example)
 src/detox/                     PoC Detox
 eshop-sut-main/                Mã nguồn SUT (backend + frontend-mobile đã thêm testID và biến thể UI)
 run-variants.sh, check-env.bat Script chạy 3 bản UI với Eyes; kiểm tra môi trường Windows
@@ -47,6 +48,8 @@ cd eshop-sut-main/frontend-mobile && npm ci && npx expo start --localhost
 cd src/appium && npm ci && export APPIUM_HOME="$PWD/.appium" && npm run driver:install && npm run server
 # 5. test: 3 file, 8 kiểm tra; có APPLITOOLS_API_KEY trong src/appium/.env thì Eyes chụp thêm checkpoint
 cd src/appium && export APPIUM_HOME="$PWD/.appium" && npm test
+# 6. (tuỳ chọn) xem cấu trúc một test trong một file: User_Guide.md mục 3.3
+npm run example
 ```
 
 Không có khoá Applitools thì Eyes tự tắt, phần Appium vẫn chạy đủ (`EYES=off` để tắt chủ động). Chi tiết và xử lý sự cố: `User_Guide.md` mục 2 và 5.
@@ -55,13 +58,13 @@ Không có khoá Applitools thì Eyes tự tắt, phần Appium vẫn chạy đ�
 
 | Mục nộp | File |
 |---|---|
-| Slide (md + pptx + pdf) | `slides/` *(đang làm)* |
-| Báo cáo (md + pdf) | `report/Report.md`, `report/Report.pdf` *(pdf đang làm)* |
-| Link video demo | `Demo_Video_Links.md` *(đang làm)* |
+| Slide (md + pptx + pdf) | `slides/Seminar_Slides.md`, `.pptx`, `.pdf` |
+| Báo cáo (md + pdf) | `report/Report.md`, `report/Report.pdf` |
+| Link video demo | `Demo_Video_Links.md` |
 | Source code | `src/appium/`, `src/detox/`, thay đổi trong `eshop-sut-main/frontend-mobile/App.js` |
 | Khai báo AI (md + pdf) | `AI_Usage_Declaration.md`, `.pdf` |
-| Git commit log | `Git_Commit_Log.md` *(sinh trước khi nộp)* |
-| Phân công và minh chứng | Bảng contribution (Google Sheet) |
+| Git commit log | `Git_Commit_Log.md` |
+| Phân công và minh chứng | `Project_Contribution_T03.xlsx` (kèm trong gói nộp, ngoài repo) |
 | Hoạt động lớp (brief T03) | `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/` |
 
 ## Thành viên

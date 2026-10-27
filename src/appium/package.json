@@ -6,7 +6,8 @@
     "server": "appium --address 127.0.0.1 --port 4723 --allow-insecure=uiautomator2:adb_shell",
     "driver:install": "appium driver install uiautomator2@4.2.9",
     "driver:doctor": "appium driver doctor uiautomator2",
-    "test": "node --test --test-concurrency=1"
+    "test": "node --test --test-concurrency=1",
+    "example": "node --test examples/search-example.js"
   },
   "devDependencies": {
     "@applitools/eyes-webdriverio": "^5.61.14",
