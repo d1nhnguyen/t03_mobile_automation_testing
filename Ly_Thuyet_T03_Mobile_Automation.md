@@ -58,6 +58,23 @@ f. Điểm yếu / giới hạn
 
 EShop là React Native Expo: giao diện là thành phần native, logic viết bằng JavaScript. Công cụ đứng ngoài app chỉ thấy cây native, không thấy trạng thái JavaScript.
 
+**Mobile khác web và ứng dụng desktop / app “bình thường” ở điểm nào.** Mục đích kiểm thử giống nhau (đúng chức năng, đúng hiển thị, đủ tin cậy để phát hành), nhưng **môi trường và bề mặt rủi ro** khác. Bảng dưới là các đặc trưng riêng của kiểm thử mobile so với kiểm thử web (trình duyệt) và ứng dụng desktop cài trên một máy cố định:
+
+| Đặc trưng | Kiểm thử **mobile** | Kiểm thử **web** | Ứng dụng **desktop** (máy cố định) |
+|-----------|---------------------|------------------|-------------------------------------|
+| Phân mảnh thiết bị / OS | Rất mạnh: nhiều máy, DPI, skin hãng, phiên bản Android/iOS còn sống song song | Ít hơn: vài trình duyệt và kích thước cửa sổ | Thường vài phiên bản OS; phần cứng ổn định hơn |
+| Cách tương tác | Touch, swipe, long-press, bàn phím ảo che UI | Click, hover, bàn phím vật lý | Chuột + bàn phím; ít gesture |
+| Vòng đời app | Background / kill vì thiếu RAM, xoay màn, mở lại đúng bước | Tab thường giữ phiên; F5 là mô hình khác | Cửa sổ thường sống lâu; ít bị OS “đuổi” giữa chừng |
+| Gián đoạn (interrupt) | Cuộc gọi, thông báo, chuyển app — phải xét phục hồi trạng thái | Hiếm khi là hạng mục riêng | Hiếm (trừ dialog hệ thống) |
+| Mạng | Wi‑Fi ↔ cellular, mất sóng, offline, sync lại — thuộc phạm vi kiểm thử | Thường giả định có mạng; throttle là tối ưu / lỗi rõ | Thường LAN/Wi‑Fi ổn định hơn |
+| Quyền & phần cứng | Quyền runtime (camera, vị trí…), cảm biến, pin | Quyền trình duyệt hẹp hơn | Quyền theo OS; ít cảm biến di động |
+| Phát hành / cập nhật | Store review; máy người dùng giữ bản cũ lâu | Deploy server → mọi người thấy bản mới | Installer / auto-update; ít “mảnh” bằng mobile |
+| Oracle giao diện | Baseline gắn **một** cấu hình máy (DPI, thanh trạng thái); đổi AVD ≈ baseline mới | Viewport + browser; nhiễu font/anti-alias vẫn có nhưng ít phụ thuộc OEM | Độ phân giải cố định hơn; ít thanh trạng thái động |
+
+**Hệ quả với automation:** script web (Selenium) và script mobile (Appium) cùng nói WebDriver, nhưng trên mobile phải thiết kế thêm **session/capability, reset app, chờ UI bất đồng bộ, bàn phím/gesture, và baseline theo thiết bị**. EShop minh họa một phần: cùng locator đúng vẫn fail khi bàn phím che nút hoặc cold start không lên foreground (I.4.a); baseline Eyes gắn AVD đã Accept, không dùng lẫn với AVD đo Appium nếu độ phân giải/OS khác (I.3.a).
+
+Seminar **không** demo đủ mọi hàng trong bảng (interrupt, offline, pin… nằm ngoài phạm vi). Điểm cần nắm khi trình bày: mobile không chỉ là “web thu nhỏ” hay “app desktop bỏ vào điện thoại” — thiếu các hạng mục trên là bỏ sót rủi ro đặc thù.
+
 **Kiểm thử mobile gồm những gì.** Một ứng dụng được kiểm theo nhiều khía cạnh; seminar này tập trung vào hai khía cạnh đầu.
 
 | Khía cạnh | Câu hỏi | Trong seminar T03 |
@@ -89,9 +106,9 @@ EShop là React Native Expo: giao diện là thành phần native, logic viết 
 
 ### b. Kiểm thử tự động trên mobile và thách thức riêng của môi trường
 
-Kiểm thử tự động trên mobile dùng một chương trình điều khiển ứng dụng trên thiết bị hoặc emulator, lặp lại thao tác của người dùng và kiểm tra kết quả. Appium nằm ở lớp end-to-end, black-box: nó chỉ thấy cây giao diện mà hệ điều hành công bố, không gọi hàm bên trong JavaScript của React Native.
+Kiểm thử tự động trên mobile dùng một chương trình điều khiển ứng dụng trên thiết bị hoặc emulator, lặp lại thao tác của người dùng và kiểm tra kết quả. Appium nằm ở lớp end-to-end, black-box: nó chỉ thấy cây giao diện mà hệ điều hành công bố, không gọi hàm bên trong JavaScript của React Native. So với web/desktop (I.1.a), tự động hoá mobile chịu thêm lớp rủi ro từ máy, mạng và vòng đời app — không chỉ từ locator hay assertion.
 
-Môi trường là một phần của bài test. Script đúng locator vẫn fail khi máy chưa cấp quyền, bàn phím che nút, mạng chậm, hoặc dữ liệu phiên trước còn trong app. Độ ổn định vì vậy thuộc thiết kế test (I.4), không phải việc dọn sau khi script đã xanh một lần. Những yếu tố sau là đặc thù của mobile và đều đã xuất hiện trong lần chạy của nhóm:
+Môi trường là một phần của bài test. Script đúng locator vẫn fail khi máy chưa cấp quyền, bàn phím che nút, mạng chậm, hoặc dữ liệu phiên trước còn trong app. Độ ổn định vì vậy thuộc thiết kế test (I.4), không phải việc dọn sau khi script đã xanh một lần. Những yếu tố sau là đặc thù của mobile (ánh xạ các hàng bảng I.1.a) và đều đã xuất hiện trong lần chạy của nhóm:
 
 | Yếu tố | Hệ quả với kiểm thử |
 |--------|---------------------|
