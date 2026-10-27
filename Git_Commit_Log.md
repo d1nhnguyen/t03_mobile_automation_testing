@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `f23d980`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 27/10/2026, tính đến commit `4e14adb`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -8,10 +8,10 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
 | Thành viên | Họ tên | Tài khoản Git | Commit (không tính merge) | Commit merge | Commit có trailer AI | Từ | Đến |
 |---|---|---|---:|---:|---:|---|---|
-| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 35 | 0 | 24 | 28/09/2026 22:06 | 27/10/2026 10:16 |
+| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 36 | 0 | 25 | 28/09/2026 22:06 | 27/10/2026 10:16 |
 | TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 7 | 1 | 0 | 23/10/2026 02:05 | 23/10/2026 15:49 |
-| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 12 | 2 | 10 | 19/10/2026 09:54 | 26/10/2026 15:30 |
-| **Tổng** | | | **54** | **3** | **34** | | |
+| TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 13 | 2 | 11 | 19/10/2026 09:54 | 27/10/2026 13:46 |
+| **Tổng** | | | **56** | **3** | **36** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -76,3 +76,5 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 55 | `c588563` | 27/10/2026 09:56 | d1nhnguyen | TV1 | feat(appium): add a self-contained example test for classmates | AI: Claude Opus 5.5 |
 | 56 | `6cae133` | 27/10/2026 09:57 | d1nhnguyen | TV1 | docs: refresh the Git commit log | AI: Claude Opus 5.5 |
 | 57 | `f23d980` | 27/10/2026 10:16 | d1nhnguyen | TV1 | docs(user guide): make setup and runs self-sufficient without helper scripts | AI: Claude Opus 5.5 |
+| 58 | `63b78ad` | 27/10/2026 10:16 | d1nhnguyen | TV1 | docs: refresh the Git commit log | AI: Claude Opus 5.5 |
+| 59 | `4e14adb` | 27/10/2026 13:46 | UngDuong125 | TV3 | docs(theory): add mobile vs web vs desktop comparison in I.1 | AI: Cursor |
