@@ -90,6 +90,8 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 | P14 | TV1        | Claude Code     | Viết một file test Appium mẫu tự chứa, đủ các phần cấu trúc, để bạn cùng lớp nắm nhanh cách một test được ghép lại |
 | P15 | TV1        | Claude Code     | Bổ sung `User_Guide.md` để người đọc tự bật và chạy đầy đủ: bật lại môi trường mỗi lần, đổi giao diện bằng tay, chi tiết Inspector, bảng lỗi khi tự bật môi trường |
 | P16 | TV1        | Claude Code     | Viết lại mục 2.1 `User_Guide.md` thành các bước cài từ máy Ubuntu trống (JDK, Node, Android SDK command-line tools, KVM, AVD) để TV1 dựa vào khi hướng dẫn setup trong video demo |
+| P17 | TV1        | Claude Code     | Tìm lý do video quay màn hình bị đứng một khung hình khi chiếu; ghi link playlist và video demo chung vào `Demo_Video_Links.md`, báo lỗi cụ thể và hạn bổ sung video còn thiếu |
+| P18 | TV1        | Claude Code     | Commit và push, đồng bộ bảng contribution và khai báo AI, bỏ phần thừa trong mã nguồn rồi đóng gói file zip nộp bài |
 
 ### 2.5 Phần AI đóng góp và phần không có AI
 
@@ -174,15 +176,17 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 24  | Claude Code, 27/10/2026 — file test mẫu `src/appium/examples/search-example.js` và mục 3.3 `User_Guide.md` (TV1) | Một test tự chứa, đánh số 7 phần: session, locator, Page Object, bảng dữ liệu, Eyes tuỳ chọn, action → wait → assertion, teardown | VALID | Chạy trên AVD `eshop_api34`: tắt Eyes `pass 3`; bật Eyes `Passed`; thêm dòng "Samsung" vào bảng thì `pass 4`; `npm test` vẫn chạy đúng 3 test, `pass 8` | TV1 đề xuất mục đích (giúp bạn cùng lớp nắm cấu trúc nhanh) và duyệt; file đặt ngoài bộ test chính để con số `pass 8` không đổi |
 | 25  | Claude Code, 27/10/2026 — bổ sung `User_Guide.md` để tự bật và chạy (TV1, file do TV3 phụ trách) | Mục 2.7 (bật lại môi trường mỗi lần), đổi giao diện bằng tay ở 4.5, chi tiết Inspector ở 4.3, bảng 9 lỗi ở 5.9; sửa hai câu ghi `npm test` bắt buộc có khoá API | INCOMPLETE | Lệnh Linux và các lỗi trong bảng đều đã chạy hoặc đã gặp trên Ubuntu, AVD `eshop_api34`; lệnh Windows (PowerShell, `netstat` / `taskkill`) chưa chạy thử | TV1 yêu cầu User Guide tự đủ để người đọc setup và chạy được mà không cần script riêng của TV1; bản trước khi sửa lưu ở `seminar/drafts/User_Guide.before-2026-10-27.md` (ngoài repo) |
 | 26  | Claude Code, 27/10/2026 — mục 2.1 "Cài từ máy trống trên Ubuntu" và ghi chú lần build đầu ở 2.3 `User_Guide.md` (TV1, file do TV3 phụ trách) | 8 bước: JDK, Node qua nvm, Android SDK command-line tools, biến môi trường, gói SDK, KVM, tạo AVD `eshop_api34`, mở máy ảo; đoạn thay thế bằng Android Studio; ghi chú thời gian, dung lượng và tải máy khi build lần đầu | INCOMPLETE | Đối chiếu trên máy TV1 (Ubuntu 24.04): hai link tải trả HTTP 200, tên 5 gói SDK khớp `sdkmanager --list_installed`, `emulator -accel-check` báo KVM dùng được, lệnh `avdmanager` tạo đúng 1080×2400, 420 dpi; chưa chạy lại cả 8 bước trên một máy trống | TV1 yêu cầu hướng dẫn cho máy chưa có môi trường để dùng khi quay video; bản trước khi sửa lưu ở `seminar/drafts/User_Guide.before-setup-section.md` (ngoài repo) |
+| 27  | Claude Code, 27/10/2026 — chẩn đoán video quay bị đứng hình và `Demo_Video_Links.md` (TV1, `c204a35`) | Nguyên nhân lấy từ log OBS (luồng quay màn hình PipeWire dừng lúc 21:49:24) và bộ lọc `freezedetect` của ffmpeg; `Demo_Video_Links.md` gồm hai link, bảng tình trạng playlist và mục "Lý do các video còn thiếu" | INCOMPLETE | Nguyên nhân khớp log OBS và đồng hồ 21:49 trong khung hình đứng; bản đầu chưa biết video Eyes chính là Video 03 nên vẫn liệt kê 4 video cần quay lại | TV1 cung cấp link, xác định *Demo Eyes Complex Flow* là Video 03, bỏ Video 04, thêm ý "khi có thông tin cần demo nhiều luồng" và để trống ô tình trạng của Video 01–02 |
+| 28  | Claude Code, 27/10/2026 — bỏ phần thừa trong mã nguồn trước khi nộp (TV1, `53884ed`) | Xoá dòng `TODO(nộp bài)`, các dấu `// ĐỔI`, tham số `requireImage` không được đọc và hàm `checkpoint()` không được gọi | VALID | Không đổi hành vi: mọi file qua `node --check`, các module vẫn nạp được, `git grep` không còn chỗ dùng phần đã xoá; chưa chạy lại `npm test` trên emulator | TV1 yêu cầu bỏ phần thừa trước khi nộp; giữ `src/appium/logs/` vì báo cáo và B2 dẫn làm bằng chứng |
 
-### 3.1 Tổng kết độ chính xác (artifact #1–#26)
+### 3.1 Tổng kết độ chính xác (artifact #1–#28)
 
 | Chỉ số                                           | Số lượng | Tỉ lệ |
 | ------------------------------------------------ | :------: | :---: |
-| Tổng artifact AI đã audit                        |    26    | 100%  |
-| VALID (dùng nguyên)                              |    5     |  19%  |
-| INVALID (loại bỏ)                                |    2     |  8%   |
-| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    19    |  73%  |
+| Tổng artifact AI đã audit                        |    28    | 100%  |
+| VALID (dùng nguyên)                              |    6     |  21%  |
+| INVALID (loại bỏ)                                |    2     |  7%   |
+| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    20    |  71%  |
 
 Hai ca INVALID (#21, #22) là đề xuất TV1 đã loại trong phiên Claude Code. Đề xuất bị từ chối ngay trong chat mà không để lại file thì không đếm được, nên số INVALID thực tế có thể cao hơn. Thành viên bổ sung nếu nhớ ca cụ thể.
 
