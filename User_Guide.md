@@ -95,7 +95,7 @@ $SUT = "eshop-sut-main"
 
 ### 2.1 Điều kiện
 
-Cài từng dòng rồi chạy lệnh kiểm tra. Bài test đầu cần mọi dòng trừ Eyes và Maestro.
+Bảng dưới là những thứ máy phải có. Bài test đầu cần mọi dòng trừ Eyes và Maestro. Máy đã có đủ thì chạy cột **Kiểm tra** rồi sang mục 2.2. Máy Ubuntu chưa có gì thì làm theo **Cài từ máy trống trên Ubuntu** ngay sau bảng.
 
 | Công cụ | Cài | Kiểm tra |
 |---------|-----|----------|
@@ -106,17 +106,133 @@ Cài từng dòng rồi chạy lệnh kiểm tra. Bài test đầu cần mọi d
 | Appium 2 + UiAutomator2 | Không nằm trong SUT. Mục 2.4 cài từ `src/appium`. | `GET http://127.0.0.1:4723/status` trả `ready: true`. |
 | Eyes, Maestro | Để ngoài bài test đầu. | — |
 
-Đặt `JAVA_HOME`, `ANDROID_HOME` và các thư mục bin của SDK vào `PATH` ở mọi terminal chạy `adb`, Expo hoặc Appium.
+#### Cài từ máy trống trên Ubuntu
 
-Linux (bash). Trỏ `JAVA_HOME` vào JDK đã cài:
+Đây là cách máy TV1 (Ubuntu 24.04, x86_64) đã được cài. Máy này không dùng Android Studio; Android SDK được cài bằng command-line tools. Cần quyền `sudo`, có mạng và khoảng **20 GB trống**: SDK khoảng 5 GB, máy ảo 3 GB, cache Gradle gần 4 GB, gói npm vài GB. Làm đúng thứ tự, vì bước sau dùng kết quả của bước trước. Mỗi bước có lệnh **Kiểm tra**.
+
+**Bước 1 · JDK, curl, unzip, git**
 
 ```bash
+sudo apt update
+sudo apt install -y openjdk-21-jdk curl unzip git
+```
+
+Kiểm tra: `java -version` in dòng `openjdk version "21…"`. Lần build app đầu tiên (mục 2.3), Gradle có thể tự tải thêm một JDK 17 vào `~/.gradle/jdks` để biên dịch. Việc này tự động, chỉ cần mạng.
+
+**Bước 2 · Node.js 20 qua nvm**
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.6/install.sh | bash
+source ~/.bashrc
+nvm install 20
+nvm alias default 20
+```
+
+Kiểm tra: `node -v` in `v20.19` trở lên. `npm -v` in số phiên bản.
+
+**Bước 3 · Android SDK command-line tools**
+
+```bash
+mkdir -p ~/Android/Sdk/cmdline-tools
+cd ~/Android/Sdk/cmdline-tools
+curl -fLO https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+unzip -q commandlinetools-linux-11076708_latest.zip
+mv cmdline-tools latest
+rm commandlinetools-linux-11076708_latest.zip
+cd ~
+```
+
+Kiểm tra: `~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager --version` in `12.0`.
+
+- Bản 12.0 là bản trên máy TV1. Bản mới hơn có ở https://developer.android.com/studio, mục *Command line tools only*.
+- Dòng cảnh báo `This version only understands SDK XML versions up to 3…` không ảnh hưởng.
+- Đường dẫn phải đúng là `cmdline-tools/latest/bin/sdkmanager`. Nếu giải nén mà không đổi tên thư mục thành `latest`, `sdkmanager` sẽ báo không xác định được SDK root.
+
+**Bước 4 · Biến môi trường**
+
+Thêm vào cuối `~/.bashrc` để mọi terminal mới đều có. Nếu file đã có các dòng này thì bỏ qua bước này.
+
+```bash
+cat >> ~/.bashrc <<'EOF'
 export ANDROID_HOME="$HOME/Android/Sdk"
 export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 export PATH="$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
-adb devices
-emulator -list-avds
+EOF
+source ~/.bashrc
 ```
+
+Kiểm tra: `echo $ANDROID_HOME` in `/home/<tên-bạn>/Android/Sdk`. `sdkmanager --version` chạy được mà không cần gõ đường dẫn đầy đủ.
+
+**Bước 5 · Gói SDK và ảnh hệ thống Android 14**
+
+```bash
+yes | sdkmanager --licenses
+sdkmanager --install "platform-tools" "emulator" "platforms;android-36" "build-tools;36.0.0" "system-images;android-34;default;x86_64"
+```
+
+Lệnh thứ nhất chấp nhận các giấy phép của Google. Lệnh thứ hai tải vài GB, mất 5–15 phút tuỳ mạng.
+
+Kiểm tra: `adb version` chạy được. `sdkmanager --list_installed` liệt kê đủ 5 gói trên.
+
+NDK và CMake không cần cài tay. Gradle tự tải hai gói này khi build app lần đầu (mục 2.3).
+
+**Bước 6 · Tăng tốc ảo hoá (KVM)**
+
+```bash
+emulator -accel-check
+```
+
+Kiểm tra: dòng cuối có `KVM (version …) is installed and usable.` Nếu báo không dùng được:
+
+```bash
+sudo apt install -y qemu-kvm
+sudo usermod -aG kvm $USER
+```
+
+Sau đó đăng xuất rồi đăng nhập lại. Nếu vẫn lỗi, bật ảo hoá (Intel VT-x hoặc AMD-V/SVM) trong BIOS. Không có KVM thì emulator không khởi động được, hoặc chạy rất chậm.
+
+**Bước 7 · Tạo máy ảo `eshop_api34`**
+
+```bash
+echo no | avdmanager create avd -n eshop_api34 -k "system-images;android-34;default;x86_64" -d pixel_6
+```
+
+- `echo no` trả lời câu hỏi "có tạo hồ sơ phần cứng riêng không".
+- Hồ sơ `pixel_6` cho màn hình 1080×2400, 420 dpi, đúng thiết bị của các lượt đã ghi.
+
+Kiểm tra: `emulator -list-avds` in `eshop_api34`.
+
+**Bước 8 · Mở máy ảo**
+
+```bash
+emulator -avd eshop_api34 -no-audio -no-boot-anim
+```
+
+Lệnh này chạy mãi, nên mở terminal khác cho các bước sau. Lần boot đầu mất 1–3 phút. Kiểm tra:
+
+```bash
+adb devices                            # có dòng: emulator-5554   device
+adb shell getprop sys.boot_completed   # in: 1
+```
+
+- **Cửa sổ emulator đen** trong khi `sys.boot_completed` đã là `1`: máy ảo đang tắt màn hình.
+  - Bấm nút nguồn ⏻ ở thanh bên phải emulator, hoặc chạy `adb shell input keyevent KEYCODE_WAKEUP && adb shell wm dismiss-keyguard`.
+  - Để màn hình luôn sáng: `adb shell svc power stayon true`.
+- **Hộp thoại "System UI isn't responding":** bấm **Wait** (mục 5.6a).
+- **Trước khi chạy Eyes:** tắt animation bằng các lệnh ở mục 2.7.
+
+Xong bước 8, máy đã đủ các dòng trong bảng trừ Appium. Appium cài ở mục 2.4, sau khi có backend và app.
+
+**Dùng Android Studio thay cho bước 3, 5 và 7.**
+- SDK Manager → *SDK Platforms*: tích **Android 16 (API 36)**.
+- SDK Manager → *SDK Tools*: bật *Show Package Details*, rồi tích **Build-Tools 36.0.0**, **Android SDK Command-line Tools (latest)**, **Android Emulator** và **Platform-Tools**.
+- Device Manager → *Create Virtual Device* → **Pixel 6** → ảnh hệ thống **API 34, x86_64** → đặt tên `eshop_api34`.
+
+Bước 4, 6 và 8 vẫn làm như trên. Trên máy ARM, chọn ảnh hệ thống ARM cho API 34 và giữ tên `eshop_api34`; ảnh ARM là một thiết bị khác với các lượt đã ghi.
+
+#### Windows
+
+Cài Node.js 20.19+, JDK 17 hoặc 21 và Android Studio. Tạo SDK và AVD như đoạn *Dùng Android Studio* ở trên, rồi đặt biến môi trường. Các bước Windows chưa được nhóm chạy lại từ máy trống.
 
 Windows (PowerShell). Android Studio để SDK trong Local AppData. Trỏ `JAVA_HOME` vào thư mục JDK 17 hoặc 21 của máy:
 
@@ -129,21 +245,6 @@ emulator -list-avds
 ```
 
 Lưu các biến này vào hồ sơ shell để terminal mới vẫn thấy chúng. Trên Windows, đổi `JAVA_HOME` nếu JDK không nằm ở đường dẫn ví dụ.
-
-Khi thiếu `adb` hoặc thiếu Platform 36, cài bằng Android Studio → SDK Manager, hoặc bằng `sdkmanager` sau khi cmdline-tools đã có trên `PATH`:
-
-```bash
-sdkmanager --install "platform-tools" "emulator" "cmdline-tools;latest" "platforms;android-36" "build-tools;36.0.0"
-sdkmanager --licenses
-```
-
-Tạo máy ảo trong Android Studio → Device Manager: tên `eshop_api34`, hệ điều hành Android 14, màn hình 1080×2400. Các lượt đã ghi dùng ảnh `x86_64`. Trên máy ARM, cài ảnh hệ thống ARM mà Android Studio đưa cho API 34 và giữ tên `eshop_api34`. Ảnh ARM là một thiết bị khác với các lượt đã ghi.
-
-Mở máy ảo:
-
-```bash
-emulator -avd eshop_api34
-```
 
 `appium driver doctor uiautomator2` cần `apkanalyzer` từ cmdline-tools. Cài cmdline-tools nếu doctor báo thiếu. `bundletool`, `ffmpeg` và GStreamer là tuỳ chọn. Server vẫn có thể báo `ready: true` khi thiếu ba mục đó.
 
@@ -231,6 +332,12 @@ Set-Location "$SUT/frontend-mobile"
 npm ci
 npx expo run:android
 ```
+
+**Lần build đầu mất 10–20 phút.**
+- Gradle tải thư viện Android, NDK 27.1, CMake 3.22.1 và có thể cả một JDK 17. Tổng khoảng 4–5 GB, cần mạng.
+- Bước biên dịch mã C++ của React Native rất nặng CPU và RAM, nên đóng bớt ứng dụng khác.
+- `npx expo run:android` chỉ biên dịch cho kiến trúc CPU của máy ảo đang mở (APK của nhóm chỉ chứa `x86_64`). Không ép build đủ bốn kiến trúc: trên máy 8 nhân, 15 GB RAM, không có swap của nhóm, một lượt build như vậy chạy cùng emulator và VS Code đã làm cả hai ứng dụng bị tắt đột ngột.
+- Xong, lệnh tự cài app lên máy ảo, mở app và để Metro chạy trong terminal đó.
 
 Giữ Metro chạy. Thay đổi chỉ có JavaScript có thể nạp lại qua Metro. Thay đổi native cần `npx expo run:android` lần nữa.
 

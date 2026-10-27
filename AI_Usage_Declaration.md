@@ -89,6 +89,7 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 | P13 | TV1        | Claude Code     | Lồng tiếng Anh cho video demo 10 phút của TV1: viết lời dẫn khớp với hình, đọc bằng TTS, tua các đoạn chờ để video còn dưới 8 phút |
 | P14 | TV1        | Claude Code     | Viết một file test Appium mẫu tự chứa, đủ các phần cấu trúc, để bạn cùng lớp nắm nhanh cách một test được ghép lại |
 | P15 | TV1        | Claude Code     | Bổ sung `User_Guide.md` để người đọc tự bật và chạy đầy đủ: bật lại môi trường mỗi lần, đổi giao diện bằng tay, chi tiết Inspector, bảng lỗi khi tự bật môi trường |
+| P16 | TV1        | Claude Code     | Viết lại mục 2.1 `User_Guide.md` thành các bước cài từ máy Ubuntu trống (JDK, Node, Android SDK command-line tools, KVM, AVD) để TV1 dựa vào khi hướng dẫn setup trong video demo |
 
 ### 2.5 Phần AI đóng góp và phần không có AI
 
@@ -172,15 +173,16 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 23  | Claude Code + Piper TTS, 24/10/2026 — lời dẫn và bản dựng video demo (TV1) | Video 6:51 có thuyết minh tiếng Anh, thẻ mở đầu/tổng kết, nhãn chương và nhãn tốc độ, phụ đề `.srt`; bản tải lên https://youtu.be/N3cN5d2LSG4 | INCOMPLETE | Lời dẫn đối chiếu với khung hình, nhưng giọng là TTS và lời có thể lệch hình vài giây; chưa nghe soát toàn bộ sau khi tải lên | TV1 chọn video nguồn và giọng đọc, đồng ý dùng TTS, tải bản dựng lên YouTube; cần nghe soát và đổi tiêu đề video (đang ghi "draft") trước bản nộp cuối |
 | 24  | Claude Code, 27/10/2026 — file test mẫu `src/appium/examples/search-example.js` và mục 3.3 `User_Guide.md` (TV1) | Một test tự chứa, đánh số 7 phần: session, locator, Page Object, bảng dữ liệu, Eyes tuỳ chọn, action → wait → assertion, teardown | VALID | Chạy trên AVD `eshop_api34`: tắt Eyes `pass 3`; bật Eyes `Passed`; thêm dòng "Samsung" vào bảng thì `pass 4`; `npm test` vẫn chạy đúng 3 test, `pass 8` | TV1 đề xuất mục đích (giúp bạn cùng lớp nắm cấu trúc nhanh) và duyệt; file đặt ngoài bộ test chính để con số `pass 8` không đổi |
 | 25  | Claude Code, 27/10/2026 — bổ sung `User_Guide.md` để tự bật và chạy (TV1, file do TV3 phụ trách) | Mục 2.7 (bật lại môi trường mỗi lần), đổi giao diện bằng tay ở 4.5, chi tiết Inspector ở 4.3, bảng 9 lỗi ở 5.9; sửa hai câu ghi `npm test` bắt buộc có khoá API | INCOMPLETE | Lệnh Linux và các lỗi trong bảng đều đã chạy hoặc đã gặp trên Ubuntu, AVD `eshop_api34`; lệnh Windows (PowerShell, `netstat` / `taskkill`) chưa chạy thử | TV1 yêu cầu User Guide tự đủ để người đọc setup và chạy được mà không cần script riêng của TV1; bản trước khi sửa lưu ở `seminar/drafts/User_Guide.before-2026-10-27.md` (ngoài repo) |
+| 26  | Claude Code, 27/10/2026 — mục 2.1 "Cài từ máy trống trên Ubuntu" và ghi chú lần build đầu ở 2.3 `User_Guide.md` (TV1, file do TV3 phụ trách) | 8 bước: JDK, Node qua nvm, Android SDK command-line tools, biến môi trường, gói SDK, KVM, tạo AVD `eshop_api34`, mở máy ảo; đoạn thay thế bằng Android Studio; ghi chú thời gian, dung lượng và tải máy khi build lần đầu | INCOMPLETE | Đối chiếu trên máy TV1 (Ubuntu 24.04): hai link tải trả HTTP 200, tên 5 gói SDK khớp `sdkmanager --list_installed`, `emulator -accel-check` báo KVM dùng được, lệnh `avdmanager` tạo đúng 1080×2400, 420 dpi; chưa chạy lại cả 8 bước trên một máy trống | TV1 yêu cầu hướng dẫn cho máy chưa có môi trường để dùng khi quay video; bản trước khi sửa lưu ở `seminar/drafts/User_Guide.before-setup-section.md` (ngoài repo) |
 
-### 3.1 Tổng kết độ chính xác (artifact #1–#25)
+### 3.1 Tổng kết độ chính xác (artifact #1–#26)
 
 | Chỉ số                                           | Số lượng | Tỉ lệ |
 | ------------------------------------------------ | :------: | :---: |
-| Tổng artifact AI đã audit                        |    25    | 100%  |
-| VALID (dùng nguyên)                              |    5     |  20%  |
+| Tổng artifact AI đã audit                        |    26    | 100%  |
+| VALID (dùng nguyên)                              |    5     |  19%  |
 | INVALID (loại bỏ)                                |    2     |  8%   |
-| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    18    |  72%  |
+| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    19    |  73%  |
 
 Hai ca INVALID (#21, #22) là đề xuất TV1 đã loại trong phiên Claude Code. Đề xuất bị từ chối ngay trong chat mà không để lại file thì không đếm được, nên số INVALID thực tế có thể cao hơn. Thành viên bổ sung nếu nhớ ca cụ thể.
 
