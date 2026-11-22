@@ -1,6 +1,6 @@
 # Git commit log — T03 Mobile Automation Testing
 
-Sinh từ `git log` của nhánh `main` ngày 16/11/2026, tính đến commit `6e00058`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
+Sinh từ `git log` của nhánh `main` ngày 22/11/2026, tính đến commit `c9517a7`. Commit tạo sau thời điểm này, kể cả commit thêm chính file này, không có trong bảng.
 
 Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
@@ -8,10 +8,10 @@ Repo: https://github.com/d1nhnguyen/t03_mobile_automation_testing
 
 | Thành viên | Họ tên | Tài khoản Git | Commit (không tính merge) | Commit merge | Commit có trailer AI | Từ | Đến |
 |---|---|---|---:|---:|---:|---|---|
-| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 44 | 1 | 33 | 28/09/2026 22:06 | 16/11/2026 14:12 |
+| TV1 | Nguyễn Phú Dinh | `d1nhnguyen` | 47 | 1 | 36 | 28/09/2026 22:06 | 22/11/2026 15:26 |
 | TV2 | Nguyễn Hải Đăng | `stardust65613`, `Dang`, `23120027` | 8 | 1 | 0 | 23/10/2026 02:05 | 27/10/2026 23:11 |
 | TV3 | Ứng Thị Thùy Dương | `UngDuong125` | 19 | 2 | 16 | 19/10/2026 09:54 | 03/11/2026 20:12 |
-| **Tổng** | | | **71** | **4** | **49** | | |
+| **Tổng** | | | **74** | **4** | **52** | | |
 
 TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng một người. Cột "trailer AI" đếm commit có dòng `Co-Authored-By` của Claude hoặc Cursor; chi tiết dùng AI nằm ở `AI_Usage_Declaration.md`.
 
@@ -94,3 +94,6 @@ TV2 commit dưới ba tên Git (`stardust65613`, `Dang`, `23120027`), cùng mộ
 | 73 | `8aa577f` | 27/10/2026 23:56 | d1nhnguyen | TV1 | docs: refresh the Git commit log up to ab1d9b7 | AI: Claude Opus 5.5 |
 | 74 | `cd6dc99` | 03/11/2026 20:12 | UngDuong125 | TV3 | Chỉnh lại slide |  |
 | 75 | `6e00058` | 16/11/2026 14:12 | d1nhnguyen | TV1 | docs: list Video 01/02 links and re-export the AI usage PDF | AI: Claude Opus 5.5 |
+| 76 | `7c00df6` | 16/11/2026 14:12 | d1nhnguyen | TV1 | docs: refresh the Git commit log up to 6e00058 | AI: Claude Opus 5.5 |
+| 77 | `1ce83bb` | 22/11/2026 15:26 | d1nhnguyen | TV1 | fix(eyes): keep functional tests running when an Eyes session cannot open | AI: Claude Opus 5.5 |
+| 78 | `c9517a7` | 22/11/2026 15:26 | d1nhnguyen | TV1 | docs: final submission pass (videos, Kahoot activity, report, slides, AI usage) | AI: Claude Opus 5.5 |
