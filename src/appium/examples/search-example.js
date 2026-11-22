@@ -131,11 +131,21 @@ const STATUS_BAR = { left: 0, top: 0, width: 1080, height: 80 };
 // ── 6. TEST: action → wait → assertion, lặp theo bảng dữ liệu ───────────────
 test("Ví dụ: tìm kiếm theo bảng dữ liệu", { timeout: 180_000 }, async (t) => {
   let driver;
-  const eyes = createEyes();
+  let eyes = createEyes();
   try {
     driver = await openSession();
     // Tên test cố định là khoá của baseline: đổi tên nghĩa là tạo baseline mới.
-    if (eyes) await eyes.open(driver, "EShop", "Example - search");
+    // Mở phiên Eyes lỗi (khoá hết hạn, mất mạng) thì chỉ cảnh báo và tắt Eyes, phần chức năng vẫn chạy.
+    if (eyes) {
+      try {
+        await eyes.open(driver, "EShop", "Example - search");
+      } catch (e) {
+        const status = String(e.message).match(/status (\w+\(\d+\))/);
+        const why = status ? `Applitools trả ${status[1]}` : String(e.message).split("\n")[0].slice(0, 160);
+        console.warn(`Eyes: không mở được phiên (${why}) — chỉ chạy phần chức năng`);
+        eyes = null;
+      }
+    }
     const home = new HomeScreen(driver);
     await home.open();
 

@@ -410,7 +410,7 @@ Trong `src/appium`, tạo file `.env` (đã nằm trong `.gitignore`, không com
 APPLITOOLS_API_KEY=...
 ```
 
-Hoặc export cùng tên biến trong terminal. **Thiếu khoá thì Eyes tự tắt**: `npm test` vẫn chạy đủ assertion chức năng và in `# Eyes: tắt (không có APPLITOOLS_API_KEY)`. Muốn tắt chủ động dù có khoá: `EYES=off npm test`. Lớp functional vì thế không phụ thuộc vào trial hay khoá của Applitools.
+Hoặc export cùng tên biến trong terminal. **Thiếu khoá thì Eyes tự tắt**: `npm test` vẫn chạy đủ assertion chức năng và in `# Eyes: tắt (không có APPLITOOLS_API_KEY)`. Khoá sai hoặc trial đã hết hạn thì cũng vậy: TAP in `# Eyes: không mở được phiên ...` rồi chạy tiếp phần chức năng. Muốn tắt chủ động dù có khoá: `EYES=off npm test`. Lớp functional vì thế không phụ thuộc vào trial hay khoá của Applitools.
 
 Cấu hình đã khóa trong `src/appium/config/eyes.js` và `config/checkpoints.js`:
 
@@ -832,6 +832,7 @@ Các việc này hiện trên máy chưa xong mục 2.1. Chúng là lỗ hổng 
 | Inspector báo `Invalid or unsupported WebDriver capabilities found ("undefined")` | Chưa bấm lưu (💾) sau khi dán JSON, hoặc còn một dòng capability trống | Mục 4.3 |
 | Inspector mở phiên nhưng ảnh trắng, cây chỉ có `FrameLayout` | App vừa cài lại, chưa tải xong giao diện | Đợi máy ảo hiện danh sách sản phẩm rồi bấm Refresh (⟳) |
 | Bật Eyes thấy nhiều dòng `ERROR webdriver: Method is not implemented ... execute/sync` | SDK Eyes thử lệnh dành cho web; app native không hỗ trợ | Bỏ qua: checkpoint vẫn chụp, kết quả test không đổi |
+| TAP in `Eyes: không mở được phiên ... (Applitools trả Forbidden(403))` | Khoá Applitools sai, hoặc tài khoản trial đã hết hạn | Test chức năng vẫn chạy và vẫn tính pass/fail bình thường, chỉ thiếu checkpoint visual. Muốn có lại Eyes thì tạo khoá mới (mục 2.5) và sửa `src/appium/.env`; muốn tắt hẳn cảnh báo thì đặt `EYES=off` |
 
 ---
 

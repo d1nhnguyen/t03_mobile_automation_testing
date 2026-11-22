@@ -1,4 +1,5 @@
 const { Target, MatchLevel } = require("@applitools/eyes-webdriverio");
+const { isOn } = require("./eyes");
 
 // Đổi theo độ phân giải AVD của bạn
 const STATUS_BAR = { left: 0, top: 0, width: 1080, height: 80 };
@@ -35,7 +36,7 @@ const CHECKPOINTS = {
 
 // ctx = { home } khi checkpoint cần tìm phần tử (home/search)
 async function checkpointAs(eyes, key, name, ctx) {
-  if (!eyes) return; // Eyes tắt (không có khoá / EYES=off): bỏ qua checkpoint visual
+  if (!isOn(eyes)) return; // Eyes tắt hoặc không mở được phiên: bỏ qua checkpoint visual
   await eyes.check(name, await CHECKPOINTS[key].target(ctx));
 }
 
