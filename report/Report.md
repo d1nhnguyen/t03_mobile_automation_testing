@@ -34,9 +34,9 @@
 
 | STT | MSSV     | Họ và tên          | Nhiệm vụ                                                                                                                                         | Hoàn thành |
 | --- | -------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
-| 1   | 23120031 | Nguyễn Phú Dinh    | Khảo sát S1; cài đặt Appium (A1); bộ test data-driven login/search/cart (A2); đo thời gian và flake (A3); PoC Detox (A4); kịch bản và video demo | ~90%       |
-| 2   | 23120027 | Nguyễn Hải Đăng    | Tích hợp Applitools Eyes (B1); hai bản UI có kiểm soát base/V1/V2 (B2); 10 thẻ diff và worksheet hoạt động lớp (B4)                              | ~90%       |
-| 3   | 23120034 | Ứng Thị Thùy Dương | Lý thuyết; báo cáo `report/Report.md`; `User_Guide.md`; khai báo AI; kịch bản demo; slide tổng hợp                                               | ~90%       |
+| 1   | 23120031 | Nguyễn Phú Dinh    | Khảo sát S1; cài đặt Appium (A1); bộ test data-driven login/search/cart (A2); đo thời gian và flake (A3); PoC Detox (A4); kịch bản và video demo | 100%       |
+| 2   | 23120027 | Nguyễn Hải Đăng    | Tích hợp Applitools Eyes (B1); hai bản UI có kiểm soát base/V1/V2 (B2); 10 thẻ diff và worksheet hoạt động lớp (B4)                              | 100%       |
+| 3   | 23120034 | Ứng Thị Thùy Dương | Lý thuyết; báo cáo `report/Report.md`; `User_Guide.md`; khai báo AI; kịch bản demo; slide tổng hợp                                               | 100%       |
 
 ---
 
@@ -62,7 +62,7 @@
    - [3.5 Ma trận functional × visual](#35-ma-trận-functional--visual)
    - [3.6 Chi phí bảo trì: đổi ảnh so với đổi màu](#36-chi-phí-bảo-trì-đổi-ảnh-so-với-đổi-màu)
    - [3.7 Failure mode](#37-failure-mode)
-   - [3.8 Hoạt động lớp: Visual Diff Triage Workshop](#38-hoạt-động-lớp-visual-diff-triage-workshop)
+   - [3.8 Hoạt động lớp: Kahoot Appium + Visual Diff Triage](#38-hoạt-động-lớp-kahoot-appium--visual-diff-triage)
    - [3.9 Việc còn lại](#39-việc-còn-lại)
 7. [Nguồn](#nguồn)
 
@@ -71,7 +71,7 @@
 # Báo cáo T03 — Mobile Automation Testing
 
 **Môn:** CS423 / CSC15003 Kiểm thử phần mềm  
-**Video demo:** https://youtu.be/N3cN5d2LSG4  
+**Video demo:** https://youtu.be/N3cN5d2LSG4 (tổng hợp, 6:51). Playlist theo phần: https://www.youtube.com/playlist?list=PLeb4FZ9d0wiQ (cài đặt và khái niệm; Inspector và test đầu tiên; luồng data-driven với Eyes), danh sách ở `Demo_Video_Links.md`  
 **SUT:** EShop React Native Expo (`eshop-sut-main/frontend-mobile`), package Android `com.eshop.sut`  
 **Phạm vi đã đo:** Appium và Detox trên Ubuntu/Linux, AVD `eshop_api34` (Android 14, 1080×2400), 22–23/10/2026. Applitools Eyes trên Windows (Git Bash), AVD `Medium_Phone_API_37.0` (1080×2400), sáng 23/10/2026  
 **Nguồn chương này:** phần A, B, C của `Ly_Thuyet_T03_Mobile_Automation.md`; kết quả TV1 ở `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`; kết quả TV2 ở `docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, log `src/appium/logs/` và ảnh `docs/evidence/B1_B2_applitools-dashboard/`; ma trận S1 ở `Tool_Survey_Proposal.md`
@@ -101,7 +101,7 @@ Ma trận dưới đây lấy từ đề xuất S1 (`Tool_Survey_Proposal.md`), 
 
 **Quyết định S1:** Appium 2 + UiAutomator2 làm lớp chức năng, Applitools Eyes làm lớp giao diện, Maestro chỉ khi trial Eyes không phủ S3–S6 và giảng viên chấp thuận.
 
-Repo đã khóa và chạy Appium **2.19.0**, driver **uiautomator2@4.2.9**, client WebdriverIO **9.32.0**, SDK **`@applitools/eyes-webdriverio@5.61.14`**. Eyes chạy trên tài khoản trial (dashboard ghi "You are currently on a trial plan"). Maestro chưa có flow vì trial Eyes đã phủ được phần visual, nên phương án dự phòng không cần kích hoạt. Giá Starter cần đối chiếu lại trang giá trước khi nộp, vì mốc kiểm tra là 28/09/2026.
+Repo đã khóa và chạy Appium **2.19.0**, driver **uiautomator2@4.2.9**, client WebdriverIO **9.32.0**, SDK **`@applitools/eyes-webdriverio@5.61.14`**. Eyes chạy trên tài khoản trial (dashboard ghi "You are currently on a trial plan"). Maestro chưa có flow vì trial Eyes đã phủ được phần visual, nên phương án dự phòng không cần kích hoạt. Giá Starter 667 USD/tháng được TV1 kiểm tra lại ngày 16/11/2026, khớp mốc 28/09/2026.
 
 ---
 
@@ -255,15 +255,15 @@ Match level dùng cho cả checkpoint hoặc từng vùng: Strict (hồi quy tr�
 Eyes gắn vào chính bộ test Appium ở chương 2, không có bộ test riêng. Mỗi file test mở một phiên Eyes, chụp checkpoint **sau** khi phần tử đã hiển thị và assertion chức năng đã qua, rồi đóng phiên.
 
 | Hạng mục          | Giá trị trong repo                                                                                                                                                                                                                                                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ------------------------------------------ |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | SDK               | `@applitools/eyes-webdriverio@5.61.14` (`src/appium/package.json`)                                                                                                                                                                                                                                                       |
 | Cấu hình          | `src/appium/config/eyes.js`: app `EShop`, host app `com.eshop.sut`, host OS Android, match level mặc định Strict, `setSaveNewTests(true)`                                                                                                                                                                                |
 | API key           | Đọc từ `APPLITOOLS_API_KEY` (biến môi trường hoặc `src/appium/.env`, file đã nằm trong `.gitignore`)                                                                                                                                                                                                                     |
 | Khóa baseline     | Tên test cố định: `Login data-driven`, `Search data-driven`, `Cart add and total`                                                                                                                                                                                                                                        |
 | Batch             | `EShop - base`, `EShop - v1`, `EShop - v2`, đặt bằng `VARIANT_LABEL`; chỉ để nhóm lượt chạy, không đổi baseline                                                                                                                                                                                                          |
 | Vùng              | Ignore status bar (`0, 0, 1080, 80`). Layout region trên `product-image-1` có trong `checkpoints.js`, nhưng lượt B2 không gửi được vì selector `id=` (mục 3.4). Selector đã sửa; lượt xác nhận 23/10 cho thấy vùng được gửi nhưng vẫn không có hiệu lực (mục 3.4)                                                        |
-| Đóng phiên        | `eyes.close(false)`: diff không làm test đỏ trong terminal; mỗi test in `Eyes: <trạng thái>                                                                                                                                                                                                                              | steps | link` vào TAP, chi tiết xem trên dashboard |
-| Khi không có khoá | `createEyes()` trả về `null`, mọi checkpoint bị bỏ qua, assertion chức năng vẫn chạy đủ (`EYES=off` để tắt chủ động). Lớp functional không phụ thuộc trial Applitools                                                                                                                                                    |
+| Đóng phiên        | `eyes.close(false)`: diff không làm test đỏ trong terminal; mỗi test in `Eyes: <trạng thái> \| steps \| link` vào TAP, chi tiết xem trên dashboard |
+| Khi không có khoá hoặc khoá hết hạn | `createEyes()` trả về `null`, mọi checkpoint bị bỏ qua, assertion chức năng vẫn chạy đủ (`EYES=off` để tắt chủ động). Lớp functional không phụ thuộc trial Applitools. Có khoá nhưng mở phiên lỗi (ngày 16/11 Applitools trả `Forbidden(403)` vì trial đã hết) thì `openEyes` chỉ in cảnh báo và bỏ qua checkpoint; lượt chạy ngày 16/11 vẫn `# pass 8` `# fail 0`                                                                                                                                                    |
 | Chạy              | `run-variants.sh` ở gốc repo: mở AVD nếu chưa có emulator (mặc định `eshop_api34`; lần B2 dùng emulator `Medium_Phone_API_37.0` đang chạy sẵn), tắt animation, khởi động lại backend mỗi lượt, build APK lần đầu rồi đổi bản UI bằng cách khởi động lại Metro với `EXPO_PUBLIC_UI_VARIANT`, chạy base hai lần rồi V1, V2 |
 
 Ba test tạo **10 checkpoint** mỗi lượt:
@@ -345,24 +345,28 @@ Số đếm này khớp với phạm vi thay đổi ở mục 3.3: Eyes không b
 
 **Chưa chạy trên app, đã dựng thành thẻ diff:** giá sai nhưng bố cục giữ nguyên (thẻ 10). Một vùng lệch rất nhỏ dễ bị duyệt qua, và sẽ không bị báo nếu vùng giá đặt ở Layout. Đây là lý do giữ assertion chữ số cho giá kể cả khi đã có Eyes.
 
-### 3.8 Hoạt động lớp: Visual Diff Triage Workshop
+### 3.8 Hoạt động lớp: Kahoot Appium + Visual Diff Triage
 
-Theo brief T03, nhóm khán giả phân loại một bộ diff trong 25 phút. TV2 đã soạn:
+Hoạt động trên lớp là một Kahoot chơi cá nhân, tính điểm theo tốc độ: https://create.kahoot.it/share/diffcards/58b34eaa-b377-4e90-bbe5-2c0f6a13e5f2. Nội dung và đáp án chép lại ở `docs/Kahoot_T03.md`.
 
-- `docs/B4_Activity_Worksheet.md`: luật chơi, phiếu phân loại 10 thẻ, mẫu chính sách ignore region, minute paper, đáp án, rubric chấm chéo 20 điểm và mẫu biên bản dry-run.
-- `docs/diff-cards/DiffCards_Questions.md` và `DiffCards_AnswerKey.md` (kèm bản PDF): mỗi thẻ có ảnh baseline và bản mới, ngữ cảnh release, ảnh diff và đáp án.
+| Phần | Số câu | Thời gian mỗi câu | Nội dung |
+| --- | :---: | :---: | --- |
+| Mở đầu | 2 slide | — | Cách đọc thẻ (trái là baseline, phải là bản mới) và bốn quyết định: Accept, Reject, Nhiễu, Chưa đủ thông tin |
+| Appium | 4 | 20 giây | Việc nên tự động hoá; thành phần điều khiển app (UiAutomator2 Driver); locator ổn định (`resource-id` từ `testID`); assertion quyết định Pass/Fail. Mỗi câu có một slide giải thích ngay sau |
+| Thẻ diff | 10 | 30 giây | Thẻ 1–10 trong `docs/diff-cards/`, mỗi câu là ảnh thẻ kèm ngữ cảnh release |
 
-Bốn nhãn: Accept, Reject, Nhiễu, Chưa đủ thông tin. Phân bố đáp án: 4 lỗi thật (thẻ 1, 2, 6, 10), 3 thay đổi có chủ đích (3, 4, 7), 1 nhiễu dây chuyền (8), 2 mơ hồ (5, 9). Thay đổi trong thẻ 1 và 2 trùng với V2; thẻ 3 cùng loại với V1.
+Câu Appium cuối dẫn sang phần thẻ diff: Appium chỉ phát hiện thứ được assert, nên màu và vị trí phải để visual testing kiểm tra.
+
+Thẻ diff do TV2 soạn trong `docs/diff-cards/DiffCards_Questions.md` và `DiffCards_AnswerKey.md` (kèm bản PDF). Mỗi thẻ có ảnh baseline, bản mới, ngữ cảnh release, ảnh diff và đáp án. Phân bố đáp án: 4 lỗi thật (thẻ 1, 2, 6, 10), 4 Accept (thẻ 3, 4, 7, 8) và 2 thẻ mơ hồ (5, 9). Thẻ 8 là nhiễu dây chuyền: cả trang dịch xuống vì thanh điều hướng mới ở thẻ 7, nên Accept cùng thẻ 7 chứ không chọn "Nhiễu". Thay đổi trong thẻ 1 và 2 trùng với V2; thẻ 3 cùng loại với V1.
 
 Chính sách mẫu cho vùng thay banner là **Layout** trên `product-image-1`, không Ignore, và không phủ giá, tên hay nút. Ignore chỉ dùng cho status bar.
 
-Đã đối chiếu với deck mẫu `T03_Mobile_Automation_Testing_InClass.pptx` (8 slide). Khớp deck: 10 thẻ, 25 phút, đúng năm mốc của slide 6, nhóm 3–4 người. Ba nhãn của deck (_true bug_, _intentional update_, _false positive_) map sang Reject, Accept và Nhiễu; phiếu giữ thêm **Chưa đủ thông tin** vì thẻ 5 và 9 không quyết được. Minute paper lấy bốn câu debrief của slide 7, cộng thang 1–5 của Seminar Guide, và nộp sau 25 phút chứ không chiếm suất cuối.
+`docs/B4_Activity_Worksheet.md` là bản phiếu giấy của cùng bộ 10 thẻ (luật chơi, phiếu phân loại, mẫu chính sách ignore region, minute paper, rubric). Bản này soạn theo deck mẫu `T03_Mobile_Automation_Testing_InClass.pptx`; trên lớp nhóm dùng Kahoot thay cho phiếu giấy để cả lớp trả lời cùng lúc và thấy kết quả ngay.
 
-Còn lại, và không làm được từ repo:
+Giới hạn của bộ thẻ:
 
-- Chỉ có một thẻ nhiễu, và đó là nhiễu dây chuyền. Chưa có thẻ nhiễu thuần do render (giờ status bar, ảnh chưa tải xong, khử răng cưa).
-- Ảnh diff thẻ 7 chụp form đã nhập và có lỗi đăng nhập, trong khi ảnh câu hỏi là form trống. Phải chụp lại trên dashboard trước khi in.
-- Chưa có dry-run với người ngoài nhóm, nên chưa có số đo chứng minh 10 thẻ xong trong 10 phút của slide 6.
+- Chưa có thẻ nhiễu thuần do render (giờ status bar, ảnh chưa tải xong, khử răng cưa). Thẻ duy nhất gần "nhiễu" là thẻ 8, mà đáp án lại là Accept.
+- Ảnh diff thẻ 7 chụp form đã nhập và có lỗi đăng nhập, trong khi ảnh câu hỏi là form trống.
 
 ### 3.9 Việc còn lại
 
@@ -373,17 +377,16 @@ Còn lại, và không làm được từ repo:
 | Vì sao layout region không ăn                        | Selector `id=` không khớp `testID`. Đã đổi `productImage()` sang `byTestId` và thêm cảnh báo khi không thấy phần tử (`home.page.js`, `checkpoints.js`). Lượt xác nhận 23/10: vùng được gửi nhưng V1 vẫn lệch 3/4; chỉ vùng phủ toàn ảnh Passed. Ghi nhận là failure mode; vùng có hiệu lực đặt trên dashboard                                                                                                                                                                        |
 | Số liệu và chỗ trống trong `docs/B2_Report.md`       | Thời gian lấy từ log (191,297 s / 209,672 s / 192,640 s). Bỏ dòng `checkout-flow.test.js` vì file không tồn tại. Mục 9 đã điền từ bốn lượt đã chạy. Mục 10 ghi có/không theo file thật                                                                                                                                                                                                                                                                                               |
 | Nguồn lỗi `adb_shell` và `Method is not implemented` | Cả hai do SDK Eyes, không do test của nhóm. `mobile:shell` hỏi `dumpsys window ... mCurrentRotation`; Appium chặn vì chưa bật insecure feature. Lệnh `execute/sync` còn lại là đoạn JS dò DOM trình duyệt (`applitools-marker`), UiAutomator2 trả 405 vì app là native. Checkpoint vẫn được chụp, base lần 2 vẫn Passed. `npm run server` đã thêm `--allow-insecure=uiautomator2:adb_shell` để lần sau hết lỗi xoay màn hình. Lỗi 405 trên app native là nhiễu, không sửa bằng cờ đó |
-| Đối chiếu deck và bằng chứng B2                      | Worksheet căn theo slide 6 và slide 7. Phụ lục B2 không còn ô trống                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Đối chiếu deck và bằng chứng B2                      | Worksheet giấy căn theo slide 6 và slide 7 của deck mẫu; trên lớp dùng Kahoot (mục 3.8). Phụ lục B2 không còn ô trống                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| Chạy lại V1 sau khi sửa selector | Đã chạy ngày 23/10 trên máy TV1 (mục 3.4): vùng được gửi nhưng V1 vẫn Unresolved 3/4 ở các bước có ảnh. Ghi nhận là failure mode |
+| Chốt AVD buổi demo | Baseline của lượt B2 gắn `Medium_Phone_API_37.0` (máy TV2). Demo chạy trên máy TV1, AVD `eshop_api34`, với baseline tạo trên tài khoản Applitools của TV1 từ ngày 23/10 |
+| Video demo và `Demo_Video_Links.md` | Video tổng hợp https://youtu.be/N3cN5d2LSG4 (6:51) và playlist 3 video theo phần https://www.youtube.com/playlist?list=PLeb4FZ9d0wiQ |
 
 Chưa làm được ở máy này:
 
 | Việc                                                               | Vì sao còn lại                                                                                                                                                                                                                                                                                       |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Chạy lại V1 sau khi sửa selector, rồi mới ghi Passed hoặc vẫn lệch | Cần AVD, `APPLITOOLS_API_KEY` và dashboard để Accept. Máy biên tập báo cáo không có lần chạy đó                                                                                                                                                                                                      |
-| Chốt AVD buổi demo                                                 | Baseline Eyes đang gắn `Medium_Phone_API_37.0` (viewport dashboard 411×866). Appium/Detox đo trên `eshop_api34`. `run-variants.sh` mặc định mở `eshop_api34`, tức một baseline mới. Demo Eyes phải dùng đúng AVD đã Accept, hoặc Accept lại trên AVD mới. Đây là quyết định của nhóm trước buổi chạy |
 | Chụp lại ảnh diff thẻ 7 và thêm thẻ nhiễu thuần                    | Cần dashboard hoặc một lượt chụp mới                                                                                                                                                                                                                                                                 |
-| Dry-run 25 phút với người ngoài nhóm                               | Cần một người không soạn thẻ và đồng hồ thật. Mẫu biên bản ở `docs/B4_Activity_Worksheet.md` mục 6 vẫn trống                                                                                                                                                                                         |
-| Video demo và `Demo_Video_Links.md`                                | Đã có: https://youtu.be/N3cN5d2LSG4 (6:51, thuyết minh tiếng Anh)                                                                                                                                                                                                                                                                         |
 
 ---
 
@@ -393,9 +396,9 @@ Chưa làm được ở máy này:
 2. `docs/A1_Setup.md`, `docs/A2_Test_Design.md`, `docs/A3_Metrics.md`, `docs/A4_Detox.md`, và log trong `docs/evidence/`.
 3. `Tool_Survey_Proposal.md` — ma trận S1, kiểm tra ngày 28/09/2026.
 4. `User_Guide.md` — quy trình cài trên máy chưa có SDK.
-5. `docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`; log Eyes trong `src/appium/logs/20261023-065159/` và `20261023-065743/`; ảnh dashboard trong `docs/evidence/B1_B2_applitools-dashboard/`; mã `src/appium/config/eyes.js`, `checkpoints.js`, `run-variants.sh`.
+5. `docs/B2_Report.md`, `docs/Kahoot_T03.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`; log Eyes trong `src/appium/logs/20261023-065159/` và `20261023-065743/`; ảnh dashboard trong `docs/evidence/B1_B2_applitools-dashboard/`; mã `src/appium/config/eyes.js`, `checkpoints.js`, `run-variants.sh`.
 6. Appium 2.19: [capability và tiền tố `appium:`](https://appium.io/docs/en/2.19/guides/caps/). [Kiến trúc UiAutomator2](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/architecture.md).
 7. [Detox — design principles](https://wix.github.io/Detox/docs/next/articles/design-principles/). [Espresso](https://developer.android.com/training/testing/espresso).
-8. Applitools — _Visual AI 101_; [Match levels and regions](https://applitools.com/docs/eyes/concepts/best-practices/match-levels). Giá Starter lấy từ đề xuất S1, cần kiểm tra lại trước khi nộp.
+8. Applitools — _Visual AI 101_; [Match levels and regions](https://applitools.com/docs/eyes/concepts/best-practices/match-levels). Giá Starter lấy từ đề xuất S1, kiểm tra lại ngày 16/11/2026.
 
 Chương 1–2 được biên tập với Cursor (Grok) ngày 23/10/2026 từ các tài liệu trên. Chương 3 được hoàn thiện với Cursor (Claude) cùng ngày từ tài liệu, log và ảnh dashboard của TV2. Số liệu Eyes lấy từ log và ảnh dashboard, không lấy từ AI. Thời gian chạy được đọc lại từ `duration_ms`, và số checkpoint lệch được đối chiếu với từng bước trên ảnh dashboard. Không có kết quả Eyes, baseline hay ảnh diff nào được tạo thêm. Ma trận S1 do đề xuất công cụ ghi là có dùng OpenAI Codex để trích tiêu chí; nhóm đã đối chiếu giấy phép, giá và tài liệu hãng vào ngày 28/09/2026.

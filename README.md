@@ -7,7 +7,7 @@ Seminar môn CS423/CSC15003 Software Testing (FIT@HCMUS, 2026 AI-First). Nhóm k
 | Bạn là | Mở file |
 |---|---|
 | Giảng viên / người chấm | `report/Report.md` (báo cáo), `slides/`, `Demo_Video_Links.md`, `AI_Usage_Declaration.md` |
-| Bạn cùng lớp muốn làm lại | `User_Guide.md` (cài đặt → test đầu tiên ≤ 15 bước → nâng cao → xử lý sự cố), rồi `docs/B4_Activity_Worksheet.md` cho hoạt động lớp |
+| Bạn cùng lớp muốn làm lại | `User_Guide.md` (cài đặt → test đầu tiên ≤ 15 bước → nâng cao → xử lý sự cố), rồi `docs/Kahoot_T03.md` cho hoạt động lớp |
 | Người review code | `src/appium/` (Page Object, bảng dữ liệu, test), `src/detox/`, `docs/A2_Test_Design.md` |
 
 ## Cấu trúc repo
@@ -25,7 +25,8 @@ docs/
   A3_Metrics.md                Thời gian chạy và độ lặp lại (10 lượt × 2 chiến dịch)
   A4_Detox.md                  PoC Detox cùng kịch bản và đối sánh DX
   B2_Report.md                 Hai bản UI có kiểm soát: functional × visual
-  B4_Activity_Worksheet.md     Worksheet Visual Diff Triage Workshop (25 phút, 10 thẻ)
+  Kahoot_T03.md                Hoạt động lớp: Kahoot 4 câu Appium + 10 thẻ diff, kèm link và đáp án
+  B4_Activity_Worksheet.md     Bản phiếu giấy của cùng 10 thẻ diff (luật chơi, policy ignore region, rubric)
   diff-cards/                  10 thẻ diff (md + PDF) và đáp án
   evidence/                    Log TAP, CSV đo, ảnh Inspector, ảnh dashboard Applitools
 src/appium/                    Appium 2 + WebdriverIO: config/, data/cases.js, pages/, tests/, scripts/
@@ -46,7 +47,7 @@ emulator -avd eshop_api34 ; adb reverse tcp:8081 tcp:8081
 cd eshop-sut-main/frontend-mobile && npm ci && npx expo start --localhost
 # 4. Appium (driver nằm trong .appium của project)
 cd src/appium && npm ci && export APPIUM_HOME="$PWD/.appium" && npm run driver:install && npm run server
-# 5. test: 3 file, 8 kiểm tra; có APPLITOOLS_API_KEY trong src/appium/.env thì Eyes chụp thêm checkpoint
+# 5. test: 3 test trong 2 file, 8 kiểm tra; có APPLITOOLS_API_KEY trong src/appium/.env thì Eyes chụp thêm checkpoint
 cd src/appium && export APPIUM_HOME="$PWD/.appium" && npm test
 # 6. (tuỳ chọn) xem cấu trúc một test trong một file: User_Guide.md mục 3.3
 npm run example
@@ -65,7 +66,7 @@ Không có khoá Applitools thì Eyes tự tắt, phần Appium vẫn chạy đ�
 | Khai báo AI (md + pdf) | `AI_Usage_Declaration.md`, `.pdf` |
 | Git commit log | `Git_Commit_Log.md` |
 | Phân công và minh chứng | `Project_Contribution_T03.xlsx` (kèm trong gói nộp, ngoài repo) |
-| Hoạt động lớp (brief T03) | `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/` |
+| Hoạt động lớp (brief T03) | `docs/Kahoot_T03.md` (Kahoot dùng trên lớp), `docs/diff-cards/`, `docs/B4_Activity_Worksheet.md` |
 
 ## Thành viên
 

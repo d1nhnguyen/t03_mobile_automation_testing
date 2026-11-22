@@ -25,7 +25,6 @@ Tài liệu này gộp ba biểu mẫu của môn cho phần seminar:
 | TV1            | Nguyễn Phú Dinh    | 23120031 | `d1nhnguyen`    | Khảo sát S1, cài đặt A1, bộ Appium data-driven A2, đo A3, PoC Detox A4, video demo A5, slide A6 |
 | TV2            | Nguyễn Hải Đăng    | 23120027 | `stardust65613` | Tích hợp Applitools Eyes (B1), hai UI variant có kiểm soát (B2), diff cards và worksheet        |
 | TV3            | Ứng Thị Thùy Dương | 23120034 | `UngDuong125`   | Lý thuyết, báo cáo `report/Report.md`, `User_Guide.md`, kịch bản demo                           |
-| TV4 _(nếu có)_ | `[điền]`           | `[điền]` | `[điền]`        | `[điền]`                                                                                        |
 
 ---
 
@@ -37,9 +36,9 @@ Tài liệu này gộp ba biểu mẫu của môn cho phần seminar:
 | ------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | OpenAI Codex                                                              | TV1     | Trích tiêu chí S1 từ đề bài, đọc mã EShop, soạn nháp ma trận so sánh 5 tiêu chí                                                                                                                                                                                                                                                                             | Mục _AI Disclosure_ trong `Tool_Survey_Proposal.md`                                                                                                                                                                             |
 | Claude Code (tiện ích VS Code; model Claude Fable 5.1 và Claude Opus 5.5) | TV1     | Lập kế hoạch task và bảng contribution; viết bộ test Appium data-driven, script đo thời gian/flake; viết lại tài liệu A2/A3 và kịch bản demo; đưa Eyes thành lớp tuỳ chọn; kiểm chứng layout/ignore region; README; bổ sung nền tảng lý thuyết và đánh số đề mục; dựng slide; viết lời dẫn tiếng Anh và dựng bản video demo có thuyết minh; viết file test mẫu cho bạn cùng lớp. Trợ lý chạy lệnh trên máy TV1 (chạy test, điều khiển emulator, chụp màn hình) | Trailer `Co-Authored-By: Claude Fable 5.1` trong commit `de57ee8`, `18ef5fd`, `33209e2`, `54a2df2`, `4cb9736`, `0973b28`, `e8f6e76`, `0a8cbbc`, `aa604fc`; trailer `Co-Authored-By: Claude Opus 5.5` trong `d385309`, `ce3ad9c` |
-| Chưa rõ tên (TV1 ghi "công cụ khác"; prompt trong Phụ lục A đã lược tên) | TV1     | Nhận xét và chấm điểm bản nháp slide "Viết test", đề xuất bố cục                                                                                                                                                                                                                                                                                            | Góp ý TV1 dán vào phiên Claude Code ngày 23/10/2026 (Phụ lục A). Ô này để trống vì lịch sử không ghi tên công cụ; không suy diễn tên                                                          |
+| OpenAI Codex | TV1     | Nhận xét và chấm điểm bản nháp slide "Viết test", đề xuất bố cục                                                                                                                                                                                                                                                                                            | Góp ý TV1 dán vào phiên Claude Code ngày 23/10/2026 (Phụ lục A). TV1 xác nhận công cụ là OpenAI Codex (16/11/2026)                                                          |
 | Piper TTS 1.8.0 (giọng `en_US-lessac-medium`, chạy cục bộ trên máy TV1) | TV1 | Đọc lời dẫn tiếng Anh do Claude Code viết, cho video demo https://youtu.be/N3cN5d2LSG4 | Thư mục làm việc `seminar/.video_work/` (ngoài repo): `build.py`, các file âm thanh và đoạn video tạm |
-| Cursor agent (Grok)                                                       | TV3     | Biên tập lý thuyết, căn chỉnh kịch bản demo, soạn báo cáo chương 1–2 và User Guide, dịch sang tiếng Việt; cập nhật User Guide theo kết quả Eyes; ngày 02/11/2026 hoàn thiện `slides/Seminar_Slides.md` thành 22 slide theo `Slides_Hoan_Thien_2026-11-01.md`, đối chiếu `Ly_Thuyet_T03_Mobile_Automation.md` và log A3/B2 | Trailer `Co-authored-by: Cursor` trong commit `29d06a4`, `c97aebd`, `2db70ed`, `eebdc08`; mục 8 của `User_Guide.md`; cuối `report/Report.md`; mục 3 hàng 29                                                                      |
+| Cursor agent (Grok)                                                       | TV3     | Biên tập lý thuyết, căn chỉnh kịch bản demo, soạn báo cáo chương 1–2 và User Guide, dịch sang tiếng Việt; cập nhật User Guide theo kết quả Eyes; ngày 02/11/2026 hoàn thiện `slides/Seminar_Slides.md` thành 28 slide theo `Slides_Hoan_Thien_2026-11-01.md`, đối chiếu `Ly_Thuyet_T03_Mobile_Automation.md` và log A3/B2 | Trailer `Co-authored-by: Cursor` trong commit `29d06a4`, `c97aebd`, `2db70ed`, `eebdc08`; mục 8 của `User_Guide.md`; cuối `report/Report.md`; mục 3 hàng 29                                                                      |
 | Cursor agent (Claude)                                                     | TV3     | Tóm tắt yêu cầu seminar; soạn tài liệu khai báo này; hoàn thiện chương 3 của báo cáo từ log và ảnh dashboard; lần lỗi `adb_shell` trong log Appium; sửa selector `productImage`; sửa số liệu và kết luận `docs/B2_Report.md`; căn `docs/B4_Activity_Worksheet.md` theo deck in-class; sửa câu sai ở `User_Guide.md` mục 6.2                                 | Phiên làm việc ngày 23/10/2026; ghi chú cuối `report/Report.md`; mục 3 hàng 9, 12, 13, 14 của tài liệu này                                                                                                                      |
 | Claude                                                                    | TV2     | Cấu hình Applitool Eyes, viết script phục vụ việc chạy test, tạo các diffcard và các tài liệu B2, B4                                                                                                                                                                                                                                                        | Các commit `24eb347`, `e154ead`, `f792677`, `b7f11c4`, `42c20f4`, `0e5a176` không có trailer AI và tài liệu B2/B4 không có mục khai báo.                                                                                        |
 
@@ -92,6 +91,9 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 | P16 | TV1        | Claude Code     | Viết lại mục 2.1 `User_Guide.md` thành các bước cài từ máy Ubuntu trống (JDK, Node, Android SDK command-line tools, KVM, AVD) để TV1 dựa vào khi hướng dẫn setup trong video demo |
 | P17 | TV1        | Claude Code     | Tìm lý do video quay màn hình bị đứng một khung hình khi chiếu; ghi link playlist và video demo chung vào `Demo_Video_Links.md`, báo lỗi cụ thể và hạn bổ sung video còn thiếu |
 | P18 | TV1        | Claude Code     | Commit và push, đồng bộ bảng contribution và khai báo AI, bỏ phần thừa trong mã nguồn rồi đóng gói file zip nộp bài |
+| P19 | TV1        | Claude Code     | Nhận xét bộ slide và viết bản đặc tả slide hoàn chỉnh (thêm lý thuyết mobile testing, tách phần Eyes) để TV3 dựng lại slide |
+| P20 | TV1        | Claude Code     | Soạn bộ câu Kahoot cho hoạt động lớp (câu Appium + thẻ diff), rồi gộp với Kahoot đã có thành bản 2 |
+| P21 | TV1        | Claude Code     | Rà soát bài trước khi nộp final: link video, PDF, commit log, báo cáo, slide, khai báo AI, chạy lại bộ test |
 
 ### 2.5 Phần AI đóng góp và phần không có AI
 
@@ -107,7 +109,7 @@ Biểu mẫu yêu cầu dán nguyên văn 2–3 prompt quan trọng. Nhóm chưa
 - File test mẫu `src/appium/examples/search-example.js`, lệnh `npm run example` và mục 3.3 của `User_Guide.md` (TV1, 27/10/2026), viết cùng Claude Code.
 - Mục 2.7, phần đổi giao diện bằng tay ở 4.5, chi tiết Inspector ở 4.3 và mục 5.9 của `User_Guide.md` (TV1, 27/10/2026), viết cùng Claude Code từ các lỗi gặp khi chạy thật.
 - Sửa chiều 23/10/2026, cũng với Cursor (Claude), và đã đối chiếu log trước khi giữ: `home.page.js` (`productImage` dùng `byTestId`), cảnh báo trong `checkpoints.js`, cờ server trong `package.json`, số liệu và mục 9–10 của `docs/B2_Report.md`, đồng hồ và nhãn của `docs/B4_Activity_Worksheet.md`, câu mục 6.2 của `User_Guide.md`.
-- Bản gốc của TV2 (`docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`): **chờ TV2 xác nhận** có dùng AI hay không. Các sửa của TV3 liệt kê ở gạch đầu dòng trên không thay cho khai báo đó.
+- Bản gốc của TV2 (`docs/B2_Report.md`, `docs/B4_Activity_Worksheet.md`, `docs/diff-cards/`, `run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể trong `App.js`): TV2 khai làm cùng Claude (mục 1, hàng Claude – TV2: cấu hình Eyes, script chạy test, thẻ diff, tài liệu B2 và B4). Các sửa của TV3 liệt kê ở gạch đầu dòng trên là phần riêng, không thay cho khai báo đó.
 
 **Không có AI tạo ra hoặc chỉnh sửa:**
 
@@ -160,7 +162,7 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 8   | Cursor (Grok), 23/10/2026 — User Guide (TV3, `2db70ed`)                                                                      | `User_Guide.md` mục 1–7                                                                                                                                                              | INCOMPLETE  | Bản nháp đầu tự ghi "không phải bản ghi một lần chạy thành công"; User Guide phải tái lập được (rubric 20%)                                                     | Thay các mục _Not yet recorded_ bằng lệnh đã chạy ở A1; lỗi ở mục 5–6 lấy từ log A2/A3/A4                                                      |
 | 9   | Cursor (Claude), 23/10/2026 — tóm tắt yêu cầu và soạn khai báo này (TV3)                                                     | Tài liệu này                                                                                                                                                                         | INCOMPLETE  | Khai báo phải đúng và đủ theo [AI-03]; AI không biết họ tên, MSSV và prompt của từng người                                                                      | Thành viên điền thông tin, dán prompt nguyên văn, kiểm tra từng hàng rồi ký                                                                    |
 | 10  | Claude 22/10/2026 — tích hợp Eyes, `run-variants.sh`, hai bản UI, `docs/B2_Report.md` (`24eb347`, `e154ead`)                 | `run-variants.sh`, `docs/B2_Report.md`, các file cấu hình applitool eyes                                                                                                             | INCOMPLETE  | luồng test chạy applitool eyes chạy được nhưng vẫn còn lỗi                                                                                                      | Chưa tìm ra vấn đề                                                                                                                             |
-| 11  | Claude 22/10/2026 — DiffCards_Questions.md, DiffCards_AnswerKey.md và Activity_Worksheet.md cho workshop Visual Diff Triage. | Tài liệu B4 và diffcard, không bao gồm các hình ảnh                                                                                                                                  | INCOMPLETE  | Nội dung được xây dựng dựa trên yêu cầu B4 nhưng chưa đối chiếu đầy đủ với deck của GV; dry-run và phản hồi thực tế chưa có dữ liệu.                            | Cần đối chiếu deck, kiểm tra ảnh và đáp án, bổ sung nhiễu còn thiếu, thực hiện dry-run thực tế và chỉ tổng hợp minute papers từ phản hồi thật. |
+| 11  | Claude (Sonnet 5.5) 23/10/2026 — DiffCards_Questions.md, DiffCards_AnswerKey.md và Activity_Worksheet.md cho workshop Visual Diff Triage. | Tài liệu B4 và diffcard, không bao gồm các hình ảnh                                                                                                                                  | INCOMPLETE  | Nội dung được xây dựng dựa trên yêu cầu B4 nhưng chưa đối chiếu đầy đủ với deck của GV; dry-run và phản hồi thực tế chưa có dữ liệu.                            | Cần đối chiếu deck, kiểm tra ảnh và đáp án, bổ sung nhiễu còn thiếu, thực hiện dry-run thực tế và chỉ tổng hợp minute papers từ phản hồi thật. |
 | 12  | Cursor, 23/10/2026 — cập nhật User Guide theo kết quả Eyes (TV3, `eebdc08`, sửa cùng ngày)                                   | Mục 2.5, 4.1, 4.5–4.6, 5.8, 6, 9 của `User_Guide.md`                                                                                                                                 | INCOMPLETE  | Bản `eebdc08` viết "chạy thêm không có layout region". Log chỉ có một lượt V1, và hai ảnh layout region là cùng một bước dashboard (CTFL §5.3)                  | Đã sửa mục 6.2: nêu selector `id=` và ghi lượt xác nhận chưa chạy                                                                              |
 | 13  | Cursor (Claude), 23/10/2026 — hoàn thiện chương 3 của báo cáo (TV3)                                                          | `report/Report.md` mục 3.1–3.9                                                                                                                                                       | INCOMPLETE  | Số liệu và lệnh `mobile:shell` lấy từ log. Kết luận "vùng không được gửi" suy từ selector sai cộng với V1 vẫn lệch; chưa có lượt chạy lại                       | TV1 chạy lại V1 ngày 23/10 với selector đã sửa: vẫn lệch (#16); mục 3.4 đã sửa theo (`0973b28`)                                                |
 | 14  | Cursor (Claude), 23/10/2026 — xử lý việc còn lại (TV3)                                                                       | Sửa `home.page.js`, `checkpoints.js`, `package.json`; sửa thời gian, mục 9 và mục 10 của `docs/B2_Report.md`; căn `docs/B4_Activity_Worksheet.md`; sửa `User_Guide.md` mục 6.2       | INCOMPLETE  | Hai việc vẫn để mở: dry-run, video. Lượt chạy lại V1 do TV1 làm sau (#16). Không sinh log hay ảnh mới (CTFL §5.3)                                               | Giữ bảng "chưa làm được" ở `report/Report.md` mục 3.9. Nhãn thứ tư của worksheet là quyết định của nhóm, không có trong deck                   |
@@ -178,16 +180,19 @@ Bảng dưới dựng lại từ commit, thông điệp commit và tài liệu t
 | 26  | Claude Code, 27/10/2026 — mục 2.1 "Cài từ máy trống trên Ubuntu" và ghi chú lần build đầu ở 2.3 `User_Guide.md` (TV1, file do TV3 phụ trách) | 8 bước: JDK, Node qua nvm, Android SDK command-line tools, biến môi trường, gói SDK, KVM, tạo AVD `eshop_api34`, mở máy ảo; đoạn thay thế bằng Android Studio; ghi chú thời gian, dung lượng và tải máy khi build lần đầu | INCOMPLETE | Đối chiếu trên máy TV1 (Ubuntu 24.04): hai link tải trả HTTP 200, tên 5 gói SDK khớp `sdkmanager --list_installed`, `emulator -accel-check` báo KVM dùng được, lệnh `avdmanager` tạo đúng 1080×2400, 420 dpi; chưa chạy lại cả 8 bước trên một máy trống | TV1 yêu cầu hướng dẫn cho máy chưa có môi trường để dùng khi quay video; bản trước khi sửa lưu ở `seminar/drafts/User_Guide.before-setup-section.md` (ngoài repo) |
 | 27  | Claude Code, 27/10/2026 — chẩn đoán video quay bị đứng hình và `Demo_Video_Links.md` (TV1, `c204a35`) | Nguyên nhân lấy từ log OBS (luồng quay màn hình PipeWire dừng lúc 21:49:24) và bộ lọc `freezedetect` của ffmpeg; `Demo_Video_Links.md` gồm hai link, bảng tình trạng playlist và mục "Lý do các video còn thiếu" | INCOMPLETE | Nguyên nhân khớp log OBS và đồng hồ 21:49 trong khung hình đứng; bản đầu chưa biết video Eyes chính là Video 03 nên vẫn liệt kê 4 video cần quay lại | TV1 cung cấp link, xác định *Demo Eyes Complex Flow* là Video 03, bỏ Video 04, thêm ý "khi có thông tin cần demo nhiều luồng" và để trống ô tình trạng của Video 01–02 |
 | 28  | Claude Code, 27/10/2026 — bỏ phần thừa trong mã nguồn trước khi nộp (TV1, `53884ed`) | Xoá dòng `TODO(nộp bài)`, các dấu `// ĐỔI`, tham số `requireImage` không được đọc và hàm `checkpoint()` không được gọi | VALID | Không đổi hành vi: mọi file qua `node --check`, các module vẫn nạp được, `git grep` không còn chỗ dùng phần đã xoá; chưa chạy lại `npm test` trên emulator | TV1 yêu cầu bỏ phần thừa trước khi nộp; giữ `src/appium/logs/` vì báo cáo và B2 dẫn làm bằng chứng |
-| 29  | Cursor (Grok), 02/11/2026 — hoàn thiện bộ slide theo `Slides_Hoan_Thien_2026-11-01.md` (TV3) | `slides/Seminar_Slides.md` 22 slide: định nghĩa kiểm thử mobile và automation, quy trình 6 bước, kiến trúc Appium 4 tầng, data-driven theo `cases.js`, visual testing / Eyes, triage và ba ý chốt | INCOMPLETE | Nội dung bám đặc tả và `Ly_Thuyet_T03_Mobile_Automation.md`; số 102 s lấy từ A3, khoảng Eyes lấy từ B2 (191–210 s) thay cho 216 s vì log không có mốc đó. Đã xuất PDF/PPTX bằng Marp và đo vị trí chữ trên PDF; chưa chiếu trước lớp | Giữ số đã đo; sửa chú thích match level **Content** theo I.3.f (chỉ chữ, không phải "bỏ màu"). Ô công cụ góp ý slide của TV1 vẫn không có tên trong prompt |
+| 29  | Cursor (Grok), 02/11/2026 — hoàn thiện bộ slide theo `Slides_Hoan_Thien_2026-11-01.md` (TV3) | `slides/Seminar_Slides.md` 28 slide: định nghĩa kiểm thử mobile và automation, quy trình 6 bước, kiến trúc Appium 4 tầng, data-driven theo `cases.js`, visual testing / Eyes, triage và ba ý chốt | INCOMPLETE | Nội dung bám đặc tả và `Ly_Thuyet_T03_Mobile_Automation.md`; số 102 s lấy từ A3, khoảng Eyes lấy từ B2 (191–210 s) thay cho 216 s vì log không có mốc đó. Đã xuất PDF/PPTX bằng Marp và đo vị trí chữ trên PDF; chưa chiếu trước lớp | Giữ số đã đo; sửa chú thích match level **Content** theo I.3.f (chỉ chữ, không phải "bỏ màu"). Ô công cụ góp ý slide của TV1 vẫn không có tên trong prompt |
+| 30  | Claude Code, 31/10–01/11/2026 — nhận xét slide và đặc tả `Slides_Hoan_Thien_2026-11-01.md` (TV1, ngoài repo) | Thứ tự slide mới, thêm phần lý thuyết mobile testing, tách định nghĩa và chức năng Eyes thành slide riêng | INCOMPLETE | TV1 đọc và chọn thứ tự; TV3 dùng bản đặc tả để dựng 28 slide (hàng 29) và chỉnh nội dung theo tài liệu lý thuyết | Đặc tả là đầu vào, không đưa nguyên văn vào slide |
+| 31  | Claude Code, 02/11 và 04/11/2026 — bộ câu Kahoot (TV1; nháp `seminar/drafts/Kahoot_T03_2026-11-02.md`, bản 2 `Kahoot_T03_v2.md`) | Bản nháp 15 câu; bản 2 gồm 4 câu Appium, 10 câu thẻ diff và lời giải thích; đề xuất đổi đáp án thẻ 8 từ "Nhiễu" sang "Accept" | INCOMPLETE | Đáp án thẻ diff đối chiếu `docs/diff-cards/DiffCards_AnswerKey.md`; câu Appium đối chiếu mã trong `src/appium/` | TV1 chọn 4 trong 7 câu Appium, tự nhập lên Kahoot và giữ 10 câu thẻ diff của TV2; `docs/Kahoot_T03.md` chép lại từ bản Kahoot thật |
+| 32  | Claude Code, 16/11/2026 — rà soát trước khi nộp final (TV1) | Cập nhật `Demo_Video_Links.md`, link video trong báo cáo và slide; sửa bảng vỡ ở mục 3.2 và các dòng cũ ở mục 3.9 của báo cáo; viết lại mục 3.8 và slide 27 theo Kahoot; thêm `docs/Kahoot_T03.md`; sửa chữ in đậm bị ngắt dòng ở slide 22 và 28; điền các ô trống của tài liệu này; sửa `config/eyes.js`, `config/checkpoints.js` và `examples/search-example.js` để Eyes mở phiên lỗi (khoá hết hạn) chỉ cảnh báo, không làm đỏ test chức năng; thêm dòng lỗi 403 vào `User_Guide.md` mục 5.9; đổi mức hoàn thành trong báo cáo thành 100% | VALID | Link video lấy từ YouTube, nội dung Kahoot lấy từ link Kahoot; xem lại PDF báo cáo và slide sau khi xuất. Ngày 16/11, khoá Applitools trả `Forbidden(403)`: trước khi sửa, `npm test` đỏ cả 3 test sau 44 s; sau khi sửa, `npm test` (vẫn khoá đó) `# pass 8` `# fail 0` kèm cảnh báo Eyes, `npm run example` 3/3 | TV1 quyết định hoạt động lớp là Kahoot, chọn prompt Codex ngày 30/09 cho Phụ lục A và kiểm lại giá Starter |
 
-### 3.1 Tổng kết độ chính xác (artifact #1–#29)
+### 3.1 Tổng kết độ chính xác (artifact #1–#32)
 
 | Chỉ số                                           | Số lượng | Tỉ lệ |
 | ------------------------------------------------ | :------: | :---: |
-| Tổng artifact AI đã audit                        |    29    | 100%  |
-| VALID (dùng nguyên)                              |    6     |  21%  |
-| INVALID (loại bỏ)                                |    2     |  7%   |
-| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    21    |  72%  |
+| Tổng artifact AI đã audit                        |    32    | 100%  |
+| VALID (dùng nguyên)                              |    7     |  22%  |
+| INVALID (loại bỏ)                                |    2     |  6%   |
+| INCOMPLETE (dùng sau khi sửa, hoặc còn phải sửa) |    23    |  72%  |
 
 Hai ca INVALID (#21, #22) là đề xuất TV1 đã loại trong phiên Claude Code. Đề xuất bị từ chối ngay trong chat mà không để lại file thì không đếm được, nên số INVALID thực tế có thể cao hơn. Thành viên bổ sung nếu nhớ ca cụ thể.
 
@@ -206,15 +211,15 @@ AI làm tốt phần việc có khuôn: tách test thành bảng dữ liệu, vi
 | Mục                                                | Trạng thái | Ghi chú                                                                                                                                                 |
 | -------------------------------------------------- | :--------: | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Đã xác nhận cấp độ AI (Cấp 5)                      |     ✔      | Seminar Guide mục 7                                                                                                                                     |
-| Đã đọc Thoả thuận AI của môn                       | `[mỗi TV]` | [AI-01] ký từ Tuần 1                                                                                                                                    |
-| Không nhập dữ liệu cá nhân vào AI                  | `[mỗi TV]` | Tài khoản dùng khi test là dữ liệu mẫu công khai của EShop (`test@eshop.com`)                                                                           |
+| Đã đọc Thoả thuận AI của môn                       | ✔ (TV1, TV2, TV3) | [AI-01] ký từ Tuần 1                                                                                                                                    |
+| Không nhập dữ liệu cá nhân vào AI                  | ✔ (TV1, TV2, TV3) | Tài khoản dùng khi test là dữ liệu mẫu công khai của EShop (`test@eshop.com`)                                                                           |
 | Không đưa khóa bí mật vào repo                     |     ✔      | `APPLITOOLS_API_KEY` đọc từ biến môi trường / `src/appium/.env`; `.env` nằm trong `.gitignore`, git không theo dõi file này (kiểm tra 23/10/2026)       |
-| Không paste tài liệu có bản quyền nguyên văn       | `[mỗi TV]` |                                                                                                                                                         |
-| Mọi prompt đã ghi vào `prompt_log.md` có timestamp |     ✘      | Chưa làm; bổ sung ở Phụ lục A                                                                                                                           |
+| Không paste tài liệu có bản quyền nguyên văn       | ✔ (TV1, TV2, TV3) |                                                                                                                                                         |
+| Mọi prompt đã ghi vào `prompt_log.md` có timestamp | ✔ | Không dùng file riêng; prompt quan trọng ghi nguyên văn kèm thời điểm ở Phụ lục A |
 | Mọi artifact AI đã gắn tag trong Audit             |     ✔      | Mục 3, trừ hàng TV2                                                                                                                                     |
-| Mọi trích dẫn đã xác minh nguồn thật               |     ✔      | Link hãng kiểm tra 28/09/2026; giá Starter kiểm lại trước khi nộp cuối                                                                                  |
-| Mọi code AI đã được chạy và test                   |  Một phần  | Appium 10/10 (A3), Detox PoC (A4), lớp Eyes tuỳ chọn (cả hai chế độ) và lượt V1 sau khi sửa `productImage` đã chạy (23/10). Mã của TV2 chờ TV2 xác nhận |
-| Sẵn sàng vấn đáp 5–7 phút                          | `[mỗi TV]` | Commit history cá nhân trên Git                                                                                                                         |
+| Mọi trích dẫn đã xác minh nguồn thật               |     ✔      | Link hãng kiểm tra 28/09/2026; giá Starter (667 USD/tháng) TV1 kiểm lại ngày 16/11/2026                                                                                  |
+| Mọi code AI đã được chạy và test                   |     ✔      | Appium 10/10 (A3), Detox PoC (A4), lớp Eyes tuỳ chọn (cả hai chế độ) và lượt V1 sau khi sửa `productImage` đã chạy (23/10). Mã của TV2 (`run-variants.sh`, `config/eyes.js`, `config/checkpoints.js`, biến thể UI) đã chạy ngày 23/10: 4 lượt base ×2, V1, V2 đều pass 8, fail 0 (log `src/appium/logs/20261023-065743/`: `base-1-create-baseline.log`, `base-2-verify.log`, `v1.log`, `v2.log`, ảnh `docs/evidence/B1_B2_applitools-dashboard/`). Lượt lại ngày 16/11 sau khi sửa `config/eyes.js`: 8/8 |
+| Sẵn sàng vấn đáp 5–7 phút                          | ✔ (TV1, TV2, TV3) | Commit history cá nhân trên Git                                                                                                                         |
 
 ---
 
@@ -224,9 +229,9 @@ Chúng tôi cam đoan thông tin khai báo trên là chính xác và đầy đ�
 
 | Vai trò | Họ tên (in hoa)    | MSSV     | Ngày       | Chữ ký |
 | ------- | ------------------ | -------- | ---------- | ------ |
-| TV1     | NGUYỄN PHÚ DINH    | 23120031 | 23-10-2026 | DINH   |
-| TV2     | NGUYỄN HẢI ĐĂNG    | 23120027 | 23-10-2026 | ĐĂNG   |
-| TV3     | ỨNG THỊ THUỲ DƯƠNG | 23120034 | 23-10-2026 | DƯƠNG  |
+| TV1     | NGUYỄN PHÚ DINH    | 23120031 | 16-11-2026 | DINH   |
+| TV2     | NGUYỄN HẢI ĐĂNG    | 23120027 | 16-11-2026 | ĐĂNG   |
+| TV3     | ỨNG THỊ THUỲ DƯƠNG | 23120034 | 16-11-2026 | DƯƠNG  |
 
 ---
 
@@ -237,9 +242,11 @@ Mỗi thành viên dán 2–3 prompt quan trọng nhất, nguyên văn, kèm cô
 ### TV1
 
 ```text
-[OpenAI Codex] [28/09/2026 hh:mm]
-[TV1 dán prompt Codex nguyên văn từ lịch sử Codex]
+[OpenAI Codex] [30/09/2026 13:50]
+[T03_Mobile_Automation_Testing.docx](T03_Mobile_Automation_Testing.docx) doc project và xem tôi nên seminar chức năng nào?
 ```
+
+Lịch sử Codex trên máy TV1 (`~/.codex/sessions/`) không còn phiên ngày 28/09/2026, ngày soạn ma trận S1. Prompt trên là prompt seminar sớm nhất còn lưu: Codex đọc brief T03 và mã EShop, đề xuất chọn luồng Login + Product Search và dùng Applitools Eyes cho phần visual.
 
 ```text
 [Claude Code] [22/10/2026 23:30]
@@ -269,12 +276,30 @@ chỉnh lại slide số 8, tôi đã dùng công cụ khác để chỉnh nhưn
  và tôi có thêm một file pptx do mình chỉnh lại @Seminar_Slides.pptx.pptx , hãy chỉnh lại nội dung .md và dồng bộ các slide lại theo file này.
 ```
 
+```text
+[Claude Code] [02/11/2026 14:07]
+khoảng 15 câu kahoot cho phần hoạt động trên lớp có ổn? chỉ kahoot thôi ko làm gì thêm
+
+[Claude Code] [02/11/2026 14:09]
+hãy tạo một bản hoàn chỉnh cho tôi xem thử
+```
+
 ### TV2
 
 ```text
-[Công cụ] [dd/mm/yyyy hh:mm]
-[prompt nguyên văn]
+[Claude Sonnet 5.5] [23/10/2026 12:39]
+(đính kèm diffcard.zip)
+Bên trong là cấu thư mục chứa các thư mục dạng card{number} chứa các hình ảnh gồm các ảnh có dạng {number}.png là số thứ tự diffcard, diff.png là câu trả lời tương ứng với nó. Vậy hãy viết cho tôi 2 file md. Trong đó, 1 file chỉ có câu hỏi, file còn lại đầy đủ câu hỏi và trả lời.  1–2 dòng ngữ cảnh release và answer key; cân đối ~4 lỗi thật / 3 nhiễu / 3 có chủ đích, 2–3 thẻ cố ý mơ hồ, có 1 thẻ "giá sai nhưng visual pass"
 ```
+
+Kết quả: `docs/diff-cards/DiffCards_Questions.md` và `DiffCards_AnswerKey.md` (commit `0e5a176`).
+
+```text
+[Claude Sonnet 5.5] [23/10/2026 12:50]
+Viết Activity_Worksheet.md cho Visual Diff Triage Workshop: luật chơi, phiếu phân loại 10 thẻ kèm lý do một dòng, mẫu policy ignore region cho banner Home, rubric chấm chéo, minute-paper; dry-run với người ngoài nhóm.
+```
+
+Kết quả: `docs/B4_Activity_Worksheet.md` (commit `0e5a176`).
 
 ### TV3
 

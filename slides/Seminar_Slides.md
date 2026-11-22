@@ -100,7 +100,7 @@ style: |
 <div class="band light">DEMO: Appium 2 + UiAutomator2 (truyền thống) · Applitools Eyes (AI visual)</div>
 <div class="vlink">
 Video demo: <a href="https://youtu.be/N3cN5d2LSG4">https://youtu.be/N3cN5d2LSG4</a><br>
-<span class="small">Video theo phần (cài đặt · Record · Data-driven · Eyes): <code>Demo_Video_Links.md</code> · Hướng dẫn chạy lại: <code>User_Guide.md</code></span>
+<span class="small">Playlist theo phần: <a href="https://www.youtube.com/playlist?list=PLeb4FZ9d0wiQ">youtube.com/playlist?list=PLeb4FZ9d0wiQ</a> · Hướng dẫn chạy lại: <code>User_Guide.md</code></span>
 </div>
 </div>
 
@@ -656,7 +656,7 @@ assert.equal((await total.getText()).replace(/\D/g, ""), "60000000");  <span cla
 <div class="levels">
 <div class="box"><b>Strict</b>Demo dùng mức này. Bắt lệch mà mắt người thấy: chữ, màu, ảnh, vị trí.</div>
 <div class="box"><b>Layout</b>Chỉ so bố cục. Bỏ nội dung chữ, ảnh và màu.</div>
-<div class="box"><b>Content</b>Chỉ so chữ. Bỏ style và bố cục. Bỏ màu là mức <b>Ignore colors</b>.</div>
+<div class="box"><b>Content</b>Chỉ so chữ. Bỏ style và bố cục. Bỏ màu là mức <strong>Ignore colors</strong>.</div>
 <div class="box"><b>Exact</b>Từng pixel phải trùng. Không dùng cho kiểm thử thường ngày.</div>
 </div>
 
@@ -775,9 +775,9 @@ await closeEyes(eyes); // trạng thái + link dashboard
 ---
 
 <!-- _footer: "27 · Hoạt động lớp" -->
-# Hoạt động lớp — Visual Diff Triage
+# Hoạt động lớp — Kahoot: Appium + Visual Diff Triage
 
-<div class="def">Mục tiêu: <b>phân loại</b> kết quả so ảnh, không bấm Accept / Reject theo cảm tính. Công cụ chỉ báo "có khác biệt"; người duyệt quyết định khác biệt đó là gì. 25 phút, 10 thẻ, nhóm 3–4 người, một người ghi.</div>
+<div class="def">Mục tiêu: <b>phân loại</b> kết quả so ảnh, không bấm Accept / Reject theo cảm tính. Công cụ chỉ báo "có khác biệt"; người duyệt quyết định khác biệt đó là gì. Kahoot chơi cá nhân: <b>4 câu Appium</b> rồi <b>10 thẻ diff</b>.</div>
 
 <div class="two">
 <div>
@@ -794,20 +794,20 @@ await closeEyes(eyes); // trạng thái + link dashboard
 <div>
 <div class="band red">Luật chơi</div>
 
-1. Được dùng AI, nhưng dòng lý do phải dẫn chứng từ ảnh hoặc ngữ cảnh release.
-2. Mỗi thẻ: chọn **một** nhãn và viết **một** dòng lý do.
-3. Không biết thì chọn "Chưa đủ thông tin" và ghi câu hỏi.
+1. Mỗi câu chọn **một** đáp án; tính điểm theo đúng và nhanh.
+2. Câu Appium 20 giây, có slide giải thích ngay sau mỗi câu.
+3. Câu thẻ diff 30 giây: trái là baseline, phải là bản mới.
 4. Quyết định theo **ngữ cảnh release**, không theo lượng vùng bị tô.
-5. Không sửa phiếu sau khi người điều phối công bố đáp án.
+5. Toast "Open debugger…" có ở cả hai bên, bỏ qua.
 
 </div>
 </div>
 
-| 0:00–0:03 | 0:03–0:13 | 0:13–0:18 | 0:18–0:23 | 0:23–0:25 |
-|---|---|---|---|---|
-| Chiếu 10 thẻ | Phân loại, mỗi thẻ một dòng | Đáp án và thẻ mơ hồ | Policy ignore region | Đọc một quy tắc |
+| Mở đầu | Câu 1–4 | Câu 5–14 | Sau bảng xếp hạng |
+|---|---|---|---|
+| Cách đọc thẻ, bốn quyết định | Appium: tự động hoá, driver, locator, assertion | Thẻ diff 1–10 | Thẻ mơ hồ 5, 9 và ba ý chốt |
 
-<span class="small">Phiếu: <code>docs/B4_Activity_Worksheet.md</code> · Ảnh thẻ: <code>docs/diff-cards/</code>. Toast "Open debugger…" có ở cả hai bên, bỏ qua.</span>
+<span class="small">Kahoot: <a href="https://create.kahoot.it/share/diffcards/58b34eaa-b377-4e90-bbe5-2c0f6a13e5f2">create.kahoot.it/share/diffcards</a> · Đáp án: <code>docs/Kahoot_T03.md</code> · Ảnh thẻ: <code>docs/diff-cards/</code></span>
 
 ---
 
@@ -816,7 +816,7 @@ await closeEyes(eyes); // trạng thái + link dashboard
 # Tổng kết
 
 <div class="three">
-<div class="box"><b>1 · Hai lớp, hai câu hỏi</b>Appium kiểm app <b>làm</b> đúng (assert). Eyes kiểm app <b>trông</b> đúng (baseline). Cần cả hai.</div>
+<div class="box"><b>1 · Hai lớp, hai câu hỏi</b>Appium kiểm app <strong>làm</strong> đúng (assert). Eyes kiểm app <strong>trông</strong> đúng (baseline). Cần cả hai.</div>
 <div class="box"><b>2 · Test bền nhờ thiết kế</b>Locator ổn định (<code>testID</code>), chờ theo điều kiện, mỗi dòng dữ liệu là một subtest.</div>
 <div class="box"><b>3 · Visual AI tạo việc triage</b>Có diff chưa chắc là bug. Baseline và ignore region phải có người duyệt và có chính sách.</div>
 </div>
@@ -825,5 +825,5 @@ await closeEyes(eyes); // trạng thái + link dashboard
 
 <div class="vlink">
 Video demo: <a href="https://youtu.be/N3cN5d2LSG4">https://youtu.be/N3cN5d2LSG4</a><br>
-<span class="small"><code>Demo_Video_Links.md</code> · <code>User_Guide.md</code></span>
+<span class="small">01 Giới thiệu và cài đặt: <a href="https://youtu.be/l0SbVPvZ2zQ">youtu.be/l0SbVPvZ2zQ</a> · 02 Inspector và test đầu tiên: <a href="https://youtu.be/YFY7V-Ia-pU">youtu.be/YFY7V-Ia-pU</a> · 03 Data-driven + Eyes: <a href="https://youtu.be/auez4asI2Ro">youtu.be/auez4asI2Ro</a><br>Playlist: <a href="https://www.youtube.com/playlist?list=PLeb4FZ9d0wiQ">youtube.com/playlist?list=PLeb4FZ9d0wiQ</a> · <code>Demo_Video_Links.md</code> · <code>User_Guide.md</code></span>
 </div>
